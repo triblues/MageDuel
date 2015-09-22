@@ -3,10 +3,10 @@ using System.Collections;
 
 public class PlayerController : MonoBehaviour
 {
-    public float speed;                   // Reference to player's speed
-    Vector3 movement;                   // The vector to store the direction of the player's movement.
+    private float speed;                   // Reference to player's speed
+    private Vector3 movement;                   // The vector to store the direction of the player's movement.
     //Animator anim;                      // Reference to the animator component.
-    Rigidbody playerRigidbody;          // Reference to the player's rigidbody.
+    private Rigidbody playerRigidbody;          // Reference to the player's rigidbody.
 
     // Initialize
     void Awake()
@@ -16,21 +16,17 @@ public class PlayerController : MonoBehaviour
         playerRigidbody = GetComponent<Rigidbody>();
     }
 
-    // Update is called once per frame
-    void FixedUpdate()
+    // Function to set the character's speed
+    public void SetSpeed(float speed)
     {
-        // Store the input axes.
-        float h = Input.GetAxisRaw("Horizontal");
-
-        // Move the player around the scene.
-        Move(h);
-        // Animate the player.
-        //Animating(h);
+        this.speed = speed;
     }
 
     // Function to set the character's movement
-    void Move(float h)
+    public void Move()
     {
+        // Store the input axes.
+        float h = Input.GetAxisRaw("Horizontal");
         // Set the movement vector based on the axis input.
         movement.Set(h, 0f, 0f);
 

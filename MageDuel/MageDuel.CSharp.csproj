@@ -75,7 +75,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\script\game\camera\CameraController.cs" />
+    <Compile Include="Assets\script\game\character\PlayerBase.cs" />
     <Compile Include="Assets\script\game\character\PlayerController.cs" />
+    <Compile Include="Assets\script\game\character\Player_1.cs" />
     <Compile Include="Assets\script\game\testGame.cs" />
     <Compile Include="Assets\script\launchScene.cs" />
     <Compile Include="Assets\script\menu\testMenu.cs" />
