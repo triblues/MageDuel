@@ -7,7 +7,8 @@ public class PlayerController : MonoBehaviour
     private Vector3 movement;                   // The vector to store the direction of the player's movement.
     //Animator anim;                      // Reference to the animator component.
     private Rigidbody playerRigidbody;          // Reference to the player's rigidbody.
-
+    public bool faceLeft = false;
+    public bool faceRight = true;
     // Initialize
     void Awake()
     {
@@ -35,7 +36,36 @@ public class PlayerController : MonoBehaviour
 
         // Move the player to it's current position plus the movement.
         playerRigidbody.MovePosition(transform.position + movement);
+
+
+        if (Input.GetKeyDown(KeyCode.LeftArrow))
+        {
+
+            if (!faceLeft)
+            {
+                transform.RotateAround(transform.position, transform.up, 180.0f);
+                faceLeft = true;
+                faceRight = false;
+            }
+
+        }
+
+        if (Input.GetKeyDown(KeyCode.RightArrow))
+        {
+
+            if (!faceRight)
+            {
+                transform.RotateAround(transform.position, transform.up, 180.0f);
+                faceLeft = false;
+                faceRight = true;
+            }
+
+        }
     }
+
+
+
+
 
     // Function to animate the character's movement
    /* void Animating(float h)

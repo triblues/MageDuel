@@ -3,7 +3,7 @@
 
 using UnityEngine;
 using System.Collections;
-
+using UnityEngine.UI;
 public class PlayerBase : MonoBehaviour {
     protected PlayerController pController;
 
@@ -11,9 +11,9 @@ public class PlayerBase : MonoBehaviour {
     protected int currentHealth;
     protected int startingMana = 100;
     protected int currentMana;
-
-	// Use this for initialization
-	void Awake () {
+    public float healthBarLength;
+    // Use this for initialization
+    void Awake () {
         pController = GetComponent<PlayerController>();
 
         // Setup player attributes
@@ -21,10 +21,18 @@ public class PlayerBase : MonoBehaviour {
         currentMana = startingMana;
        
         SetupPlayer();
-	}
-	
-	// Update is called once per frame
-	void FixedUpdate () {
+   
+    }
+
+
+    void OnGUI()
+    {
+        GUI.Box(new Rect(10, 10, healthBarLength, 20), currentHealth + "/" + startingHealth);
+    }
+
+
+    // Update is called once per frame
+    void FixedUpdate () {
         // Update player movement
         pController.Move();
 	}
