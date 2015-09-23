@@ -2,10 +2,11 @@
 using System.Collections;
 
 public class Player_1 : PlayerBase {
-    private float speed = 10.0f;
 
     protected override void SetupPlayer()
     {
-        pController.SetSpeed(speed);
+        speed = 10.0f;
+        offFactor = 1.25f;
+        defFactor = 0.75f;
     }
 }

@@ -3,31 +3,54 @@ using System.Collections;
 
 public class PlayerController : MonoBehaviour
 {
+    private PlayerBase player;
+
     private float speed;                   // Reference to player's speed
     private Vector3 movement;                   // The vector to store the direction of the player's movement.
-    //Animator anim;                      // Reference to the animator component.
     private Rigidbody playerRigidbody;          // Reference to the player's rigidbody.
-    public bool faceLeft = false;
-    public bool faceRight = true;
+
+    private bool isFalling = false;
+
+
     // Initialize
     void Awake()
     {
         // Set up references.
+        player = GetComponent<PlayerBase>();
        // anim = GetComponent<Animator>();
         playerRigidbody = GetComponent<Rigidbody>();
     }
 
-    // Function to set the character's speed
-    public void SetSpeed(float speed)
+    // Called once per frame
+    void FixedUpdate()
     {
-        this.speed = speed;
+        // If Input button is Move (A-D) then move
+        if (Input.GetButton("Move"))
+        {
+            Move();
+        }
+        // If input button is Jump (space) then jump
+        if (Input.GetButton("Jump") && isFalling == false)
+        {
+            playerRigidbody.velocity = new Vector3(0f, 7.5f, 0f);
+            isFalling = true;
+         }
+        // If input button is Attack1 (mouse 0) then attack
+        if (Input.GetButton("Attack1"))
+        {
+            Attack();
+        }
     }
 
     // Function to set the character's movement
-    public void Move()
+    void Move()
     {
+        
         // Store the input axes.
-        float h = Input.GetAxisRaw("Horizontal");
+        float h = Input.GetAxisRaw("Move");
+        // Get player speed
+        speed = player.GetSpeed();
+
         // Set the movement vector based on the axis input.
         movement.Set(h, 0f, 0f);
 
@@ -38,6 +61,7 @@ public class PlayerController : MonoBehaviour
         playerRigidbody.MovePosition(transform.position + movement);
 
 
+        /*
         if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
 
@@ -61,20 +85,17 @@ public class PlayerController : MonoBehaviour
             }
 
         }
+        */
     }
 
-
-
-
-
-    // Function to animate the character's movement
-   /* void Animating(float h)
+    void Attack()
     {
-        // Create a boolean that is true if either of the input axes is non-zero.
-        bool walking = h != 0f;
 
-        // Tell the animator whether or not the player is walking.
-        anim.SetBool("IsWalking", walking);
     }
-    */
+
+    // If the body collides, isFalling is false
+    void OnCollisionStay()
+    {
+        isFalling = false;
+    }
 }
