@@ -6,15 +6,15 @@ public class EnemyAttack : MonoBehaviour
 {
     public GameObject target;
     public float attackTime = 0;
-    public float attackTime2 = 0 ;
-    public float attackTime3 = 0 ;
+    public float attackTime2 = 0;
+    public float attackTime3 = 0;
     public float coolDown = 2.0f;
     public float coolDown2 = 5.0f;
     public float coolDown3 = 10.0f;
     public float Distance;
     private Transform myTransform;
     public float ShootRange = 25.0f;
-    
+
     public float moveSpeed = 5.0f;
     public float Damping = 6.0f;
     //public float projectile : Rigidbody;
@@ -29,6 +29,8 @@ public class EnemyAttack : MonoBehaviour
     public float attackRange2 = 8.5f;
     public float attackRange3 = 10.5f;
     public PlayerController pController;
+
+
 
     Rigidbody rigid;
 
@@ -54,7 +56,7 @@ public class EnemyAttack : MonoBehaviour
 
         GameObject go = GameObject.FindGameObjectWithTag("Player");
         rigid = GetComponent<Rigidbody>();
-        
+
 
 
 
@@ -63,6 +65,9 @@ public class EnemyAttack : MonoBehaviour
 
     void Update()
     {
+        int rnd = UnityEngine.Random.Range(1, 4);
+
+
         if (attackTime > 0)
             attackTime -= Time.deltaTime;
 
@@ -72,7 +77,8 @@ public class EnemyAttack : MonoBehaviour
 
         if (attackTime == 0)
         {
-            Attack();
+            if (rnd == 1)
+                Attack();
             attackTime = coolDown;
         }
 
@@ -85,7 +91,8 @@ public class EnemyAttack : MonoBehaviour
 
         if (attackTime2 == 0)
         {
-            Attack2();
+            if (rnd == 2)
+                Attack2();
             attackTime2 = coolDown;
         }
 
@@ -99,7 +106,8 @@ public class EnemyAttack : MonoBehaviour
 
         if (attackTime3 == 0)
         {
-            Attack3();
+            if (rnd == 3)
+                Attack3();
             attackTime3 = coolDown;
         }
 
