@@ -1,11 +1,11 @@
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2008
-
-Project("{6179C58B-F7F5-D05A-343B-7D3B7F9B8A1E}") = "MageDuel", "Assembly-CSharp-firstpass.csproj", "{56E18BB3-6768-DA75-B584-6AD3491D994F}"
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2015
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MageDuel.CSharp.Plugins", "MageDuel.CSharp.Plugins.csproj", "{BD13D5B2-9407-CC8E-C3E6-D4D4C8DEFDED}"
 EndProject
-Project("{6179C58B-F7F5-D05A-343B-7D3B7F9B8A1E}") = "MageDuel", "Assembly-CSharp.csproj", "{0FA7A2CD-4767-B180-47A2-0193BACF52DF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MageDuel.CSharp", "MageDuel.CSharp.csproj", "{F901B0D2-7E43-2DFA-8513-6DBB2B814AB0}"
 EndProject
-Project("{6179C58B-F7F5-D05A-343B-7D3B7F9B8A1E}") = "MageDuel", "Assembly-CSharp-Editor.csproj", "{0BEB4E1B-B7D1-9E10-BDBD-1303902282DA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MageDuel.CSharp.Editor", "MageDuel.CSharp.Editor.csproj", "{8F2528B5-8EAD-4A56-AE10-92AC6682D8BE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,40 +13,20 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{56E18BB3-6768-DA75-B584-6AD3491D994F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{56E18BB3-6768-DA75-B584-6AD3491D994F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{56E18BB3-6768-DA75-B584-6AD3491D994F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{56E18BB3-6768-DA75-B584-6AD3491D994F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0FA7A2CD-4767-B180-47A2-0193BACF52DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0FA7A2CD-4767-B180-47A2-0193BACF52DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0FA7A2CD-4767-B180-47A2-0193BACF52DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0FA7A2CD-4767-B180-47A2-0193BACF52DF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0BEB4E1B-B7D1-9E10-BDBD-1303902282DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0BEB4E1B-B7D1-9E10-BDBD-1303902282DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0BEB4E1B-B7D1-9E10-BDBD-1303902282DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0BEB4E1B-B7D1-9E10-BDBD-1303902282DA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BD13D5B2-9407-CC8E-C3E6-D4D4C8DEFDED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BD13D5B2-9407-CC8E-C3E6-D4D4C8DEFDED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BD13D5B2-9407-CC8E-C3E6-D4D4C8DEFDED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BD13D5B2-9407-CC8E-C3E6-D4D4C8DEFDED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F901B0D2-7E43-2DFA-8513-6DBB2B814AB0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F901B0D2-7E43-2DFA-8513-6DBB2B814AB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F901B0D2-7E43-2DFA-8513-6DBB2B814AB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F901B0D2-7E43-2DFA-8513-6DBB2B814AB0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8F2528B5-8EAD-4A56-AE10-92AC6682D8BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8F2528B5-8EAD-4A56-AE10-92AC6682D8BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8F2528B5-8EAD-4A56-AE10-92AC6682D8BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8F2528B5-8EAD-4A56-AE10-92AC6682D8BE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
-																																																										GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = Assembly-CSharp.csproj
-		Policies = $0
-		$0.TextStylePolicy = $1
-		$1.inheritsSet = null
-		$1.scope = text/x-csharp
-		$0.CSharpFormattingPolicy = $2
-		$2.inheritsSet = Mono
-		$2.inheritsScope = text/x-csharp
-		$2.scope = text/x-csharp
-		$0.TextStylePolicy = $3
-		$3.FileWidth = 120
-		$3.TabWidth = 4
-		$3.IndentWidth = 4
-		$3.EolMarker = Unix
-		$3.inheritsSet = Mono
-		$3.inheritsScope = text/plain
-		$3.scope = text/plain
-	EndGlobalSection
-
 EndGlobal
