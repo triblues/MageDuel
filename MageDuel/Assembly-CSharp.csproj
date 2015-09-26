@@ -45,25 +45,30 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\script\game\camera\CameraController.cs" />
+     <Compile Include="Assets\script\game\character\CharacterBase.cs" />
+     <Compile Include="Assets\script\game\character\Jumping.cs" />
+     <Compile Include="Assets\script\game\character\enemy\EnemyAI.cs" />
+     <Compile Include="Assets\script\game\character\enemy\EnemyAttack.cs" />
+     <Compile Include="Assets\script\game\character\player\PlayerController.cs" />
+     <Compile Include="Assets\script\game\character\player\mainPlayer.cs" />
+     <Compile Include="Assets\script\game\character\player\weapon\fireball.cs" />
+     <Compile Include="Assets\script\game\character\player\weapon\weaponBase.cs" />
+     <Compile Include="Assets\script\game\gameController.cs" />
      <Compile Include="Assets\script\game\testGame.cs" />
      <Compile Include="Assets\script\launchScene.cs" />
      <Compile Include="Assets\script\menu\testMenu.cs" />
+     <Compile Include="Assets\script\poolObject.cs" />
      <None Include="Assets\Standard Assets\Characters\PhysicsMaterials\test.txt" />
      <None Include="Assets\Standard Assets\CrossPlatformInput\CrossPlatformInputGuidelines.txt" />
      <None Include="Assets\Standard Assets\Characters\ThirdPersonCharacter\ThirdPersonCharacterGuidelines.txt" />
      <None Include="Assets\Standard Assets\Characters\FirstPersonCharacter\FirstPersonCharacterGuidelines.txt" />
      <None Include="Assets\Standard Assets\Characters\RollerBall\RollerBallGuidelines.txt" />
- <Reference Include="UnityEngine.Advertisements">
- <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/Advertisements/UnityEngine.Advertisements.dll</HintPath>
- </Reference>
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.Networking">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
- </Reference>
- <Reference Include="UnityEngine.Analytics">
- <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/UnityAnalytics/UnityEngine.Analytics.dll</HintPath>
  </Reference>
  <Reference Include="Mono.Cecil">
  <HintPath>C:/Program Files/Unity/Editor/Data/Managed/Mono.Cecil.dll</HintPath>

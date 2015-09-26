@@ -2,6 +2,8 @@
 using System.Collections;
 
 public class CameraController : MonoBehaviour {
+
+	public float lerpRate = 15.0f;
     private float margin = 1.5f;
     private float z0 = 0; // coord z of the fighters plane
     private float zCam; // camera distance to the fighters plane
@@ -10,12 +12,13 @@ public class CameraController : MonoBehaviour {
     private Transform p2; // fighter2 transform
     private float xL; // left screen X coordinate
     private float xR; // right screen X coordinate
-
+	Vector3 depthMovement;
+	Vector3 rightMovement;
 	// Use this for initialization
 	void Start () {
         // find references to the players
-        p1 = GameObject.Find("Player 1").transform;
-        p2 = GameObject.Find("Player 2").transform;
+		p1 = GameObject.FindWithTag("Player").transform;
+		p2 = GameObject.FindWithTag("Enemy").transform;
         // initializes scene size and camera distance
         CalcScreen(p1, p2);
         wScene = xR - xL;
@@ -30,11 +33,15 @@ public class CameraController : MonoBehaviour {
         
         if (width > wScene)
         { // if fighters too far adjust camera distance
-            transform.position = new Vector3(transform.position.x, transform.position.y, zCam * width / wScene + z0);
+           // transform.position = new Vector3(transform.position.x, transform.position.y, zCam * width / wScene + z0);
+			depthMovement = new Vector3(transform.position.x, transform.position.y, zCam * width / wScene + z0);
+			transform.position = Vector3.Lerp(transform.position,depthMovement,Time.deltaTime * lerpRate);
         }
 
-        // centers the camera
-        transform.position = new Vector3((xR + xL) / 2, transform.position.y, transform.position.z);
+	        // centers the camera
+	        //transform.position = new Vector3((xR + xL) / 2, transform.position.y, transform.position.z);
+		rightMovement = new Vector3((xR + xL) / 2, transform.position.y, transform.position.z);
+		transform.position = Vector3.Lerp(transform.position,rightMovement,Time.deltaTime * lerpRate);
     }
 
     void CalcScreen(Transform p1, Transform p2)
