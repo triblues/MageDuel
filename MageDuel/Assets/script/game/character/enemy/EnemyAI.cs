@@ -32,8 +32,10 @@ public class EnemyAI : CharacterBase
 	public float jumpRate = 1.0f;
 	public int aggressiveLevel = 1;
 	public int cruelLevel = 1;
+    public int maxDistance;
 
-	float moveTimer;
+
+    float moveTimer;
 	float attackTimer;
 	float idleTimer;
 	float jumpTimer;
@@ -43,7 +45,10 @@ public class EnemyAI : CharacterBase
 	int randomNum;
 	int idleCount;
 	public AIState myAIState;
-  	public enum AIState
+    public float healthBarLength;
+
+
+    public enum AIState
 	{
 //		move,
 		jump,
@@ -57,9 +62,9 @@ public class EnemyAI : CharacterBase
     {
 		healthText.text = "Health: " + currentHealth.ToString ();
 		manaText.text = "Mana: " + currentMana.ToString ();
-
-		canChangeState = false;
-//        GameObject go = GameObject.FindGameObjectWithTag("Player");
+        
+        canChangeState = false;
+        player = GameObject.FindGameObjectWithTag("Player");
 //        rigid = GetComponent<Rigidbody>();
 //        target = go.transform;
 		isReverse = false;
@@ -68,11 +73,14 @@ public class EnemyAI : CharacterBase
 		idleCount = 0;
     }
 
+   
+
     // Update is called once per frame
     void Update()
     {
 		healthText.text = "Health: " + currentHealth.ToString ();
 		manaText.text = "Mana: " + currentMana.ToString ();
+       
 //        float h = Input.GetAxisRaw("Horizontal");
 //        // Set the movement vector based on the axis input.
 //        movement.Set(h, 0f, 0f);
@@ -105,7 +113,7 @@ public class EnemyAI : CharacterBase
 //            }
 //        }
 
-		if(shouldTurn(transform.position,player.transform.position) == true)
+        if (shouldTurn(transform.position,player.transform.position) == true)
 		{
 			rb.rotation = Quaternion.Euler (0, 270, 0);
 			//transform.localRotation = Quaternion.Euler (0, 270, 0);
@@ -162,6 +170,7 @@ public class EnemyAI : CharacterBase
 	void attackState()
 	{
 		shootFireBall ();
+        meleeAttack();
 		attackTimer += Time.deltaTime;
 		if(attackTimer > attackRate)
 		{
@@ -268,6 +277,36 @@ public class EnemyAI : CharacterBase
 		
 		
 	}
+
+    //No mana needed for this attack
+    void meleeAttack()
+    {
+
+        
+        if (canAttack == false)
+            return;
+
+        if (Vector3.Distance(player.transform.position, transform.position) < 2.0f)
+        {
+            GameObject temp = myGameController.getPoolObjectInstance("fireball").getPoolObject();
+
+            if (temp == null)
+                return;
+            Vector3 direction = player.transform.position - transform.position;
+            fireball projectile = temp.GetComponent<fireball>();
+            temp.transform.position = transform.position + direction.normalized;
+            temp.SetActive(true);
+            projectile.launch(direction);
+            projectile.setTag(characterTag);
+            //setMana(-projectile.getConsumeMana());
+            coolDownTimer = coolDownAttackRate;
+
+        }
+        
+
+
+    }
+
 
 }
 
