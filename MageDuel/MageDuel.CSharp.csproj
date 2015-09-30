@@ -74,6 +74,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\DisplayCredits.cs" />
+    <Compile Include="Assets\MainMenuGUI.cs" />
     <Compile Include="Assets\script\game\camera\CameraController.cs" />
     <Compile Include="Assets\script\game\character\CharacterBase.cs" />
     <Compile Include="Assets\script\game\character\Jumping.cs" />

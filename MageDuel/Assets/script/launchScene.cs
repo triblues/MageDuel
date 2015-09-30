@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿// Mage Duel Main Menu GUI source code
+// Created : 9 September 2015
+using UnityEngine;
 using System.Collections;
 
 public class launchScene : MonoBehaviour {
