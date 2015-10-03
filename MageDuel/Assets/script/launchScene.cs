@@ -20,6 +20,7 @@ public class launchScene : MonoBehaviour {
 	{
 		Application.LoadLevel (name);
 	}
+
 	public void quit()
 	{
 		Application.Quit ();

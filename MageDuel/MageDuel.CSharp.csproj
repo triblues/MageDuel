@@ -75,6 +75,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\DisplayCredits.cs" />
+    <Compile Include="Assets\GUIManager.cs" />
     <Compile Include="Assets\MainMenuGUI.cs" />
     <Compile Include="Assets\script\game\camera\CameraController.cs" />
     <Compile Include="Assets\script\game\character\CharacterBase.cs" />
@@ -91,6 +92,7 @@
     <Compile Include="Assets\script\launchScene.cs" />
     <Compile Include="Assets\script\menu\testMenu.cs" />
     <Compile Include="Assets\script\poolObject.cs" />
+    <Compile Include="Assets\settingsGUI.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Standard Assets\Characters\FirstPersonCharacter\FirstPersonCharacterGuidelines.txt" />
