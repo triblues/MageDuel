@@ -3,15 +3,25 @@ using System.Collections;
 
 public class MainMenuGUI : MonoBehaviour {
 
+    public string nextScene;
+
+    public GUIStyle greenStyleLarge;
+
 	// Use this for initialization
 	void Start () {
 	
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void Update ()
+    {
 	
 	}
 
-    // Displays the credits screen
+    // Displays the main menu GUI screen
+    void onGUI ()
+    {
+
+
+    }
 }

@@ -5,7 +5,6 @@ using System.Collections;
 
 public class launchScene : MonoBehaviour {
 
-
 	// Use this for initialization
 	void Start () {
 	
@@ -16,11 +15,31 @@ public class launchScene : MonoBehaviour {
 	
 	}
 
+    // Goes to the game scene
 	public void gotoScene(string name)
 	{
 		Application.LoadLevel (name);
 	}
 
+    // Loads the game credits window
+    public void loadCredits ()
+    {
+        Application.LoadLevel("credits");
+    }
+
+    // Loads the game settings window
+    public void loadSettings ()
+    {
+        Application.LoadLevel("gameSettings");
+    }
+
+    // Goes back to the main menu upon clicking the "Main Menu" button in credits and settings option
+    public void MainMenuGUI ()
+    {
+        Application.LoadLevel("MainMenuGUI");
+    }
+
+    // Quits the application
 	public void quit()
 	{
 		Application.Quit ();

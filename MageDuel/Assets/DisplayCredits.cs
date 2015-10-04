@@ -1,5 +1,6 @@
 ﻿// Mage Duel Game credits screen
 // Created : 25 September 2015
+// Author : Shaun Kong
 using UnityEngine;
 using System.Collections;
 
