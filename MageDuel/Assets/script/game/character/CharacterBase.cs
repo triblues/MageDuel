@@ -4,22 +4,39 @@
 using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+
 public class CharacterBase : MonoBehaviour {
-	
+
+	public LayerMask groundMask;
+	public LayerMask targetMask;
+	public Text healthText;
+	public Text manaText;
+	public Image chargingBar;
+	[SerializeField] public GameObject enemy;
 	[SerializeField] bool isAI = false;
 	[SerializeField] protected int characterTag;
 	[SerializeField] protected float startingHealth = 100.0f;
 	[SerializeField] protected float startingMana = 100.0f;
-	[SerializeField] protected float speed = 10.0f;
+	[Tooltip("minimum is 0, maximum is 1")]
+	[SerializeField] protected float CurrentChargingBar = 0;
+
+	[SerializeField] protected float normalSpeed = 10.0f;
+	[SerializeField] protected float fastSpeed = 20.0f;
 	[SerializeField] protected float offFactor = 1.0f;//offensive power
 	[SerializeField] protected float defFactor = 1.0f;//defensive power 
-	[SerializeField] protected float jumpSpeed = 10.0f;
+	[SerializeField] protected float lowJumpSpeed = 10.0f;
+	[SerializeField] protected float highJumpSpeed = 30.0f;
 	[SerializeField] protected float fallSpeed = 0.5f;
-	[SerializeField] protected float coolDownAttackRate = 0.5f;
+	[SerializeField] protected float coolDownRangeAttackRate = 0.5f;
+	[SerializeField] protected float coolDownMeleeAttackRate = 0.5f;
 	[SerializeField] protected float manaRegenRate = 1.0f;
 	[SerializeField] float distanceToGround = 0.1f;//the amount of dist to stop falling
-	[SerializeField] float distanceToWall = 0.5f;
-	protected float coolDownTimer;
+
+	protected float jumpSpeed;
+	protected float speed;
+	protected melee mymelee;
+	protected float coolDownRangeTimer;
+	protected float coolDownMeleeTimer;
     protected float currentHealth;
     protected float currentMana;
 	protected Vector3 movement;                   // The vector to store the direction of the player's movement.
@@ -29,9 +46,18 @@ public class CharacterBase : MonoBehaviour {
 	protected float jumping;
 	protected int turnOffset;
 	protected bool isJumping;
-	protected bool canAttack;
-	protected gameController myGameController;
-
+	protected bool canRangeAttack;
+	protected bool canMeleeAttack;
+	protected bool isWin;
+	protected bool isBlockLeft;//this determine the direction the character should be going to activate block
+	protected bool isBlocking;
+	protected bool shouldWaitAnimationFinish;
+	protected Animator myAnimator;
+	protected gameController myGameController;//for all the spawning object pool
+	float doubleTapTimer;
+	float highJumpTimer;
+	float tapspeed = 0.3f;
+	bool isDoubleTap;
    // public float healthBarLength;
 
     // Use this for initialization
@@ -40,24 +66,34 @@ public class CharacterBase : MonoBehaviour {
         currentHealth = startingHealth;
         currentMana = startingMana;
 
+		mymelee = transform.Find ("melee trigger box").GetComponent<melee> ();
 		rb = GetComponent<Rigidbody> ();
 		isJumping = false;
+		isWin = false;
+		speed = normalSpeed;
+		jumpSpeed = lowJumpSpeed;
+		shouldWaitAnimationFinish = false;
 		turnOffset = 1;
-		canAttack = true;
-		myGameController = GameObject.Find ("gameManager").GetComponent<gameController> ();
-		coolDownTimer = coolDownAttackRate;
+		CurrentChargingBar = Mathf.Clamp01 (CurrentChargingBar);
 
-		StartCoroutine (regenMana (1.0f));
+		isBlocking = false;
+		isDoubleTap = false;
+		canRangeAttack = true;
+		canMeleeAttack = true;
+		myGameController = GameObject.Find ("gameManager").GetComponent<gameController> ();
+		coolDownRangeTimer = coolDownRangeAttackRate;
+		coolDownMeleeTimer = coolDownMeleeAttackRate;
+		//myAnimator = GetComponent<Animator> ();
+		StartCoroutine (regenMana (0.5f));
+
     }
 
-    // Function to setup player's special attributes (speed etc)
-//    protected virtual void SetupPlayer()
-//    {
-//        // Properties by default
-//        speed = 5.0f;
-//        offFactor = 1.0f;
-//        defFactor = 1.0f;
-//    }
+	void Start()
+	{
+		healthText.text = "Health: " + currentHealth.ToString ();
+		manaText.text = "Mana: " + currentMana.ToString ();
+		chargingBar.fillAmount = CurrentChargingBar ;
+	}
 	IEnumerator regenMana(float time)
 	{
 		while(true)
@@ -71,11 +107,17 @@ public class CharacterBase : MonoBehaviour {
 	}
     protected void Update()
 	{
+		healthText.text = "Health: " + currentHealth.ToString ();
+		manaText.text = "Mana: " + currentMana.ToString ();
+		chargingBar.fillAmount = CurrentChargingBar;
+
+		checkCoolDown ();   
 		Move ();
 		jump ();
+		crouch ();
 		if (currentMana <= 0)
 			currentMana = 0;
-		//transform.Translate (movement * Time.deltaTime,Space.Self);
+
 	}
     public void TakesDamage(float damage)
     {
@@ -125,6 +167,18 @@ public class CharacterBase : MonoBehaviour {
 	{
 		return characterTag;
 	}
+	public GameObject getEnemy()
+	{
+		return enemy;
+	}
+	public bool getIsBlocking()
+	{
+		return isBlocking;
+	}
+	public void addCurrentChargingBar(float amount)
+	{
+		CurrentChargingBar += amount;
+	}
 	protected bool shouldTurn(Vector3 myself,Vector3 enemy)
 	{
 		if (myself.x > enemy.x)
@@ -138,18 +192,18 @@ public class CharacterBase : MonoBehaviour {
 	}
 	protected void checkCoolDown()
 	{
-		coolDownTimer -= Time.deltaTime;
-		if (coolDownTimer <= 0)
-			canAttack = true;
+		coolDownRangeTimer -= Time.deltaTime;
+		coolDownMeleeTimer -= Time.deltaTime;
+		if (coolDownRangeTimer <= 0)
+			canRangeAttack = true;
 		else
-			canAttack = false;
-	}
+			canRangeAttack = false;
 
-    /**************************************************************/
-//    void OnGUI()
-//    {
-//        GUI.Box(new Rect(10, 10, healthBarLength, 20), currentHealth + "/" + startingHealth);
-//    }
+		if (coolDownMeleeTimer <= 0)
+			canMeleeAttack = true;
+		else
+			canMeleeAttack = false;
+	}
 
     /*****************SCALE***********************/
    /* Offensive Factor (OffFactor): 0.75 - 1.25 (Weak - Strong)
@@ -158,73 +212,159 @@ public class CharacterBase : MonoBehaviour {
 	public virtual void checkDead()
 	{
 		if (currentHealth <= 0)
-			gameObject.SetActive (false);
+		{
+			//myAnimator.SetBool ("die", true);
+			//gameObject.SetActive (false);
+			isWin = true;
+		}
 	}
 	protected virtual void attack()
 	{
-		
+//		if (currentMana <= 0)
+//			return;
+//		if (canRangeAttack == false)
+//			return;
+		//myAnimator.SetBool ("attack", true);
+	//	StartCoroutine (WaitForAnimation ("attack"));
 	}
 	protected virtual void Move()
 	{
-		// Store the input axes.
+
 		if(isAI == false)
 			horizontal = Input.GetAxisRaw ("Horizontal");
-		
 
+		if (Input.GetButtonDown ("Horizontal"))
+		{
+			if((Time.time - doubleTapTimer) < tapspeed){
+				
+
+				isDoubleTap = true;
+				speed = fastSpeed;
+			}
+			
+			doubleTapTimer = Time.time;
+		}
+		if(Input.GetButtonUp("Horizontal"))
+		{
+			speed = normalSpeed;
+		}
+
+		if(isBlockLeft == true)
+		{
+			if(horizontal < 0)//going left side
+				isBlocking = true;
+			else
+				isBlocking = false;
+		}
+		else
+		{
+			if(horizontal > 0)//going right side
+				isBlocking = true;
+			else
+				isBlocking = false;
+		}
+
+		
+//		if (horizontal >= 1 || horizontal < 0)
+//			myAnimator.SetBool ("walk", true);
+//		else//equal to 0
+//			myAnimator.SetBool ("walk", false);
 
 		movement.x = horizontal * speed;
-		//movement.x = Vector3.forward.x * horizontal * turnOffset * speed;
-		//movement.z = Vector3.forward.z * horizontal * turnOffset * speed;
 
-		//transform.Translate (movement * Time.deltaTime,Space.Self);
 		rb.velocity = new Vector3 (movement.x, rb.velocity.y, rb.velocity.z);   
+		//rb.velocity = transform.forward * horizontal * speed;
 		
-		
+	}
+	protected virtual void crouch()
+	{
+		if(Input.GetKeyDown("s"))
+		{
+			highJumpTimer = Time.time;
+			Debug.Log("ss");
+		}
+
 	}
 	protected virtual void jump()
 	{
 		if(isAI == false)
 			jumping = Input.GetAxisRaw ("Jump");
-		
-		if(jumping > 0 && check_touchGround() == true)//player press jump while on the ground
+
+		if(Input.GetButtonDown("Jump"))
 		{
-			//movement.y = jumpSpeed;
+			if(Time.time - highJumpTimer < tapspeed)
+			{
+				jumpSpeed = highJumpSpeed;
+			}
+		}
+		if(jumping > 0 && check_touchGround(groundMask) == true)//player press jump while on the ground
+		{
+
 			jumpingMovement.y = jumpSpeed;
 			rb.velocity = new Vector3 (rb.velocity.x, jumpingMovement.y, 
 				                           rb.velocity.z);
 			isJumping = true;
 
+
 		}
-		else if(jumping == 0 && check_touchGround() == true)//player reach the ground
+		else if(jumping == 0 && check_touchGround(groundMask) == true)//player reach the ground
 		{
-			//movement.y = 0;
+		
 			jumpingMovement.y = 0;
 			isJumping = false;
+			jumpSpeed = lowJumpSpeed;
+
 		}
 		else//player still in the air
 		{
-			//movement.y -= fallSpeed;
+
 			jumpingMovement.y = -fallSpeed;
 			rb.AddForce(jumpingMovement,ForceMode.Acceleration);
 			
 		}
+
+		if (check_touchGround (targetMask) == true)//prevent player from standing on top
+		{
+			Debug.Log("touch");
+			rb.AddForce (transform.forward * -speed * 2,ForceMode.VelocityChange);
+		}
 		
 
 	}
-	protected bool check_touchWall(Vector3 self, Vector3 wall,float dist)
+	protected void rangeAttack(Vector3 position, Vector3 direction,gameController.projectileType myType)
 	{
-		if(Physics.Raycast(self,wall,dist) == true)//origin,direction,max dist
-		{
-			return true;//player touch the wall
-		}
-		else
-			return false;
+		GameObject temp = myGameController.getPoolObjectInstance(myType).getPoolObject ();
+		
+		if (temp == null)
+			return;
+		weaponBase projectile = temp.GetComponent<weaponBase> ();
+		if (currentMana < projectile.getConsumeMana ())//not enough mana to cast spell
+			return;
+		
+		temp.transform.position = position + direction.normalized;
+		temp.SetActive (true);
+		projectile.launch (direction);
+		projectile.setTag (characterTag);
+		setMana (-projectile.getConsumeMana ());
+		coolDownRangeTimer = coolDownRangeAttackRate;
 	}
-	protected bool check_touchGround()
+
+	protected void meleeAttack()
 	{
-		if(Physics.Raycast(transform.position,Vector3.down,distanceToGround) == true)//origin,direction,max dist
+		if(canMeleeAttack == true)
 		{
-			//Debug.Log("true");
+			Debug.Log("in melee");
+			mymelee.enabled = true;
+			coolDownMeleeTimer = coolDownMeleeAttackRate;
+		}
+
+	}
+	protected bool check_touchGround(LayerMask mymask)
+	{
+
+		if(Physics.Raycast(transform.position,Vector3.down,distanceToGround,mymask) == true)//origin,direction,max dist
+		{
+			//Debug.Log("touch ground");
 			return true;//player touch the ground
 		}
 		else
@@ -234,6 +374,16 @@ public class CharacterBase : MonoBehaviour {
 	{
 		int rand = Random.Range (min, max);
 		return rand;
+	}
+	IEnumerator WaitForAnimation ( string name )
+	{
+		yield return new WaitForSeconds(0.5f);
+		while(myAnimator.GetCurrentAnimatorStateInfo(0).IsName(name) == true)
+		{
+			yield return null;
+		}
+		myAnimator.SetBool (name, false);
+		yield return null;
 	}
 
 }

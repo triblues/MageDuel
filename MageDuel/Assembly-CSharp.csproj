@@ -45,25 +45,37 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\script\game\ItemShop\Inventory.cs" />
+     <Compile Include="Assets\script\game\ItemShop\ItemDatabase.cs" />
+     <Compile Include="Assets\script\game\ItemShop\Items.cs" />
+     <Compile Include="Assets\script\game\UI\gameTime.cs" />
      <Compile Include="Assets\script\game\camera\CameraController.cs" />
      <Compile Include="Assets\script\game\character\CharacterBase.cs" />
-     <Compile Include="Assets\script\game\character\Jumping.cs" />
      <Compile Include="Assets\script\game\character\enemy\EnemyAI.cs" />
      <Compile Include="Assets\script\game\character\enemy\EnemyAttack.cs" />
-     <Compile Include="Assets\script\game\character\player\PlayerController.cs" />
+     <Compile Include="Assets\script\game\character\enemy\EnemyMovement.cs" />
      <Compile Include="Assets\script\game\character\player\mainPlayer.cs" />
      <Compile Include="Assets\script\game\character\player\weapon\fireball.cs" />
+     <Compile Include="Assets\script\game\character\player\weapon\iceball.cs" />
+     <Compile Include="Assets\script\game\character\player\weapon\melee.cs" />
      <Compile Include="Assets\script\game\character\player\weapon\weaponBase.cs" />
      <Compile Include="Assets\script\game\gameController.cs" />
-     <Compile Include="Assets\script\game\testGame.cs" />
-     <Compile Include="Assets\script\launchScene.cs" />
-     <Compile Include="Assets\script\menu\testMenu.cs" />
-     <Compile Include="Assets\script\poolObject.cs" />
+     <Compile Include="Assets\script\menu\DisplayCredits.cs" />
+     <Compile Include="Assets\script\menu\MainMenuButton.cs" />
+     <Compile Include="Assets\script\menu\MainMenuGUI.cs" />
+     <Compile Include="Assets\script\menu\gameSettingsBackToMainMenu.cs" />
+     <Compile Include="Assets\script\menu\launchScene.cs" />
+     <Compile Include="Assets\script\menu\poolObject.cs" />
+     <Compile Include="Assets\script\menu\settingsGUI.cs" />
      <None Include="Assets\Standard Assets\Characters\PhysicsMaterials\test.txt" />
+     <None Include="Assets\Standard Assets\ParticleSystems\Shaders\PriorityParticleAlpha.shader" />
+     <None Include="Assets\Standard Assets\ParticleSystems\ParticleSystemsGuidelines.txt" />
      <None Include="Assets\Standard Assets\CrossPlatformInput\CrossPlatformInputGuidelines.txt" />
+     <None Include="Assets\Standard Assets\ParticleSystems\Shaders\PriorityParticleAddSoft.shader" />
      <None Include="Assets\Standard Assets\Characters\ThirdPersonCharacter\ThirdPersonCharacterGuidelines.txt" />
      <None Include="Assets\Standard Assets\Characters\FirstPersonCharacter\FirstPersonCharacterGuidelines.txt" />
      <None Include="Assets\Standard Assets\Characters\RollerBall\RollerBallGuidelines.txt" />
+     <None Include="Assets\Standard Assets\ParticleSystems\Shaders\PriorityParticleAdd.shader" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>

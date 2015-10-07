@@ -28,7 +28,7 @@ public class EnemyAttack : MonoBehaviour
     public float attackRange = 6.5f;
     public float attackRange2 = 8.5f;
     public float attackRange3 = 10.5f;
-    public PlayerController pController;
+    
 
 
 

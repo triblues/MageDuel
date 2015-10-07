@@ -17,7 +17,7 @@ public class CameraController : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         // find references to the players
-		p1 = GameObject.FindWithTag("Player").transform;
+		p1 = GameObject.FindWithTag("Main Player").transform;
 		p2 = GameObject.FindWithTag("Enemy").transform;
         // initializes scene size and camera distance
         CalcScreen(p1, p2);

@@ -4,309 +4,306 @@ using UnityEngine.UI;
 
 public class EnemyAI : CharacterBase
 {
-
-//    public Transform target;
-////    public int moveSpeed;
-////    public int rotationSpeed;
-////    public int maxDistance;
-////    public int jumpSpeed = 100;
-//    private Transform myTransform;
-//    public int dodgeRate;
-//    public bool dodge = false;
-//
-//    Rigidbody rigid;
-//    Vector3 movement;
-//   // public PlayerShooting player;
-//    public float smooth = 2.0F;
-//    public float tiltAngle = 30.0F;
-//    private Quaternion targetRotation;
-//    private Vector3 targetAngles;
+	
 
 	public bool testMode = false;
-	public Text healthText;
-	public Text manaText;
-	public GameObject player;
-	public float moveRate = 1.0f;
-	public float attackRate = 1.0f;
-	public float idleRate = 1.0f;
-	public float jumpRate = 1.0f;
+	//public GameObject player;
+	//gui
+//	public Text healthText;
+//	public Text manaText;
+
+	int randMin = 1;
+	int randMax = 100;
+	int randomNum;
+
+	//AI state stuff
+	[SerializeField] public float idleTime = 1.0f;//the value mean how long the character will be in this state
+	[SerializeField] public float attackTime = 2.0f;
+	[SerializeField] public float blockTime = 1.0f;
+	[SerializeField] public float randAttributeTime = 1.5f;
+	float idleTimer;
+	float attackTimer;
+	float blockTimer;
+	float randomAttTimer;
+
+	bool changeState;
+	bool isReverseDirection;
+	//fuzzy logic stuff
+	[Tooltip("the lower aggreesive level the lower chance to attack")]
 	public int aggressiveLevel = 1;
 	public int cruelLevel = 1;
-    public int maxDistance;
+	public float rangeDistance = 1.0f;
+	public float meleeDistance = 0.3f;
 
-
-    float moveTimer;
-	float attackTimer;
-	float idleTimer;
-	float jumpTimer;
-	bool canChangeState;
-	bool isReverse;//is the ai moving forward or backward
-	bool hasRandom;
-	int randomNum;
-	int idleCount;
 	public AIState myAIState;
-    public float healthBarLength;
-
-
-    public enum AIState
+	public AIAttack myAIStateAttack;
+  	public enum AIState
 	{
-//		move,
-		jump,
+		idle,
 		attack,
-		idle//this state mean to reset
+		block
 
+	};
+	public enum AIAttack
+	{
+		melee,
+		rangeSingle,
+		rangeMultiple
 	};
 
     // Use this for initialization
     void Start()
     {
-		healthText.text = "Health: " + currentHealth.ToString ();
-		manaText.text = "Mana: " + currentMana.ToString ();
-        
-        canChangeState = false;
-        player = GameObject.FindGameObjectWithTag("Player");
-//        rigid = GetComponent<Rigidbody>();
-//        target = go.transform;
-		isReverse = false;
-		myAIState = AIState.idle;
-		hasRandom = false;
-		idleCount = 0;
-    }
 
-   
+
+		changeState = false;
+		myAIState = AIState.attack;
+		myAIStateAttack = AIAttack.rangeSingle;
+
+		isReverseDirection = false;
+
+		aggressiveLevel = Mathf.Clamp (aggressiveLevel, 1, 6);
+
+    }
 
     // Update is called once per frame
     void Update()
     {
-		healthText.text = "Health: " + currentHealth.ToString ();
-		manaText.text = "Mana: " + currentMana.ToString ();
-       
-//        float h = Input.GetAxisRaw("Horizontal");
-//        // Set the movement vector based on the axis input.
-//        movement.Set(h, 0f, 0f);
-//        Debug.DrawLine(target.transform.position, myTransform.position, Color.yellow);
-//        myTransform.LookAt(target);
-//        //look at target
-//        // myTransform.rotation = Quaternion.Slerp(myTransform.rotation, Quaternion.LookRotation(target.position - myTransform.position), rotationSpeed * Time.deltaTime);
-//
-//        //transform.rotation = Quaternion.RotateTowards(transform.rotation, target.rotation, rotationSpeed * Time.deltaTime);
-//
-//
-//        if (Vector3.Distance(target.position, myTransform.position) > maxDistance)
-//        {
-//
-//            myTransform.position += myTransform.forward * moveSpeed * Time.deltaTime;
-//
-//        }
-//
-//        if (Vector3.Distance(target.position, myTransform.position) < 2)
-//        {
-//            myTransform.position -= myTransform.forward * moveSpeed * Time.deltaTime;
-//
-//        }
-//
-//        if (Vector3.Distance(target.position, myTransform.position) < 5)
-//        {
-//            if (Input.GetButtonDown("Jump"))
-//            {
-//                rigid.AddForce(transform.up * jumpPower);
-//            }
-//        }
+	
 
-        if (shouldTurn(transform.position,player.transform.position) == true)
+
+		if(shouldTurn(transform.position,enemy.transform.position) == true)
 		{
 			rb.rotation = Quaternion.Euler (0, 270, 0);
-			//transform.localRotation = Quaternion.Euler (0, 270, 0);
-			//turnOffset = 1;
+
 		}
 		else
 		{
 			rb.rotation = Quaternion.Euler (0, 90, 0);
-			//transform.localRotation = Quaternion.Euler (0, 90, 0);
-			//turnOffset = -1;
+
 		}
-		if (testMode == true)
+		if (testMode)
 			return;
-		checkCoolDown ();
-		stateMethod ();
-		state ();
-		base.Update ();
+
+		base.Update ();//move and jump
+		//action ();
+		AI_Agent ();
+	
     }
-	void stateMethod()
-	{
-		if(canChangeState == true)
-		{
-			randomNum = getRandomNum(1,101);
-			if(randomNum >= 50 - idleCount * 10)
-			{
-				myAIState = AIState.attack;
-				idleCount = 0;
-			}
-			else
-				myAIState = AIState.idle;
 
-			canChangeState = false;
-			hasRandom = false;
-		}
-	}
-
-	void state()
+	void AI_Agent()
 	{
 		switch(myAIState)
 		{
-		case AIState.idle:
-			idleState();
+			case AIState.idle:
+				idleState();
+				break;
+			case AIState.attack:
+			{
+				
+				attackState();
+				
+				switch(myAIStateAttack)
+				{
+					case AIAttack.melee:
+						meleeCombat();
+						break;
+					case AIAttack.rangeSingle:
+						rangeCombat();
+						break;
+					case AIAttack.rangeMultiple:
+						rangeCombat();
+						break;
+					default:
+						break;
+				}
+			}
 			break;
-		case AIState.attack:
-			attackState();
-			break;
-		default:
-			break;
+			case AIState.block:
+				blockState();
+				break;
+			default:
+				break;
 		}
-
-	
 	}
-
-	void attackState()
+	void action()
 	{
-		shootFireBall ();
-        meleeAttack();
-		attackTimer += Time.deltaTime;
-		if(attackTimer > attackRate)
+		if(changeState == true)
 		{
-			attackTimer = 0;
-			canChangeState = true;
-			moveState();
-			jumpState();
+			randomNum = getRandomNum(randMin,randMax);
+			if(randomNum >= randMax-(aggressiveLevel * 15))//the lower aggreesive level the lower chance to attack
+			{
+//				int offset;
+				myAIState = AIState.attack;
+//				randomNum = getRandomNum(randMin,randMax);
+//
+//				if(currentMana <= startingMana/5)//left 20%
+//					offset = 30;//will want to go melee combat as much as possible
+//				else
+//					offset = -30;
+//
+//				if(randomNum >= randMax/2 + offset)
+//					myAIStateAttack = AIAttack.rangeSingle;
+//				else
+//					myAIStateAttack = AIAttack.melee;
+				myAIStateAttack = AIAttack.rangeSingle;
+
+			}
+			else
+			{
+				myAIState = AIState.idle;
+			}
+		
+
+			changeState = false;
 		}
+
+		randomAttribute();//random move and jump
+
+
+
+
 	}
 	void idleState()
 	{
-//		horizontal = 0;
-//		jumping = 0;
-		hasRandom = false;
-
-		//canChangeState = false;
 		idleTimer += Time.deltaTime;
-		if(idleTimer > idleRate)
+		horizontal = 0;
+		jumping = 0;
+		isReverseDirection = false;
+		if(idleTimer >= idleTime)
 		{
-			idleCount++;
-			idleTimer = 0;
-			canChangeState = true;
+			changeState = true;
+			idleTimer = 0;//reset
+		}
+	}
+	void attackState()
+	{
 
-			moveState();
-			jumpState();
+		attackTimer += Time.deltaTime;
+		
+		if(attackTimer >= attackTime)
+		{
+			changeState = true;
+			attackTimer = 0;//reset
+		}
+	}
+	void blockState()
+	{
+//		blockTimer += Time.deltaTime;
+//		isBlocking = true;
+//		if(blockTimer >= blockTimer)
+//		{
+//			changeState = true;
+//			blockTimer = 0;
+//			isBlocking = false;
+//		}
+	}
+	void rangeCombat()
+	{
+		if (currentMana <= 0)
+			return;
+		if (canRangeAttack == false)
+			return;
+		Vector3 direction = enemy.transform.position - transform.position;
+		//shootFireBall(transform.position,direction);
+		rangeAttack(transform.position,direction,gameController.projectileType.fireball);
+
+		if(Vector3.Distance(transform.position,enemy.transform.position) <= rangeDistance)
+		{
+			if(isReverseDirection == false)
+			{
+				Debug.Log("in");
+				horizontal = horizontal * -1;//maintain distance from player
+				isReverseDirection = true;
+			}
+		}
+		else
+			isReverseDirection = false;
+	}
+	void meleeCombat()
+	{
+
+		if(Vector3.Distance(transform.position,enemy.transform.position) <= meleeDistance)
+		{
+			horizontal = 0;
+			jumping = 0;
+			meleeAttack();
+		
+		}
+		else//AI is far away from player 
+		{
+	
+			if(isJumping == false)//when on ground
+			{
+				if(transform.position.x > enemy.transform.position.x)//at right side
+				{
+					horizontal = -1;
+				}
+				else
+				{
+					horizontal = 1;
+				}
+			}
+
 
 		}
 	}
-	void moveState()
-	{
-		randomNum = Random.Range (1, 101);
-		if (randomNum <= 33)
-			horizontal = 1;
-		else if (randomNum <= 66)
-			horizontal = -1;
-		else
-			horizontal = 0;
 
-//		if(isReverse == false)//move toward player
-//		{
-//			horizontal = 1;
-////			if(shouldTurn(transform.position,player.transform.position) == true)
-////			{
-////				horizontal = 1;
-////			}
-////			else
-////			{
-////				horizontal = -1;
-////			}
-//		}
-//		else//move away from player
-//		{
-//			horizontal = -1;
-//		}
-//		moveTimer += Time.deltaTime;
-//		if(moveTimer > moveRate)
-//		{
-//			moveTimer = 0;
-//			canChangeState = true;
-//		}
-	}
-	void jumpState()
+//	void shootFireBall()
+//	{
+//		if (getCurrentMana () <= 0)
+//			return;
+//		if (canRangeAttack == false)
+//			return;
+//		GameObject temp = myGameController.getPoolObjectInstance("fireball").getPoolObject ();
+//		
+//		if (temp == null)
+//			return;
+//		Vector3 direction = player.transform.position - transform.position;
+//		fireball projectile = temp.GetComponent<fireball> ();
+//		if (currentMana < projectile.getConsumeMana ())//not enough mana to cast spell
+//			return;
+//
+//		temp.transform.position = transform.position + direction.normalized;
+//		temp.SetActive (true);
+//		projectile.launch (direction);
+//		projectile.setTag (characterTag);
+//		setMana (-projectile.getConsumeMana ());
+//		coolDownRangeTimer = coolDownRangeAttackRate;
+//		
+//		
+//	}
+	void randomAttribute()//random move and jump
 	{
-		randomNum = getRandomNum(1,101);
+		randomAttTimer += Time.deltaTime;
+		if(randomAttTimer >= randAttributeTime)//random movement every few second
+		{
+			if(myAIStateAttack != AIAttack.melee)//enemy will go directly to the player
+			{
+				randomNum = getRandomNum (randMin, randMax);
+				if (randomNum >= randMax / 2)
+					horizontal = -1;
+				else
+					horizontal = 1;
+			}
 
-		if(randomNum >= 50)
+
+//			randomNum = getRandomNum (randMin, randMax);
+//			if (randomNum >= randMax / 2)
+//				jumping = 1;
+//			else
+//				jumping = 0;
+
 			jumping = 1;
-		else
-			jumping = 0;
+			if(isJumping == true)
+				jumping = 0;//prevent keep jumping
+			
 
-//		if(isJumping == false)//char on ground
-//		{
-//			jumping = 1;
-//		}
-//		else
-//			jumping = 0;
-//		jumpTimer += Time.deltaTime;
-//		if(jumpTimer > jumpRate)
-//		{
-//			jumpTimer = 0;
-//			canChangeState = true;
-//		}
+			randomAttTimer = 0;
+		}
+
+
 	}
-
-
-	void shootFireBall()
-	{
-		if (getCurrentMana () <= 0)
-			return;
-		if (canAttack == false)
-			return;
-		GameObject temp = myGameController.getPoolObjectInstance("fireball").getPoolObject ();
-		
-		if (temp == null)
-			return;
-		Vector3 direction = player.transform.position - transform.position;
-		fireball projectile = temp.GetComponent<fireball> ();
-		temp.transform.position = transform.position + direction.normalized;
-		temp.SetActive (true);
-		projectile.launch (direction);
-		projectile.setTag (characterTag);
-		setMana (-projectile.getConsumeMana ());
-		coolDownTimer = coolDownAttackRate;
-		
-		
-	}
-
-    //No mana needed for this attack
-    void meleeAttack()
-    {
-
-        
-        if (canAttack == false)
-            return;
-
-        if (Vector3.Distance(player.transform.position, transform.position) < 2.0f)
-        {
-            GameObject temp = myGameController.getPoolObjectInstance("fireball").getPoolObject();
-
-            if (temp == null)
-                return;
-            Vector3 direction = player.transform.position - transform.position;
-            fireball projectile = temp.GetComponent<fireball>();
-            temp.transform.position = transform.position + direction.normalized;
-            temp.SetActive(true);
-            projectile.launch(direction);
-            projectile.setTag(characterTag);
-            //setMana(-projectile.getConsumeMana());
-            coolDownTimer = coolDownAttackRate;
-
-        }
-        
-
-
-    }
-
 
 }
 

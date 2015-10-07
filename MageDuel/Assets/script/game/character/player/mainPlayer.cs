@@ -5,9 +5,7 @@ using UnityEngine.UI;
 
 public class mainPlayer : CharacterBase {
 
-	public Text healthText;
-	public Text manaText;
-	public GameObject enemy;
+
 
 
 
@@ -15,65 +13,97 @@ public class mainPlayer : CharacterBase {
 	{
 	
 		
-		healthText.text = "Health: " + currentHealth.ToString ();
-		manaText.text = "Mana: " + currentMana.ToString ();
-	//	transform.localRotation = Quaternion.Euler(0,270,0);
+
+
 
 	}
 
 	void Update()
 	{
 		base.Update ();
-		healthText.text = "Health: " + currentHealth.ToString ();
-		manaText.text = "Mana: " + currentMana.ToString ();
 
-		if(shouldTurn (transform.position, enemy.transform.position) == true)
+		if(shouldTurn (transform.position, enemy.transform.position) == true)//facing right
 		{
-			//transform.localRotation = Quaternion.Euler (0, 270, 0);
-			//turnOffset = -1;
+			isBlockLeft = false;
 			rb.rotation = Quaternion.Euler (0, 270, 0);
 		}
-		else
+		else//facing right
 		{
-			//transform.localRotation = Quaternion.Euler (0, 90, 0);
-			//turnOffset = 1;
+			isBlockLeft = true;
 			rb.rotation = Quaternion.Euler (0, 90, 0);
 		}
 
-		checkCoolDown ();
 		attack ();
 
 	}
 
 	protected override void attack()
 	{
-		if (Input.GetButtonDown("Attack1"))
+		if (currentMana <= 0)
+			return;
+		if (canRangeAttack == false)
+			return;
+		if(Input.GetKeyDown("k"))//one fireball
 		{
-			shootFireBall();
+
+
+			Vector3 direction = enemy.transform.position - transform.position;
+			//shootFireBall(transform.position,direction);
+			rangeAttack(transform.position,direction,gameController.projectileType.fireball);
+		}
+		if (Input.GetKeyDown ("l")) //multiple fireball
+		{
+
+			for(int i=0;i<3;i++)//3
+			{
+				Vector3 newPos = new Vector3(enemy.transform.position.x,
+				                             enemy.transform.position.y,enemy.transform.position.z);
+				newPos.y = newPos.y + i*1.5f;
+				Vector3 direction = newPos - transform.position;
+
+				rangeAttack(transform.position,direction,gameController.projectileType.fireball);
+				//shootFireBall(transform.position,direction);
+			}
+		}
+//		if(Input.GetKeyDown ("n"))//one iceball
+//		{
+//			Vector3 mypos = enemy.transform.position;
+//			mypos.y = mypos.y * 8;
+//			//Vector3 direction = enemy.transform.position - transform.position;
+//
+//			rangeAttack(mypos,-transform.up,gameController.projectileType.iceball);
+//		}
+		if(Input.GetKeyDown("o"))//melee attack
+		{
+			meleeAttack();
 		}
 	}
-	void shootFireBall()
-	{
-		if (getCurrentMana () <= 0)
-			return;
-		if (canAttack == false)
-			return;
-		GameObject temp = myGameController.getPoolObjectInstance("fireball").getPoolObject ();
 
-		if (temp == null)
-			return;
-		Vector3 direction = enemy.transform.position - transform.position;
-		fireball projectile = temp.GetComponent<fireball> ();
-		temp.transform.position = transform.position + direction.normalized;
-		temp.SetActive (true);
-		projectile.launch (direction);
-		projectile.setTag (characterTag);
-		setMana (-projectile.getConsumeMana ());
-		coolDownTimer = coolDownAttackRate;
-
-
-
-	}
+//	void shootFireBall(Vector3 position, Vector3 direction)
+//	{
+//		if (currentMana <= 0)
+//			return;
+//		if (canRangeAttack == false)
+//			return;
+//		GameObject temp = myGameController.getPoolObjectInstance("fireball").getPoolObject ();
+//
+//		if (temp == null)
+//			return;
+//		//Vector3 direction = enemy.transform.position - transform.position;
+//		fireball projectile = temp.GetComponent<fireball> ();
+//		if (currentMana < projectile.getConsumeMana ())//not enough mana to cast spell
+//			return;
+//
+//		temp.transform.position = position + direction.normalized;
+//		temp.SetActive (true);
+//		projectile.launch (direction);
+//		projectile.setTag (characterTag);
+//		setMana (-projectile.getConsumeMana ());
+//		coolDownRangeTimer = coolDownRangeAttackRate;
+//
+//
+//
+//	}
 
 
 }
