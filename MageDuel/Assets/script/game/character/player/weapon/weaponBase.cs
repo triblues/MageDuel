@@ -57,20 +57,25 @@ public class weaponBase : MonoBehaviour {
 				if(other.GetComponent<CharacterBase>().getIsBlocking() == false)
 				{
 					other.GetComponent<CharacterBase>().TakesDamage(damage);
+                    other.GetComponent<CharacterBase>().getEnemy().GetComponent<CharacterBase>().setComboCount(1);
 					other.GetComponent<Rigidbody>().AddForce(-other.GetComponent<Transform>().forward * knockBack,
 					                                         ForceMode.VelocityChange);
-					other.GetComponent<CharacterBase>().checkDead();
-					other.GetComponent<CharacterBase>().getEnemy().GetComponent<CharacterBase>().
+                    other.GetComponent<CharacterBase>().checkDead();
+
+
+                    other.GetComponent<CharacterBase>().getEnemy().GetComponent<CharacterBase>().
 						addCurrentChargingBar(chargeAmount);
+
+
 				}
 			}
 		}
 		if(other.GetComponent<weaponBase>() != null)//has this script
 		{
-			if(other.GetComponent<weaponBase>().getTag() != numTag)
+			if(other.GetComponent<weaponBase>().getTag() != numTag)//prevent own attack from cancel own attack
 				gameObject.SetActive(false);
-			else
-				return;
+			
+			return;
 		}
 		gameObject.SetActive(false);
 	}

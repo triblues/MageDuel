@@ -11,7 +11,8 @@ public class CharacterBase : MonoBehaviour {
 	public LayerMask targetMask;
 	public Text healthText;
 	public Text manaText;
-	public Image chargingBar;
+    public GameObject combo;
+    public Image chargingBar;
 	[SerializeField] public GameObject enemy;
 	[SerializeField] bool isAI = false;
 	[SerializeField] protected int characterTag;
@@ -32,6 +33,9 @@ public class CharacterBase : MonoBehaviour {
 	[SerializeField] protected float manaRegenRate = 1.0f;
 	[SerializeField] float distanceToGround = 0.1f;//the amount of dist to stop falling
 
+    protected Text comboText;
+    protected Animation comboAnimation;
+    protected int comboCount;
 	protected float jumpSpeed;
 	protected float speed;
 	protected melee mymelee;
@@ -44,7 +48,6 @@ public class CharacterBase : MonoBehaviour {
 	protected Rigidbody rb;          // Reference to the player's rigidbody.
 	protected float horizontal;
 	protected float jumping;
-	protected int turnOffset;
 	protected bool isJumping;
 	protected bool canRangeAttack;
 	protected bool canMeleeAttack;
@@ -73,8 +76,8 @@ public class CharacterBase : MonoBehaviour {
 		speed = normalSpeed;
 		jumpSpeed = lowJumpSpeed;
 		shouldWaitAnimationFinish = false;
-		turnOffset = 1;
-		CurrentChargingBar = Mathf.Clamp01 (CurrentChargingBar);
+        comboCount = 0;
+        CurrentChargingBar = Mathf.Clamp01 (CurrentChargingBar);
 
 		isBlocking = false;
 		isDoubleTap = false;
@@ -83,8 +86,11 @@ public class CharacterBase : MonoBehaviour {
 		myGameController = GameObject.Find ("gameManager").GetComponent<gameController> ();
 		coolDownRangeTimer = coolDownRangeAttackRate;
 		coolDownMeleeTimer = coolDownMeleeAttackRate;
-		//myAnimator = GetComponent<Animator> ();
-		StartCoroutine (regenMana (0.5f));
+
+        comboText = combo.GetComponent<Text>();
+        comboAnimation = combo.GetComponent<Animation>();
+        //myAnimator = GetComponent<Animator> ();
+        StartCoroutine (regenMana (0.5f));
 
     }
 
@@ -92,7 +98,8 @@ public class CharacterBase : MonoBehaviour {
 	{
 		healthText.text = "Health: " + currentHealth.ToString ();
 		manaText.text = "Mana: " + currentMana.ToString ();
-		chargingBar.fillAmount = CurrentChargingBar ;
+        comboText.text = "Combo: " + comboCount.ToString();
+        chargingBar.fillAmount = CurrentChargingBar ;
 	}
 	IEnumerator regenMana(float time)
 	{
@@ -107,9 +114,9 @@ public class CharacterBase : MonoBehaviour {
 	}
     protected void Update()
 	{
-		healthText.text = "Health: " + currentHealth.ToString ();
-		manaText.text = "Mana: " + currentMana.ToString ();
-		chargingBar.fillAmount = CurrentChargingBar;
+		
+		
+        
 
 		checkCoolDown ();   
 		Move ();
@@ -118,7 +125,10 @@ public class CharacterBase : MonoBehaviour {
 		if (currentMana <= 0)
 			currentMana = 0;
 
-	}
+        if (comboAnimation.IsPlaying("fade") == false)
+            comboCount = 0;
+
+    }
     public void TakesDamage(float damage)
     {
         // Damage will be adjusted
@@ -134,7 +144,13 @@ public class CharacterBase : MonoBehaviour {
 	public void setMana(float amount)
 	{
 		currentMana += amount;
-	}
+        manaText.text = "Mana: " + currentMana.ToString();
+    }
+    public void setHealth(float amount)
+    {
+        currentHealth += amount;
+        healthText.text = "Health: " + currentHealth.ToString();
+    }
     /*****************GETTER**************************************/
     // This function returns speed
     public float GetSpeed()
@@ -167,7 +183,19 @@ public class CharacterBase : MonoBehaviour {
 	{
 		return characterTag;
 	}
-	public GameObject getEnemy()
+    public void setComboCount(int amount)
+    {
+        comboCount += amount;
+        comboText.text = "Combo: " + comboCount.ToString();
+
+        comboAnimation.Play("fade");
+        comboAnimation["fade"].time = 0;
+    }
+    public int getComboCount()
+    {
+        return comboCount;
+    }
+    public GameObject getEnemy()
 	{
 		return enemy;
 	}
@@ -178,7 +206,8 @@ public class CharacterBase : MonoBehaviour {
 	public void addCurrentChargingBar(float amount)
 	{
 		CurrentChargingBar += amount;
-	}
+        chargingBar.fillAmount = CurrentChargingBar;
+    }
 	protected bool shouldTurn(Vector3 myself,Vector3 enemy)
 	{
 		if (myself.x > enemy.x)

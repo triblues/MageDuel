@@ -7,10 +7,7 @@ public class EnemyAI : CharacterBase
 	
 
 	public bool testMode = false;
-	//public GameObject player;
-	//gui
-//	public Text healthText;
-//	public Text manaText;
+
 
 	int randMin = 1;
 	int randMax = 100;
@@ -40,8 +37,7 @@ public class EnemyAI : CharacterBase
   	public enum AIState
 	{
 		idle,
-		attack,
-		block
+		attack
 
 	};
 	public enum AIAttack
@@ -57,8 +53,8 @@ public class EnemyAI : CharacterBase
 
 
 		changeState = false;
-		myAIState = AIState.attack;
-		myAIStateAttack = AIAttack.rangeSingle;
+		myAIState = AIState.idle;
+	//	myAIStateAttack = AIAttack.melee;
 
 		isReverseDirection = false;
 
@@ -86,7 +82,7 @@ public class EnemyAI : CharacterBase
 			return;
 
 		base.Update ();//move and jump
-		//action ();
+		action ();
 		AI_Agent ();
 	
     }
@@ -119,12 +115,14 @@ public class EnemyAI : CharacterBase
 				}
 			}
 			break;
-			case AIState.block:
-				blockState();
-				break;
 			default:
 				break;
 		}
+
+        if(isBlocking == true)
+        {
+            blockState();
+        }
 	}
 	void action()
 	{
@@ -133,22 +131,29 @@ public class EnemyAI : CharacterBase
 			randomNum = getRandomNum(randMin,randMax);
 			if(randomNum >= randMax-(aggressiveLevel * 15))//the lower aggreesive level the lower chance to attack
 			{
-//				int offset;
-				myAIState = AIState.attack;
-//				randomNum = getRandomNum(randMin,randMax);
-//
-//				if(currentMana <= startingMana/5)//left 20%
-//					offset = 30;//will want to go melee combat as much as possible
-//				else
-//					offset = -30;
-//
-//				if(randomNum >= randMax/2 + offset)
-//					myAIStateAttack = AIAttack.rangeSingle;
-//				else
-//					myAIStateAttack = AIAttack.melee;
-				myAIStateAttack = AIAttack.rangeSingle;
+				int offset;
+                //myAIState = AIState.attack;
+                //randomNum = getRandomNum(randMin, randMax);
 
-			}
+                //if (currentMana <= startingMana / 5)//left 20%
+                //    offset = 30;//will want to go melee combat as much as possible
+                //else
+                //    offset = -30;
+
+                //if (randomNum >= randMax / 2 + offset)
+                //{
+                //    randomNum = getRandomNum(randMin, randMax);
+                //    if (randomNum >= randMax / 2)
+                //        myAIStateAttack = AIAttack.rangeSingle;
+                //    else
+                //        myAIStateAttack = AIAttack.rangeMultiple;
+                //}
+                //else
+                //    myAIStateAttack = AIAttack.melee;
+                //myAIStateAttack = AIAttack.melee;
+                isBlocking = true;
+
+            }
 			else
 			{
 				myAIState = AIState.idle;
@@ -189,30 +194,46 @@ public class EnemyAI : CharacterBase
 	}
 	void blockState()
 	{
-//		blockTimer += Time.deltaTime;
-//		isBlocking = true;
-//		if(blockTimer >= blockTimer)
-//		{
-//			changeState = true;
-//			blockTimer = 0;
-//			isBlocking = false;
-//		}
-	}
+		blockTimer += Time.deltaTime;
+
+        if (blockTimer >= blockTime)
+        {
+            changeState = true;
+            blockTimer = 0;
+            isBlocking = false;
+        }
+    }
 	void rangeCombat()
 	{
 		if (currentMana <= 0)
 			return;
 		if (canRangeAttack == false)
 			return;
-		Vector3 direction = enemy.transform.position - transform.position;
-		//shootFireBall(transform.position,direction);
-		rangeAttack(transform.position,direction,gameController.projectileType.fireball);
+        Vector3 direction;
+
+        if (myAIStateAttack == AIAttack.rangeSingle)
+        {
+            direction = enemy.transform.position - transform.position;
+            rangeAttack(transform.position, direction, gameController.projectileType.fireball);
+        }
+        else
+        {
+            for (int i = 0; i < 3; i++)//3
+            {
+                Vector3 newPos = new Vector3(enemy.transform.position.x,
+                                             enemy.transform.position.y, enemy.transform.position.z);
+                newPos.y = newPos.y + i * 1.5f;
+                direction = newPos - transform.position;
+
+                rangeAttack(transform.position, direction, gameController.projectileType.fireball);
+
+            }
+        }
 
 		if(Vector3.Distance(transform.position,enemy.transform.position) <= rangeDistance)
 		{
 			if(isReverseDirection == false)
 			{
-				Debug.Log("in");
 				horizontal = horizontal * -1;//maintain distance from player
 				isReverseDirection = true;
 			}
@@ -226,14 +247,13 @@ public class EnemyAI : CharacterBase
 		if(Vector3.Distance(transform.position,enemy.transform.position) <= meleeDistance)
 		{
 			horizontal = 0;
-			jumping = 0;
-			meleeAttack();
-		
-		}
+            jumping = 0;
+            meleeAttack();
+
+        }
 		else//AI is far away from player 
 		{
-	
-			if(isJumping == false)//when on ground
+            if (isJumping == false)//when on ground
 			{
 				if(transform.position.x > enemy.transform.position.x)//at right side
 				{

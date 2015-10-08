@@ -6,15 +6,8 @@ using UnityEngine.UI;
 public class mainPlayer : CharacterBase {
 
 
-
-
-
 	void Start()
 	{
-	
-		
-
-
 
 	}
 
@@ -62,7 +55,7 @@ public class mainPlayer : CharacterBase {
 				Vector3 direction = newPos - transform.position;
 
 				rangeAttack(transform.position,direction,gameController.projectileType.fireball);
-				//shootFireBall(transform.position,direction);
+			
 			}
 		}
 //		if(Input.GetKeyDown ("n"))//one iceball
