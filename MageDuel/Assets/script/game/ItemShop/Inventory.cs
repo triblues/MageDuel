@@ -61,30 +61,30 @@ public class Inventory : MonoBehaviour
     void OnGUI()
     {
 
-        // Make the first button. If it is pressed, Application.Loadlevel (1) will be executed
-        if (GUI.Button(new Rect(20, 60, 100, 20), "Health Potion"))
-        {
-            AddItem(1);
-        }
+        //// Make the first button. If it is pressed, Application.Loadlevel (1) will be executed
+        //if (GUI.Button(new Rect(20, 60, 100, 20), "Health Potion"))
+        //{
+        //    AddItem(1);
+        //}
 
-        // Make the second button.
-        if (GUI.Button(new Rect(20, 90, 100, 20), "Mana Potion"))
-        {
-            AddItem(2);
-        }
+        //// Make the second button.
+        //if (GUI.Button(new Rect(20, 90, 100, 20), "Mana Potion"))
+        //{
+        //    AddItem(2);
+        //}
 
 
-        if (GUI.Button(new Rect(20, 130, 50, 40), "Save"))
-        {
-            SaveInventory();
+        //if (GUI.Button(new Rect(20, 130, 50, 40), "Save"))
+        //{
+        //    SaveInventory();
 
-        }
+        //}
 
-        if (GUI.Button(new Rect(20, 180, 50, 40), "Load"))
-        {
-            LoadInventory();
+        //if (GUI.Button(new Rect(20, 180, 50, 40), "Load"))
+        //{
+        //    LoadInventory();
 
-        }
+        //}
 
 
         tooltip = " ";
@@ -118,7 +118,7 @@ public class Inventory : MonoBehaviour
 
 
 
-    void DrawInventory()
+   public void DrawInventory()
     {
 
         Event e = Event.current;
@@ -406,7 +406,7 @@ public class Inventory : MonoBehaviour
     //}
 
 
-    void AddItem(int id)
+    public void AddItem(int id)
     {
         if (inventory[0].itemName == null)
         {
@@ -501,7 +501,7 @@ public class Inventory : MonoBehaviour
     }
 
 
-    void SaveInventory()
+   public void SaveInventory()
     {
         for (int i = 0; i < inventory.Count; i++)
         {
@@ -511,7 +511,7 @@ public class Inventory : MonoBehaviour
 
 
 
-    void LoadInventory()
+   public void LoadInventory()
     {
         for (int i = 0; i < inventory.Count; i++)
         {
