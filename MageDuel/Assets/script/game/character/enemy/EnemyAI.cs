@@ -8,7 +8,7 @@ public class EnemyAI : CharacterBase
 
 	public bool testMode = false;
 
-
+    int meleeComboCount;
 	int randMin = 1;
 	int randMax = 100;
 	int randomNum;
@@ -25,6 +25,7 @@ public class EnemyAI : CharacterBase
 
 	bool changeState;
 	bool isReverseDirection;
+    bool inMeleeCombo;//this check to prevent repeating of doing melee combo
 	//fuzzy logic stuff
 	[Tooltip("the lower aggreesive level the lower chance to attack")]
 	public int aggressiveLevel = 1;
@@ -50,25 +51,26 @@ public class EnemyAI : CharacterBase
     // Use this for initialization
     void Start()
     {
-
-
-		changeState = false;
+        meleeComboCount = 0;
+        inMeleeCombo = false;
+        changeState = false;
 		myAIState = AIState.idle;
 	//	myAIStateAttack = AIAttack.melee;
 
 		isReverseDirection = false;
 
 		aggressiveLevel = Mathf.Clamp (aggressiveLevel, 1, 6);
-
+       
     }
 
     // Update is called once per frame
-    void Update()
+    protected override void Update()
     {
-	
+      
+        if (isFinish == true)
+            return;
 
-
-		if(shouldTurn(transform.position,enemy.transform.position) == true)
+        if (shouldTurn(transform.position,enemy.transform.position) == true)
 		{
 			rb.rotation = Quaternion.Euler (0, 270, 0);
 
@@ -78,13 +80,17 @@ public class EnemyAI : CharacterBase
 			rb.rotation = Quaternion.Euler (0, 90, 0);
 
 		}
-		if (testMode)
-			return;
 
-		base.Update ();//move and jump
-		action ();
-		AI_Agent ();
-	
+
+        base.Update();//move and jump
+       // action();
+      //  AI_Agent();
+        if (testMode)
+        {
+            horizontal = 0;
+            jumping = 0;
+        }
+
     }
 
 	void AI_Agent()
@@ -132,26 +138,26 @@ public class EnemyAI : CharacterBase
 			if(randomNum >= randMax-(aggressiveLevel * 15))//the lower aggreesive level the lower chance to attack
 			{
 				int offset;
-                //myAIState = AIState.attack;
-                //randomNum = getRandomNum(randMin, randMax);
+               myAIState = AIState.attack;
+                randomNum = getRandomNum(randMin, randMax);
 
-                //if (currentMana <= startingMana / 5)//left 20%
-                //    offset = 30;//will want to go melee combat as much as possible
-                //else
-                //    offset = -30;
+                if (currentMana <= startingMana / 5)//left 20%
+                    offset = 30;//will want to go melee combat as much as possible
+                else
+                    offset = -30;
 
-                //if (randomNum >= randMax / 2 + offset)
-                //{
-                //    randomNum = getRandomNum(randMin, randMax);
-                //    if (randomNum >= randMax / 2)
-                //        myAIStateAttack = AIAttack.rangeSingle;
-                //    else
-                //        myAIStateAttack = AIAttack.rangeMultiple;
-                //}
-                //else
-                //    myAIStateAttack = AIAttack.melee;
-                //myAIStateAttack = AIAttack.melee;
-                isBlocking = true;
+                if (randomNum >= randMax / 2 + offset)
+                {
+                    randomNum = getRandomNum(randMin, randMax);
+                    if (randomNum >= randMax / 2)
+                        myAIStateAttack = AIAttack.rangeSingle;
+                    else
+                        myAIStateAttack = AIAttack.rangeMultiple;
+                }
+                else
+                    myAIStateAttack = AIAttack.melee;
+             //   myAIStateAttack = AIAttack.melee;
+
 
             }
 			else
@@ -216,7 +222,7 @@ public class EnemyAI : CharacterBase
             direction = enemy.transform.position - transform.position;
             rangeAttack(transform.position, direction, gameController.projectileType.fireball);
         }
-        else
+        else //multiple attack
         {
             for (int i = 0; i < 3; i++)//3
             {
@@ -248,10 +254,14 @@ public class EnemyAI : CharacterBase
 		{
 			horizontal = 0;
             jumping = 0;
-            meleeAttack();
-
+            if (inMeleeCombo == false)
+            {
+                inMeleeCombo = true;
+                StartCoroutine(meleeComboSequence(0.2f));
+            }
+            //meleeAttack();
         }
-		else//AI is far away from player 
+        else//AI is far away from player 
 		{
             if (isJumping == false)//when on ground
 			{
@@ -269,30 +279,7 @@ public class EnemyAI : CharacterBase
 		}
 	}
 
-//	void shootFireBall()
-//	{
-//		if (getCurrentMana () <= 0)
-//			return;
-//		if (canRangeAttack == false)
-//			return;
-//		GameObject temp = myGameController.getPoolObjectInstance("fireball").getPoolObject ();
-//		
-//		if (temp == null)
-//			return;
-//		Vector3 direction = player.transform.position - transform.position;
-//		fireball projectile = temp.GetComponent<fireball> ();
-//		if (currentMana < projectile.getConsumeMana ())//not enough mana to cast spell
-//			return;
-//
-//		temp.transform.position = transform.position + direction.normalized;
-//		temp.SetActive (true);
-//		projectile.launch (direction);
-//		projectile.setTag (characterTag);
-//		setMana (-projectile.getConsumeMana ());
-//		coolDownRangeTimer = coolDownRangeAttackRate;
-//		
-//		
-//	}
+
 	void randomAttribute()//random move and jump
 	{
 		randomAttTimer += Time.deltaTime;
@@ -308,22 +295,65 @@ public class EnemyAI : CharacterBase
 			}
 
 
-//			randomNum = getRandomNum (randMin, randMax);
-//			if (randomNum >= randMax / 2)
-//				jumping = 1;
-//			else
-//				jumping = 0;
+            randomNum = getRandomNum(randMin, randMax);
+            if (randomNum >= randMax / 2)
+                jumping = 1;
+            else
+                jumping = 0;
 
-			jumping = 1;
+          
 			if(isJumping == true)
 				jumping = 0;//prevent keep jumping
-			
 
-			randomAttTimer = 0;
+            randomNum = getRandomNum(randMin, randMax);
+            if(currentHealth > startingHealth/2)//more then half health
+            {
+                if (randomNum >= randMax / 2)
+                {
+                    isBlocking = true;
+                }
+                else
+                    isBlocking = false;
+            }
+            else//lower then half health
+            {
+                if (randomNum >= randMax / 2 - 30)//higher chance to block
+                {
+                    isBlocking = true;
+                }
+                else
+                    isBlocking = false;
+            }
+
+
+            randomAttTimer = 0;
 		}
 
 
 	}
+
+    IEnumerator meleeComboSequence(float wait)
+    {
+        while(true)
+        {
+            
+            meleeAttack();
+            meleeComboCount++;
+            if (meleeComboCount >= 3)//reach max combo
+            {
+                if (enemy.GetComponent<CharacterBase>().getIsBlocking() == false)
+                    enemy.GetComponent<Rigidbody>().AddForce(transform.forward * 20, ForceMode.Impulse);
+                meleeComboCount = 0;
+                changeState = true;
+                attackTimer = 0;//reset
+                inMeleeCombo = false;
+                break;
+            }
+               
+
+            yield return new WaitForSeconds(wait);
+        }
+    }
 
 }
 

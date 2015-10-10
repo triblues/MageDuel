@@ -39,16 +39,29 @@ public class melee : weaponBase {
 
 	override protected void OnTriggerEnter(Collider other)
 	{
-		if(other.GetComponent<CharacterBase>() != null)//has a body
-		{
+       
+        base.OnTriggerEnter(other);
+        if (other.GetComponent<CharacterBase>() != null)//has a body
+        {
+            if (other.GetComponent<CharacterBase>().getEnemy().GetComponent<CharacterBase>().getCanCombo() == false)
+            {
+                other.GetComponent<CharacterBase>().getEnemy().GetComponent<CharacterBase>().setCanCombo(true);
+                other.GetComponent<CharacterBase>().getEnemy().GetComponent<CharacterBase>().setFirstCoolDownMeleeTimer();
 
-			other.GetComponent<CharacterBase>().TakesDamage(damage);
-			other.GetComponent<CharacterBase>().checkDead();
+            }
 
-			other.GetComponent<Rigidbody>().AddForce(transform.forward * knockBack);
-			gameObject.GetComponent<melee>().enabled = false;
-		}
-	}
+        }
+
+        //if(other.GetComponent<CharacterBase>() != null)//has a body
+        //{
+
+        //	other.GetComponent<CharacterBase>().TakesDamage(damage);
+        //	other.GetComponent<CharacterBase>().checkDead();
+
+        //	other.GetComponent<Rigidbody>().AddForce(transform.forward * knockBack);
+        //	gameObject.GetComponent<melee>().enabled = false;
+        //}
+    }
 }
 
 

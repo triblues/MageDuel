@@ -5,15 +5,19 @@ using UnityEngine.UI;
 
 public class mainPlayer : CharacterBase {
 
+    protected drawShape myDrawShape;
 
-	void Start()
+    void Start()
 	{
+        myDrawShape = GetComponent<drawShape>();
+    }
 
-	}
-
-	void Update()
+	protected override void Update()
 	{
-		base.Update ();
+        if (isFinish == true)
+            return;
+        checkBlocking();
+        base.Update ();
 
 		if(shouldTurn (transform.position, enemy.transform.position) == true)//facing right
 		{
@@ -26,11 +30,32 @@ public class mainPlayer : CharacterBase {
 			rb.rotation = Quaternion.Euler (0, 90, 0);
 		}
 
-		attack ();
+        if(isCastMode == false)
+		    attack ();
+        else
+        {
+            checkShapeDraw();
+        }
 
 	}
-
-	protected override void attack()
+    void checkBlocking()
+    {
+        if (isBlockLeft == true)
+        {
+            if (horizontal < 0)//going left side
+                isBlocking = true;
+            else
+                isBlocking = false;
+        }
+        else
+        {
+            if (horizontal > 0)//going right side
+                isBlocking = true;
+            else
+                isBlocking = false;
+        }
+    }
+    protected override void attack()
 	{
 		if (currentMana <= 0)
 			return;
@@ -38,10 +63,8 @@ public class mainPlayer : CharacterBase {
 			return;
 		if(Input.GetKeyDown("k"))//one fireball
 		{
-
-
 			Vector3 direction = enemy.transform.position - transform.position;
-			//shootFireBall(transform.position,direction);
+		
 			rangeAttack(transform.position,direction,gameController.projectileType.fireball);
 		}
 		if (Input.GetKeyDown ("l")) //multiple fireball
@@ -58,6 +81,10 @@ public class mainPlayer : CharacterBase {
 			
 			}
 		}
+        if(Input.GetKeyDown("space"))
+        {
+            activateCastingMode();
+        }
 //		if(Input.GetKeyDown ("n"))//one iceball
 //		{
 //			Vector3 mypos = enemy.transform.position;
@@ -68,35 +95,95 @@ public class mainPlayer : CharacterBase {
 //		}
 		if(Input.GetKeyDown("o"))//melee attack
 		{
-			meleeAttack();
-		}
-	}
+            if(canCombo == true)
+            {
+                if (coolDownMeleeTimer[1] <= 0)
+                {
+                    if (Time.time - coolDownMeleeTimer[0] < coolDownMeleeAttackRate)
+                    {
+                        
+                        if(enemy.GetComponent<CharacterBase>().getIsBlocking() == false)
+                            enemy.GetComponent<CharacterBase>().TakesDamage(3.0f);
+                        coolDownMeleeTimer[1] = Time.time;
 
-//	void shootFireBall(Vector3 position, Vector3 direction)
-//	{
-//		if (currentMana <= 0)
-//			return;
-//		if (canRangeAttack == false)
-//			return;
-//		GameObject temp = myGameController.getPoolObjectInstance("fireball").getPoolObject ();
-//
-//		if (temp == null)
-//			return;
-//		//Vector3 direction = enemy.transform.position - transform.position;
-//		fireball projectile = temp.GetComponent<fireball> ();
-//		if (currentMana < projectile.getConsumeMana ())//not enough mana to cast spell
-//			return;
-//
-//		temp.transform.position = position + direction.normalized;
-//		temp.SetActive (true);
-//		projectile.launch (direction);
-//		projectile.setTag (characterTag);
-//		setMana (-projectile.getConsumeMana ());
-//		coolDownRangeTimer = coolDownRangeAttackRate;
-//
-//
-//
-//	}
+                    }
+                    else
+                    {
+                        canCombo = false;
+                        canMeleeAttack = true;
+                        coolDownMeleeTimer[0] = 0;
+                    }
+                }
+                else
+                {
+                    if (Time.time - coolDownMeleeTimer[1] < coolDownMeleeAttackRate)
+                    {
+                        stunTimer = coolDownStunRate * 3;
+                        if (enemy.GetComponent<CharacterBase>().getIsBlocking() == false)
+                        {
+                            enemy.GetComponent<Rigidbody>().AddForce(transform.forward * 20, ForceMode.Impulse);
+                            enemy.GetComponent<CharacterBase>().TakesDamage(3.0f);
+                        }
+                       
 
+                    }
+                    canCombo = false;
+                    canMeleeAttack = true;
+                    coolDownMeleeTimer[0] = 0;
+                    coolDownMeleeTimer[1] = 0;
+                }
+            }
+         
+
+            meleeAttack();
+
+        }
+
+
+      
+    }
+  
+    void checkShapeDraw()
+    {
+      
+        if (canRangeAttack == false)
+            return;
+        if (myDrawShape.getShape() == drawShape.shape.horizontal_line)
+        {
+            Vector3 direction = enemy.transform.position - transform.position;
+
+            rangeAttack(transform.position, direction, gameController.projectileType.fireball);
+           
+        }
+   
+        myDrawShape.setShape();
+    }
+    protected void activateCastingMode()
+    {
+        if (isCastMode == true)
+            return;
+        if (chargingBar.fillAmount >= 1)//max
+        {
+            isCastMode = true;
+            myDrawShape.enabled = true;
+            StartCoroutine(castingModeCountDown(1.0f));
+        }
+    }
+    IEnumerator castingModeCountDown(float wait)
+    {
+        while (true)
+        {
+            chargingBar.fillAmount -= 0.05f;
+            if (chargingBar.fillAmount <= 0)
+            {
+                myDrawShape.enabled = false;
+                isCastMode = false;
+                CurrentChargingBar = 0;
+                break;
+            }
+
+            yield return new WaitForSeconds(wait);
+        }
+    }
 
 }

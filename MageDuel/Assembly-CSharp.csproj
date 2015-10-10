@@ -59,7 +59,9 @@
      <Compile Include="Assets\script\game\character\player\weapon\iceball.cs" />
      <Compile Include="Assets\script\game\character\player\weapon\melee.cs" />
      <Compile Include="Assets\script\game\character\player\weapon\weaponBase.cs" />
+     <Compile Include="Assets\script\game\drawShape.cs" />
      <Compile Include="Assets\script\game\gameController.cs" />
+     <Compile Include="Assets\script\game\network\networkManagerController.cs" />
      <Compile Include="Assets\script\menu\DisplayCredits.cs" />
      <Compile Include="Assets\script\menu\MainMenuButton.cs" />
      <Compile Include="Assets\script\menu\MainMenuGUI.cs" />
@@ -76,11 +78,17 @@
      <None Include="Assets\Standard Assets\Characters\FirstPersonCharacter\FirstPersonCharacterGuidelines.txt" />
      <None Include="Assets\Standard Assets\Characters\RollerBall\RollerBallGuidelines.txt" />
      <None Include="Assets\Standard Assets\ParticleSystems\Shaders\PriorityParticleAdd.shader" />
+ <Reference Include="UnityEngine.Advertisements">
+ <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/Advertisements/UnityEngine.Advertisements.dll</HintPath>
+ </Reference>
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.Networking">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.Analytics">
+ <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/UnityAnalytics/UnityEngine.Analytics.dll</HintPath>
  </Reference>
  <Reference Include="Mono.Cecil">
  <HintPath>C:/Program Files/Unity/Editor/Data/Managed/Mono.Cecil.dll</HintPath>
