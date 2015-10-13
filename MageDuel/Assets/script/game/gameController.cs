@@ -10,14 +10,16 @@ public class gameController : MonoBehaviour
         fireball,
         iceball
     };
+    public GameObject[] allCharacter;
+    public GameObject[] allEnemy;
+    public Vector3[] spawnPos;//0 for player, 1 for enemy;
+
     public Transform myParent;
     public GameObject[] myProjectile;
     public int[] amount;
-    //poolObject[] myPoolObj;
+ 
     List<poolObject> myPoolObj;
-    //	public GameObject myProjectile2;
-    //
-    //	poolObject myPoolObj2;
+  
 
     // Use this for initialization
     void Start()
@@ -32,7 +34,10 @@ public class gameController : MonoBehaviour
             temp.setPoolObject(amount[i], true, myProjectile[i], myParent);
             myPoolObj.Add(temp);
         }
-
+        //Debug.Log("character num: " + characterSelectManager.selectedCharacter.ToString());
+        Instantiate(allCharacter[characterSelectManager.selectedCharacter], spawnPos[0], Quaternion.identity);//spawn player
+        Instantiate(allEnemy[launchScene.selectedLevel-1], spawnPos[1], Quaternion.identity);//spawn enemy
+        Camera.main.GetComponent<CameraController>().enabled = true;
     }
 
     // Update is called once per frame

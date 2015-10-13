@@ -7,9 +7,32 @@ public class mainPlayer : CharacterBase {
 
     protected drawShape myDrawShape;
 
+    protected override void Awake()
+    {
+        if (customNetworkManager.isMultiplayer == false)
+        {
+            healthText = GameObject.Find("Canvas").transform.Find("player/health").GetComponent<Text>();
+            manaText = GameObject.Find("Canvas").transform.Find("player/mana").GetComponent<Text>();
+
+            combo = GameObject.Find("Canvas").transform.Find("player/combo text").gameObject;
+            chargingBar = GameObject.Find("Canvas").transform.Find("player/charging bar outer/charging bar inner").
+                GetComponent<Image>();
+
+           
+
+        }
+        else//in multiplayer
+        {
+
+        }
+        base.Awake();
+    }
     void Start()
 	{
         myDrawShape = GetComponent<drawShape>();
+        if (customNetworkManager.isMultiplayer == false)
+            enemy = GameObject.FindWithTag("Enemy").gameObject;
+
     }
 
 	protected override void Update()

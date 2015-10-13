@@ -5,8 +5,9 @@ using System.Collections;
 
 public class launchScene : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
+    public static int selectedLevel;
+    // Use this for initialization
+    void Start () {
 	
 	}
 	
@@ -20,6 +21,13 @@ public class launchScene : MonoBehaviour {
 	{
 		Application.LoadLevel (name);
 	}
+
+   
+    public void goToLevel(int level)
+    {
+        selectedLevel = level;
+    }
+
 
     // Loads the game credits window
     public void loadCredits ()

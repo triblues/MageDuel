@@ -9,11 +9,8 @@ public class CharacterBase : MonoBehaviour {
 
 	public LayerMask groundMask;
 	public LayerMask targetMask;
-	public Text healthText;
-	public Text manaText;
-    public GameObject combo;
-    public Image chargingBar;
-	[SerializeField] public GameObject enemy;
+	
+	
 	[SerializeField] bool isAI = false;
 	[SerializeField] protected int characterTag;
 	[SerializeField] protected float startingHealth = 100.0f;
@@ -34,9 +31,9 @@ public class CharacterBase : MonoBehaviour {
 	[SerializeField] protected float manaRegenRate = 1.0f;
 	[SerializeField] float distanceToGround = 0.1f;//the amount of dist to stop falling
 
-   
+    protected GameObject enemy;
     protected Text comboText;
-    protected Animation comboAnimation;
+    protected Animation comboAnimation;//this is the combo text animation,fade in/out
     protected int comboCount;
 	protected float jumpSpeed;
 	protected float speed;
@@ -64,19 +61,28 @@ public class CharacterBase : MonoBehaviour {
     protected bool canCombo;//this check to determine if player hit the enemy the 1st time and let them do combo
 	protected Animator myAnimator;
 	protected gameController myGameController;//for all the spawning object pool
-	float doubleTapTimer;
+
+    //ui stuff
+    protected Text healthText;
+    protected Text manaText;
+    protected GameObject combo;
+    protected Image chargingBar;//charging bar inner
+    //ui stuff
+
+    float doubleTapTimer;
 	float highJumpTimer;
 	float tapspeed = 0.3f;
 	bool isDoubleTap;
-   // public float healthBarLength;
+
 
     // Use this for initialization
-    void Awake () {
+    protected virtual void Awake () {
         // Setup player attributes
         currentHealth = startingHealth;
         currentMana = startingMana;
 
-		mymelee = transform.Find ("melee trigger box").GetComponent<melee> ();
+       
+        mymelee = transform.Find ("melee trigger box").GetComponent<melee> ();
         
         rb = GetComponent<Rigidbody> ();
 		isJumping = false;
@@ -85,16 +91,18 @@ public class CharacterBase : MonoBehaviour {
         isFinish = false;
         isStun = false;
         canCombo = false;
-        speed = normalSpeed;
-		jumpSpeed = lowJumpSpeed;
 		shouldWaitAnimationFinish = false;
+        isBlocking = false;
+        isDoubleTap = false;
+        canRangeAttack = true;
+        canMeleeAttack = true;
+
+        speed = normalSpeed;
+        jumpSpeed = lowJumpSpeed;
         comboCount = 0;
         CurrentChargingBar = Mathf.Clamp01 (CurrentChargingBar);
 
-		isBlocking = false;
-		isDoubleTap = false;
-		canRangeAttack = true;
-		canMeleeAttack = true;
+		
 		myGameController = GameObject.Find ("gameManager").GetComponent<gameController> ();
 		coolDownRangeTimer = coolDownRangeAttackRate;
 
@@ -128,7 +136,7 @@ public class CharacterBase : MonoBehaviour {
 
 			yield return new WaitForSeconds(time);
 		}
-		yield return null;
+	//	yield return null;
 	}
     protected virtual void Update()
 	{
@@ -302,7 +310,7 @@ public class CharacterBase : MonoBehaviour {
         if (canCombo == false)
             coolDownMeleeTimer[0] -= Time.deltaTime;//1st melee attack
 
-		if (coolDownRangeTimer <= 0)
+        if (coolDownRangeTimer <= 0)
 			canRangeAttack = true;
 		else
 			canRangeAttack = false;

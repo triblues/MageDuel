@@ -16,13 +16,15 @@ public class CameraController : MonoBehaviour {
 	Vector3 rightMovement;
 	// Use this for initialization
 	void Start () {
+       
         // find references to the players
-		p1 = GameObject.FindWithTag("Main Player").transform;
+        p1 = GameObject.FindWithTag("Main Player").transform;
 		p2 = GameObject.FindWithTag("Enemy").transform;
         // initializes scene size and camera distance
         CalcScreen(p1, p2);
         wScene = xR - xL;
         zCam = transform.position.z - z0;
+        
     }
 	
 	// Update is called once per frame

@@ -47,7 +47,18 @@ public class EnemyAI : CharacterBase
 		rangeSingle,
 		rangeMultiple
 	};
+    protected override void Awake()
+    {
+        healthText = GameObject.Find("Canvas").transform.Find("enemy/health").GetComponent<Text>();
+        manaText = GameObject.Find("Canvas").transform.Find("enemy/mana").GetComponent<Text>();
 
+        combo = GameObject.Find("Canvas").transform.Find("enemy/combo text").gameObject;
+        chargingBar = GameObject.Find("Canvas").transform.Find("enemy/charging bar outer/charging bar inner").
+            GetComponent<Image>();
+
+       
+        base.Awake();
+    }
     // Use this for initialization
     void Start()
     {
@@ -60,7 +71,9 @@ public class EnemyAI : CharacterBase
 		isReverseDirection = false;
 
 		aggressiveLevel = Mathf.Clamp (aggressiveLevel, 1, 6);
-       
+
+
+        enemy = GameObject.FindWithTag("Main Player").gameObject;
     }
 
     // Update is called once per frame
