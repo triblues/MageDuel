@@ -19,7 +19,6 @@ public class gameController : MonoBehaviour
     public int[] amount;
  
     List<poolObject> myPoolObj;
-  
 
     // Use this for initialization
     void Start()
@@ -43,7 +42,7 @@ public class gameController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        
     }
 
     public poolObject getPoolObjectInstance(projectileType myType)
@@ -53,5 +52,14 @@ public class gameController : MonoBehaviour
         //			return myPoolObj[0];
         //		else
         //			return null;
+    }
+
+    // Executes the appropriate command if the escape key is pressed
+    public void KeyboardListener ()
+    {
+        if (Input.GetKeyUp(KeyCode.Escape))
+        {
+            Application.LoadLevel("pausePractice");
+        }
     }
 }
