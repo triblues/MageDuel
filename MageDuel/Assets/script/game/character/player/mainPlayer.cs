@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Networking;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
@@ -6,7 +7,7 @@ using UnityEngine.UI;
 public class mainPlayer : CharacterBase {
 
     protected drawShape myDrawShape;
-
+    
     protected override void Awake()
     {
         if (customNetworkManager.isMultiplayer == false)
@@ -23,7 +24,25 @@ public class mainPlayer : CharacterBase {
         }
         else//in multiplayer
         {
+            setNetworkIdentify();
 
+            if(mynetworkID.ToString() == "1")
+            {
+                healthText = GameObject.Find("Canvas").transform.Find("player/health").GetComponent<Text>();
+                manaText = GameObject.Find("Canvas").transform.Find("player/mana").GetComponent<Text>();
+                combo = GameObject.Find("Canvas").transform.Find("player/combo text").gameObject;
+                chargingBar = GameObject.Find("Canvas").transform.Find("player/charging bar outer/charging bar inner").
+                    GetComponent<Image>();
+            }
+            else
+            {
+                healthText = GameObject.Find("Canvas").transform.Find("enemy/health").GetComponent<Text>();
+                manaText = GameObject.Find("Canvas").transform.Find("enemy/mana").GetComponent<Text>();
+
+                combo = GameObject.Find("Canvas").transform.Find("enemy/combo text").gameObject;
+                chargingBar = GameObject.Find("Canvas").transform.Find("enemy/charging bar outer/charging bar inner").
+                    GetComponent<Image>();
+            }
         }
         base.Awake();
     }
@@ -32,6 +51,22 @@ public class mainPlayer : CharacterBase {
         myDrawShape = GetComponent<drawShape>();
         if (customNetworkManager.isMultiplayer == false)
             enemy = GameObject.FindWithTag("Enemy").gameObject;
+        else
+        {
+            GameObject[] temp;
+            temp = GameObject.FindGameObjectsWithTag("Main Player");
+
+            foreach (GameObject _enemy in temp)
+            {
+                if (_enemy == gameObject)
+                    continue;
+                else
+                {
+                    enemy = gameObject;
+                    break;
+                }
+            }
+        }
 
     }
 
@@ -207,6 +242,12 @@ public class mainPlayer : CharacterBase {
 
             yield return new WaitForSeconds(wait);
         }
+    }
+
+    [Client]
+    protected void setNetworkIdentify()
+    {
+        mynetworkID = GetComponent<NetworkIdentity>().netId;
     }
 
 }

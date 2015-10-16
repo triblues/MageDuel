@@ -1,0 +1,160 @@
+fileFormatVersion: 2
+guid: 72ca6b6f88d409b4faf88d450bdca71a
+timeCreated: 1444812680
+licenseType: Free
+ModelImporter:
+  serializedVersion: 18
+  fileIDToRecycleName:
+    100000: aa
+    100002: Arm_ik.L
+    100004: Arm_ik.L_end
+    100006: Arm_ik.R
+    100008: Arm_ik.R_end
+    100010: Chest
+    100012: Finger.L
+    100014: Finger.L_end
+    100016: Finger.R
+    100018: Finger.R_end
+    100020: Foot.L
+    100022: Foot.L_end
+    100024: Foot.R
+    100026: Foot.R_end
+    100028: hair
+    100030: Hand.L
+    100032: Hand.R
+    100034: Head
+    100036: Head_end
+    100038: Leg_ik.L
+    100040: Leg_ik.L_end
+    100042: Leg_ik.R
+    100044: Leg_ik.R_end
+    100046: Lower_arm.L
+    100048: Lower_arm.R
+    100050: Lower_leg.L
+    100052: Lower_leg.R
+    100054: Neck
+    100056: //RootNode
+    100058: Root
+    100060: Torso
+    100062: Upper_arm.L
+    100064: Upper_arm.R
+    100066: Upper_leg.L
+    100068: Upper_leg.R
+    400000: aa
+    400002: Arm_ik.L
+    400004: Arm_ik.L_end
+    400006: Arm_ik.R
+    400008: Arm_ik.R_end
+    400010: Chest
+    400012: Finger.L
+    400014: Finger.L_end
+    400016: Finger.R
+    400018: Finger.R_end
+    400020: Foot.L
+    400022: Foot.L_end
+    400024: Foot.R
+    400026: Foot.R_end
+    400028: hair
+    400030: Hand.L
+    400032: Hand.R
+    400034: Head
+    400036: Head_end
+    400038: Leg_ik.L
+    400040: Leg_ik.L_end
+    400042: Leg_ik.R
+    400044: Leg_ik.R_end
+    400046: Lower_arm.L
+    400048: Lower_arm.R
+    400050: Lower_leg.L
+    400052: Lower_leg.R
+    400054: Neck
+    400056: //RootNode
+    400058: Root
+    400060: Torso
+    400062: Upper_arm.L
+    400064: Upper_arm.R
+    400066: Upper_leg.L
+    400068: Upper_leg.R
+    4300000: hair
+    7400000: aa|Attack_2
+    7400002: aa|Attack_3
+    7400004: aa|Crouch
+    7400006: aa|Dash
+    7400008: aa|Default
+    7400010: aa|Defend
+    7400012: aa|Die
+    7400014: aa|Idle
+    7400016: aa|Jump
+    7400018: aa|Melee
+    7400020: aa|Melee_kick
+    7400022: aa|Run_back
+    7400024: aa|Run_forward
+    7400026: aa|Stun
+    7400028: aa|Stun_1
+    7400030: aa|Walk
+    9500000: //RootNode
+    13700000: hair
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

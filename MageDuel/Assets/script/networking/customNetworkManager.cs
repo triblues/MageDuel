@@ -7,17 +7,37 @@ using UnityEngine.UI;
 
 public class customNetworkManager : NetworkManager
 {
+ 
+    public GameObject[] allchar;
     public static bool isMultiplayer;
-	// Use this for initialization
-	void Start () {
+    public static bool hasTwoPlayerJoin;
+  //  customNetworkBluePrint myNBP;
 
+    // Use this for initialization
+    void Start () {
+
+        hasTwoPlayerJoin = false;
         isMultiplayer = false;
+        //myNBP = GameObject.Find("networkBP").GetComponent<customNetworkBluePrint>();
+       // GameObject a = GameObject.Find("networkBP");
     }
 	
+
 	// Update is called once per frame
 	void Update () {
 	
 	}
+
+    //public virtual void OnServerAddPlayer(NetworkConnection conn, short playerControllerId)
+    //{
+    //    var player = (GameObject)GameObject.Instantiate(playerPrefab, playerSpawnPos, Quaternion.identity);
+    //    NetworkServer.AddPlayerForConnection(conn, player, playerControllerId);
+    //}
+    public void spawnPlayer()
+    {
+        GameObject obj = GameObject.Instantiate(allchar[characterSelectManager.selectedCharacter]);
+        NetworkServer.Spawn(obj);
+    }
 
     public void startMatchMaking()
     {
@@ -48,6 +68,8 @@ public class customNetworkManager : NetworkManager
             NetworkServer.Listen(hostInfo, 9000);
 
             NetworkManager.singleton.StartHost(hostInfo);
+
+            NetworkManager.singleton.playerPrefab = allchar[characterSelectManager.selectedCharacter];
             isMultiplayer = true;
         }
         else
@@ -71,7 +93,7 @@ public class customNetworkManager : NetworkManager
             if (matchListResponse.matches.Count != 0)
             {
                 Debug.Log("A list of matches was returned");
-
+                NetworkManager.singleton.playerPrefab = allchar[characterSelectManager.selectedCharacter];
                 //join the last server (just in case there are two...)
                 NetworkManager.singleton.matchMaker.JoinMatch(matchListResponse.matches[matchListResponse.matches.Count - 1].networkId, "", OnJoinInternetMatch);
             }
@@ -98,6 +120,10 @@ public class customNetworkManager : NetworkManager
 
             MatchInfo hostInfo = new MatchInfo(matchJoin);
             NetworkManager.singleton.StartClient(hostInfo);
+
+            // myNBP.CmdSendPositionToServer(true);
+            //  customNetworkBluePrint.CmdSendPositionToServer(true);
+            hasTwoPlayerJoin = true;
             isMultiplayer = true;
         }
         else
@@ -106,4 +132,6 @@ public class customNetworkManager : NetworkManager
 
         }
     }
+
+   
 }

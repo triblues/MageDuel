@@ -2,10 +2,11 @@
 */
 
 using UnityEngine;
+using UnityEngine.Networking;
 using System.Collections;
 using UnityEngine.UI;
 
-public class CharacterBase : MonoBehaviour {
+public class CharacterBase : NetworkBehaviour {
 
 	public LayerMask groundMask;
 	public LayerMask targetMask;
@@ -74,6 +75,9 @@ public class CharacterBase : MonoBehaviour {
 	float tapspeed = 0.3f;
 	bool isDoubleTap;
 
+    //networking stuff
+    protected NetworkInstanceId mynetworkID;
+    
 
     // Use this for initialization
     protected virtual void Awake () {
@@ -525,8 +529,9 @@ public class CharacterBase : MonoBehaviour {
 		myAnimator.SetBool (name, false);
 		yield return null;
 	}
-   
 
+    
+   
 }
 
 
