@@ -75,6 +75,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\KeyboardInput.cs" />
+    <Compile Include="Assets\SceneFade.cs" />
     <Compile Include="Assets\script\character select\characterSelectManager.cs" />
     <Compile Include="Assets\script\drawGizmo.cs" />
     <Compile Include="Assets\script\game\ItemShop\Inventory.cs" />
@@ -101,6 +102,7 @@
     <Compile Include="Assets\script\menu\launchScene.cs" />
     <Compile Include="Assets\script\menu\poolObject.cs" />
     <Compile Include="Assets\script\menu\settingsGUI.cs" />
+    <Compile Include="Assets\script\networking\customNetworkBluePrint.cs" />
     <Compile Include="Assets\script\networking\customNetworkManager.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -19,13 +19,17 @@ public class launchScene : MonoBehaviour {
     // Goes to the game scene
 	public void gotoScene(string name)
 	{
-		Application.LoadLevel (name);
+        // Fade out game and load level
+        // float fadeTime = GameObject.Find("FadeController").GetComponent<Fading>().BeginFading(1);
+        // yield return new WaitForSeconds(fadeTime);
+        Application.LoadLevel (name);
 	}
 
    
     public void goToLevel(int level)
     {
         selectedLevel = level;
+        
     }
 
 
