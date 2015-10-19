@@ -39,8 +39,9 @@ public class melee : weaponBase {
 
 	override protected void OnTriggerEnter(Collider other)
 	{
+
        
-        base.OnTriggerEnter(other);
+       
         if (other.GetComponent<CharacterBase>() != null)//has a body
         {
             if (other.GetComponent<CharacterBase>().getEnemy().GetComponent<CharacterBase>().getCanCombo() == false)
@@ -49,9 +50,17 @@ public class melee : weaponBase {
                 other.GetComponent<CharacterBase>().getEnemy().GetComponent<CharacterBase>().setFirstCoolDownMeleeTimer();
 
             }
-
+            
+            if (other.GetComponent<CharacterBase>().getIsBlocking() == false)
+            {
+                other.GetComponent<CharacterBase>().setStunRate(3);
+            }
+            
         }
+        base.OnTriggerEnter(other);
 
+        gameObject.GetComponent<melee>().enabled = false;
+      
         //if(other.GetComponent<CharacterBase>() != null)//has a body
         //{
 

@@ -4,7 +4,7 @@ using System.Collections;
 public class CameraController : MonoBehaviour {
 
 	public float lerpRate = 15.0f;
-    private float margin = 1.5f;
+    public float margin = 1.5f;
     private float z0 = 0; // coord z of the fighters plane
     private float zCam; // camera distance to the fighters plane
     private float wScene; // scene width

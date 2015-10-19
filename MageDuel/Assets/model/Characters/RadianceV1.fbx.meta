@@ -113,7 +113,1543 @@ ModelImporter:
     animationScaleError: .5
     animationWrapMode: 0
     extraExposedTransformPaths: []
-    clipAnimations: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: aa|Attack_2
+      takeName: aa|Attack_2
+      firstFrame: 0
+      lastFrame: 24
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: aa
+        weight: 1
+      - path: aa/Root
+        weight: 1
+      - path: aa/Root/Arm_ik.L
+        weight: 1
+      - path: aa/Root/Arm_ik.L/Arm_ik.L_end
+        weight: 1
+      - path: aa/Root/Arm_ik.R
+        weight: 1
+      - path: aa/Root/Arm_ik.R/Arm_ik.R_end
+        weight: 1
+      - path: aa/Root/Leg_ik.L
+        weight: 1
+      - path: aa/Root/Leg_ik.L/Leg_ik.L_end
+        weight: 1
+      - path: aa/Root/Leg_ik.R
+        weight: 1
+      - path: aa/Root/Leg_ik.R/Leg_ik.R_end
+        weight: 1
+      - path: aa/Root/Torso
+        weight: 1
+      - path: aa/Root/Torso/Chest
+        weight: 1
+      - path: aa/Root/Torso/Chest/Neck
+        weight: 1
+      - path: aa/Root/Torso/Chest/Neck/Head
+        weight: 1
+      - path: aa/Root/Torso/Chest/Neck/Head/Head_end
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.L
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.L/Lower_arm.L
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.L/Lower_arm.L/Hand.L
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.L/Lower_arm.L/Hand.L/Finger.L
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.L/Lower_arm.L/Hand.L/Finger.L/Finger.L_end
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.R
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.R/Lower_arm.R
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.R/Lower_arm.R/Hand.R
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.R/Lower_arm.R/Hand.R/Finger.R
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.R/Lower_arm.R/Hand.R/Finger.R/Finger.R_end
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.L
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.L/Lower_leg.L
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.L/Lower_leg.L/Foot.L
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.L/Lower_leg.L/Foot.L/Foot.L_end
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.R
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.R/Lower_leg.R
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.R/Lower_leg.R/Foot.R
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.R/Lower_leg.R/Foot.R/Foot.R_end
+        weight: 1
+      - path: hair
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: aa|Attack_3
+      takeName: aa|Attack_3
+      firstFrame: 0
+      lastFrame: 36
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: aa
+        weight: 1
+      - path: aa/Root
+        weight: 1
+      - path: aa/Root/Arm_ik.L
+        weight: 1
+      - path: aa/Root/Arm_ik.L/Arm_ik.L_end
+        weight: 1
+      - path: aa/Root/Arm_ik.R
+        weight: 1
+      - path: aa/Root/Arm_ik.R/Arm_ik.R_end
+        weight: 1
+      - path: aa/Root/Leg_ik.L
+        weight: 1
+      - path: aa/Root/Leg_ik.L/Leg_ik.L_end
+        weight: 1
+      - path: aa/Root/Leg_ik.R
+        weight: 1
+      - path: aa/Root/Leg_ik.R/Leg_ik.R_end
+        weight: 1
+      - path: aa/Root/Torso
+        weight: 1
+      - path: aa/Root/Torso/Chest
+        weight: 1
+      - path: aa/Root/Torso/Chest/Neck
+        weight: 1
+      - path: aa/Root/Torso/Chest/Neck/Head
+        weight: 1
+      - path: aa/Root/Torso/Chest/Neck/Head/Head_end
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.L
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.L/Lower_arm.L
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.L/Lower_arm.L/Hand.L
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.L/Lower_arm.L/Hand.L/Finger.L
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.L/Lower_arm.L/Hand.L/Finger.L/Finger.L_end
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.R
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.R/Lower_arm.R
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.R/Lower_arm.R/Hand.R
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.R/Lower_arm.R/Hand.R/Finger.R
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.R/Lower_arm.R/Hand.R/Finger.R/Finger.R_end
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.L
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.L/Lower_leg.L
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.L/Lower_leg.L/Foot.L
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.L/Lower_leg.L/Foot.L/Foot.L_end
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.R
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.R/Lower_leg.R
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.R/Lower_leg.R/Foot.R
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.R/Lower_leg.R/Foot.R/Foot.R_end
+        weight: 1
+      - path: hair
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: aa|Crouch
+      takeName: aa|Crouch
+      firstFrame: 0
+      lastFrame: 12
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: aa
+        weight: 1
+      - path: aa/Root
+        weight: 1
+      - path: aa/Root/Arm_ik.L
+        weight: 1
+      - path: aa/Root/Arm_ik.L/Arm_ik.L_end
+        weight: 1
+      - path: aa/Root/Arm_ik.R
+        weight: 1
+      - path: aa/Root/Arm_ik.R/Arm_ik.R_end
+        weight: 1
+      - path: aa/Root/Leg_ik.L
+        weight: 1
+      - path: aa/Root/Leg_ik.L/Leg_ik.L_end
+        weight: 1
+      - path: aa/Root/Leg_ik.R
+        weight: 1
+      - path: aa/Root/Leg_ik.R/Leg_ik.R_end
+        weight: 1
+      - path: aa/Root/Torso
+        weight: 1
+      - path: aa/Root/Torso/Chest
+        weight: 1
+      - path: aa/Root/Torso/Chest/Neck
+        weight: 1
+      - path: aa/Root/Torso/Chest/Neck/Head
+        weight: 1
+      - path: aa/Root/Torso/Chest/Neck/Head/Head_end
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.L
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.L/Lower_arm.L
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.L/Lower_arm.L/Hand.L
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.L/Lower_arm.L/Hand.L/Finger.L
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.L/Lower_arm.L/Hand.L/Finger.L/Finger.L_end
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.R
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.R/Lower_arm.R
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.R/Lower_arm.R/Hand.R
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.R/Lower_arm.R/Hand.R/Finger.R
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.R/Lower_arm.R/Hand.R/Finger.R/Finger.R_end
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.L
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.L/Lower_leg.L
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.L/Lower_leg.L/Foot.L
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.L/Lower_leg.L/Foot.L/Foot.L_end
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.R
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.R/Lower_leg.R
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.R/Lower_leg.R/Foot.R
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.R/Lower_leg.R/Foot.R/Foot.R_end
+        weight: 1
+      - path: hair
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: aa|Dash
+      takeName: aa|Dash
+      firstFrame: 0
+      lastFrame: 10
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: aa
+        weight: 1
+      - path: aa/Root
+        weight: 1
+      - path: aa/Root/Arm_ik.L
+        weight: 1
+      - path: aa/Root/Arm_ik.L/Arm_ik.L_end
+        weight: 1
+      - path: aa/Root/Arm_ik.R
+        weight: 1
+      - path: aa/Root/Arm_ik.R/Arm_ik.R_end
+        weight: 1
+      - path: aa/Root/Leg_ik.L
+        weight: 1
+      - path: aa/Root/Leg_ik.L/Leg_ik.L_end
+        weight: 1
+      - path: aa/Root/Leg_ik.R
+        weight: 1
+      - path: aa/Root/Leg_ik.R/Leg_ik.R_end
+        weight: 1
+      - path: aa/Root/Torso
+        weight: 1
+      - path: aa/Root/Torso/Chest
+        weight: 1
+      - path: aa/Root/Torso/Chest/Neck
+        weight: 1
+      - path: aa/Root/Torso/Chest/Neck/Head
+        weight: 1
+      - path: aa/Root/Torso/Chest/Neck/Head/Head_end
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.L
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.L/Lower_arm.L
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.L/Lower_arm.L/Hand.L
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.L/Lower_arm.L/Hand.L/Finger.L
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.L/Lower_arm.L/Hand.L/Finger.L/Finger.L_end
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.R
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.R/Lower_arm.R
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.R/Lower_arm.R/Hand.R
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.R/Lower_arm.R/Hand.R/Finger.R
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.R/Lower_arm.R/Hand.R/Finger.R/Finger.R_end
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.L
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.L/Lower_leg.L
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.L/Lower_leg.L/Foot.L
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.L/Lower_leg.L/Foot.L/Foot.L_end
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.R
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.R/Lower_leg.R
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.R/Lower_leg.R/Foot.R
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.R/Lower_leg.R/Foot.R/Foot.R_end
+        weight: 1
+      - path: hair
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: aa|Default
+      takeName: aa|Default
+      firstFrame: 0
+      lastFrame: 1
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: aa
+        weight: 1
+      - path: aa/Root
+        weight: 1
+      - path: aa/Root/Arm_ik.L
+        weight: 1
+      - path: aa/Root/Arm_ik.L/Arm_ik.L_end
+        weight: 1
+      - path: aa/Root/Arm_ik.R
+        weight: 1
+      - path: aa/Root/Arm_ik.R/Arm_ik.R_end
+        weight: 1
+      - path: aa/Root/Leg_ik.L
+        weight: 1
+      - path: aa/Root/Leg_ik.L/Leg_ik.L_end
+        weight: 1
+      - path: aa/Root/Leg_ik.R
+        weight: 1
+      - path: aa/Root/Leg_ik.R/Leg_ik.R_end
+        weight: 1
+      - path: aa/Root/Torso
+        weight: 1
+      - path: aa/Root/Torso/Chest
+        weight: 1
+      - path: aa/Root/Torso/Chest/Neck
+        weight: 1
+      - path: aa/Root/Torso/Chest/Neck/Head
+        weight: 1
+      - path: aa/Root/Torso/Chest/Neck/Head/Head_end
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.L
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.L/Lower_arm.L
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.L/Lower_arm.L/Hand.L
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.L/Lower_arm.L/Hand.L/Finger.L
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.L/Lower_arm.L/Hand.L/Finger.L/Finger.L_end
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.R
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.R/Lower_arm.R
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.R/Lower_arm.R/Hand.R
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.R/Lower_arm.R/Hand.R/Finger.R
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.R/Lower_arm.R/Hand.R/Finger.R/Finger.R_end
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.L
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.L/Lower_leg.L
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.L/Lower_leg.L/Foot.L
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.L/Lower_leg.L/Foot.L/Foot.L_end
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.R
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.R/Lower_leg.R
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.R/Lower_leg.R/Foot.R
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.R/Lower_leg.R/Foot.R/Foot.R_end
+        weight: 1
+      - path: hair
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: aa|Defend
+      takeName: aa|Defend
+      firstFrame: 0
+      lastFrame: 12
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: aa
+        weight: 1
+      - path: aa/Root
+        weight: 1
+      - path: aa/Root/Arm_ik.L
+        weight: 1
+      - path: aa/Root/Arm_ik.L/Arm_ik.L_end
+        weight: 1
+      - path: aa/Root/Arm_ik.R
+        weight: 1
+      - path: aa/Root/Arm_ik.R/Arm_ik.R_end
+        weight: 1
+      - path: aa/Root/Leg_ik.L
+        weight: 1
+      - path: aa/Root/Leg_ik.L/Leg_ik.L_end
+        weight: 1
+      - path: aa/Root/Leg_ik.R
+        weight: 1
+      - path: aa/Root/Leg_ik.R/Leg_ik.R_end
+        weight: 1
+      - path: aa/Root/Torso
+        weight: 1
+      - path: aa/Root/Torso/Chest
+        weight: 1
+      - path: aa/Root/Torso/Chest/Neck
+        weight: 1
+      - path: aa/Root/Torso/Chest/Neck/Head
+        weight: 1
+      - path: aa/Root/Torso/Chest/Neck/Head/Head_end
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.L
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.L/Lower_arm.L
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.L/Lower_arm.L/Hand.L
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.L/Lower_arm.L/Hand.L/Finger.L
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.L/Lower_arm.L/Hand.L/Finger.L/Finger.L_end
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.R
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.R/Lower_arm.R
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.R/Lower_arm.R/Hand.R
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.R/Lower_arm.R/Hand.R/Finger.R
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.R/Lower_arm.R/Hand.R/Finger.R/Finger.R_end
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.L
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.L/Lower_leg.L
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.L/Lower_leg.L/Foot.L
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.L/Lower_leg.L/Foot.L/Foot.L_end
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.R
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.R/Lower_leg.R
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.R/Lower_leg.R/Foot.R
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.R/Lower_leg.R/Foot.R/Foot.R_end
+        weight: 1
+      - path: hair
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: aa|Die
+      takeName: aa|Die
+      firstFrame: 0
+      lastFrame: 28
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: aa
+        weight: 1
+      - path: aa/Root
+        weight: 1
+      - path: aa/Root/Arm_ik.L
+        weight: 1
+      - path: aa/Root/Arm_ik.L/Arm_ik.L_end
+        weight: 1
+      - path: aa/Root/Arm_ik.R
+        weight: 1
+      - path: aa/Root/Arm_ik.R/Arm_ik.R_end
+        weight: 1
+      - path: aa/Root/Leg_ik.L
+        weight: 1
+      - path: aa/Root/Leg_ik.L/Leg_ik.L_end
+        weight: 1
+      - path: aa/Root/Leg_ik.R
+        weight: 1
+      - path: aa/Root/Leg_ik.R/Leg_ik.R_end
+        weight: 1
+      - path: aa/Root/Torso
+        weight: 1
+      - path: aa/Root/Torso/Chest
+        weight: 1
+      - path: aa/Root/Torso/Chest/Neck
+        weight: 1
+      - path: aa/Root/Torso/Chest/Neck/Head
+        weight: 1
+      - path: aa/Root/Torso/Chest/Neck/Head/Head_end
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.L
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.L/Lower_arm.L
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.L/Lower_arm.L/Hand.L
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.L/Lower_arm.L/Hand.L/Finger.L
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.L/Lower_arm.L/Hand.L/Finger.L/Finger.L_end
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.R
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.R/Lower_arm.R
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.R/Lower_arm.R/Hand.R
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.R/Lower_arm.R/Hand.R/Finger.R
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.R/Lower_arm.R/Hand.R/Finger.R/Finger.R_end
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.L
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.L/Lower_leg.L
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.L/Lower_leg.L/Foot.L
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.L/Lower_leg.L/Foot.L/Foot.L_end
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.R
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.R/Lower_leg.R
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.R/Lower_leg.R/Foot.R
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.R/Lower_leg.R/Foot.R/Foot.R_end
+        weight: 1
+      - path: hair
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: aa|Idle
+      takeName: aa|Idle
+      firstFrame: 0
+      lastFrame: 27
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: aa
+        weight: 1
+      - path: aa/Root
+        weight: 1
+      - path: aa/Root/Arm_ik.L
+        weight: 1
+      - path: aa/Root/Arm_ik.L/Arm_ik.L_end
+        weight: 1
+      - path: aa/Root/Arm_ik.R
+        weight: 1
+      - path: aa/Root/Arm_ik.R/Arm_ik.R_end
+        weight: 1
+      - path: aa/Root/Leg_ik.L
+        weight: 1
+      - path: aa/Root/Leg_ik.L/Leg_ik.L_end
+        weight: 1
+      - path: aa/Root/Leg_ik.R
+        weight: 1
+      - path: aa/Root/Leg_ik.R/Leg_ik.R_end
+        weight: 1
+      - path: aa/Root/Torso
+        weight: 1
+      - path: aa/Root/Torso/Chest
+        weight: 1
+      - path: aa/Root/Torso/Chest/Neck
+        weight: 1
+      - path: aa/Root/Torso/Chest/Neck/Head
+        weight: 1
+      - path: aa/Root/Torso/Chest/Neck/Head/Head_end
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.L
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.L/Lower_arm.L
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.L/Lower_arm.L/Hand.L
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.L/Lower_arm.L/Hand.L/Finger.L
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.L/Lower_arm.L/Hand.L/Finger.L/Finger.L_end
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.R
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.R/Lower_arm.R
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.R/Lower_arm.R/Hand.R
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.R/Lower_arm.R/Hand.R/Finger.R
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.R/Lower_arm.R/Hand.R/Finger.R/Finger.R_end
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.L
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.L/Lower_leg.L
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.L/Lower_leg.L/Foot.L
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.L/Lower_leg.L/Foot.L/Foot.L_end
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.R
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.R/Lower_leg.R
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.R/Lower_leg.R/Foot.R
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.R/Lower_leg.R/Foot.R/Foot.R_end
+        weight: 1
+      - path: hair
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: aa|Jump
+      takeName: aa|Jump
+      firstFrame: 0
+      lastFrame: 12
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: aa
+        weight: 1
+      - path: aa/Root
+        weight: 1
+      - path: aa/Root/Arm_ik.L
+        weight: 1
+      - path: aa/Root/Arm_ik.L/Arm_ik.L_end
+        weight: 1
+      - path: aa/Root/Arm_ik.R
+        weight: 1
+      - path: aa/Root/Arm_ik.R/Arm_ik.R_end
+        weight: 1
+      - path: aa/Root/Leg_ik.L
+        weight: 1
+      - path: aa/Root/Leg_ik.L/Leg_ik.L_end
+        weight: 1
+      - path: aa/Root/Leg_ik.R
+        weight: 1
+      - path: aa/Root/Leg_ik.R/Leg_ik.R_end
+        weight: 1
+      - path: aa/Root/Torso
+        weight: 1
+      - path: aa/Root/Torso/Chest
+        weight: 1
+      - path: aa/Root/Torso/Chest/Neck
+        weight: 1
+      - path: aa/Root/Torso/Chest/Neck/Head
+        weight: 1
+      - path: aa/Root/Torso/Chest/Neck/Head/Head_end
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.L
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.L/Lower_arm.L
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.L/Lower_arm.L/Hand.L
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.L/Lower_arm.L/Hand.L/Finger.L
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.L/Lower_arm.L/Hand.L/Finger.L/Finger.L_end
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.R
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.R/Lower_arm.R
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.R/Lower_arm.R/Hand.R
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.R/Lower_arm.R/Hand.R/Finger.R
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.R/Lower_arm.R/Hand.R/Finger.R/Finger.R_end
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.L
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.L/Lower_leg.L
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.L/Lower_leg.L/Foot.L
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.L/Lower_leg.L/Foot.L/Foot.L_end
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.R
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.R/Lower_leg.R
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.R/Lower_leg.R/Foot.R
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.R/Lower_leg.R/Foot.R/Foot.R_end
+        weight: 1
+      - path: hair
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: aa|Melee
+      takeName: aa|Melee
+      firstFrame: 0
+      lastFrame: 12
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: aa
+        weight: 1
+      - path: aa/Root
+        weight: 1
+      - path: aa/Root/Arm_ik.L
+        weight: 1
+      - path: aa/Root/Arm_ik.L/Arm_ik.L_end
+        weight: 1
+      - path: aa/Root/Arm_ik.R
+        weight: 1
+      - path: aa/Root/Arm_ik.R/Arm_ik.R_end
+        weight: 1
+      - path: aa/Root/Leg_ik.L
+        weight: 1
+      - path: aa/Root/Leg_ik.L/Leg_ik.L_end
+        weight: 1
+      - path: aa/Root/Leg_ik.R
+        weight: 1
+      - path: aa/Root/Leg_ik.R/Leg_ik.R_end
+        weight: 1
+      - path: aa/Root/Torso
+        weight: 1
+      - path: aa/Root/Torso/Chest
+        weight: 1
+      - path: aa/Root/Torso/Chest/Neck
+        weight: 1
+      - path: aa/Root/Torso/Chest/Neck/Head
+        weight: 1
+      - path: aa/Root/Torso/Chest/Neck/Head/Head_end
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.L
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.L/Lower_arm.L
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.L/Lower_arm.L/Hand.L
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.L/Lower_arm.L/Hand.L/Finger.L
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.L/Lower_arm.L/Hand.L/Finger.L/Finger.L_end
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.R
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.R/Lower_arm.R
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.R/Lower_arm.R/Hand.R
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.R/Lower_arm.R/Hand.R/Finger.R
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.R/Lower_arm.R/Hand.R/Finger.R/Finger.R_end
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.L
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.L/Lower_leg.L
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.L/Lower_leg.L/Foot.L
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.L/Lower_leg.L/Foot.L/Foot.L_end
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.R
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.R/Lower_leg.R
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.R/Lower_leg.R/Foot.R
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.R/Lower_leg.R/Foot.R/Foot.R_end
+        weight: 1
+      - path: hair
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: aa|Melee_kick
+      takeName: aa|Melee_kick
+      firstFrame: 0
+      lastFrame: 14
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: aa
+        weight: 1
+      - path: aa/Root
+        weight: 1
+      - path: aa/Root/Arm_ik.L
+        weight: 1
+      - path: aa/Root/Arm_ik.L/Arm_ik.L_end
+        weight: 1
+      - path: aa/Root/Arm_ik.R
+        weight: 1
+      - path: aa/Root/Arm_ik.R/Arm_ik.R_end
+        weight: 1
+      - path: aa/Root/Leg_ik.L
+        weight: 1
+      - path: aa/Root/Leg_ik.L/Leg_ik.L_end
+        weight: 1
+      - path: aa/Root/Leg_ik.R
+        weight: 1
+      - path: aa/Root/Leg_ik.R/Leg_ik.R_end
+        weight: 1
+      - path: aa/Root/Torso
+        weight: 1
+      - path: aa/Root/Torso/Chest
+        weight: 1
+      - path: aa/Root/Torso/Chest/Neck
+        weight: 1
+      - path: aa/Root/Torso/Chest/Neck/Head
+        weight: 1
+      - path: aa/Root/Torso/Chest/Neck/Head/Head_end
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.L
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.L/Lower_arm.L
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.L/Lower_arm.L/Hand.L
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.L/Lower_arm.L/Hand.L/Finger.L
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.L/Lower_arm.L/Hand.L/Finger.L/Finger.L_end
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.R
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.R/Lower_arm.R
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.R/Lower_arm.R/Hand.R
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.R/Lower_arm.R/Hand.R/Finger.R
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.R/Lower_arm.R/Hand.R/Finger.R/Finger.R_end
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.L
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.L/Lower_leg.L
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.L/Lower_leg.L/Foot.L
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.L/Lower_leg.L/Foot.L/Foot.L_end
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.R
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.R/Lower_leg.R
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.R/Lower_leg.R/Foot.R
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.R/Lower_leg.R/Foot.R/Foot.R_end
+        weight: 1
+      - path: hair
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: aa|Run_back
+      takeName: aa|Run_back
+      firstFrame: 0
+      lastFrame: 24
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: aa
+        weight: 1
+      - path: aa/Root
+        weight: 1
+      - path: aa/Root/Arm_ik.L
+        weight: 1
+      - path: aa/Root/Arm_ik.L/Arm_ik.L_end
+        weight: 1
+      - path: aa/Root/Arm_ik.R
+        weight: 1
+      - path: aa/Root/Arm_ik.R/Arm_ik.R_end
+        weight: 1
+      - path: aa/Root/Leg_ik.L
+        weight: 1
+      - path: aa/Root/Leg_ik.L/Leg_ik.L_end
+        weight: 1
+      - path: aa/Root/Leg_ik.R
+        weight: 1
+      - path: aa/Root/Leg_ik.R/Leg_ik.R_end
+        weight: 1
+      - path: aa/Root/Torso
+        weight: 1
+      - path: aa/Root/Torso/Chest
+        weight: 1
+      - path: aa/Root/Torso/Chest/Neck
+        weight: 1
+      - path: aa/Root/Torso/Chest/Neck/Head
+        weight: 1
+      - path: aa/Root/Torso/Chest/Neck/Head/Head_end
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.L
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.L/Lower_arm.L
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.L/Lower_arm.L/Hand.L
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.L/Lower_arm.L/Hand.L/Finger.L
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.L/Lower_arm.L/Hand.L/Finger.L/Finger.L_end
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.R
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.R/Lower_arm.R
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.R/Lower_arm.R/Hand.R
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.R/Lower_arm.R/Hand.R/Finger.R
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.R/Lower_arm.R/Hand.R/Finger.R/Finger.R_end
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.L
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.L/Lower_leg.L
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.L/Lower_leg.L/Foot.L
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.L/Lower_leg.L/Foot.L/Foot.L_end
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.R
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.R/Lower_leg.R
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.R/Lower_leg.R/Foot.R
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.R/Lower_leg.R/Foot.R/Foot.R_end
+        weight: 1
+      - path: hair
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: aa|Run_forward
+      takeName: aa|Run_forward
+      firstFrame: 0
+      lastFrame: 24
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: aa
+        weight: 1
+      - path: aa/Root
+        weight: 1
+      - path: aa/Root/Arm_ik.L
+        weight: 1
+      - path: aa/Root/Arm_ik.L/Arm_ik.L_end
+        weight: 1
+      - path: aa/Root/Arm_ik.R
+        weight: 1
+      - path: aa/Root/Arm_ik.R/Arm_ik.R_end
+        weight: 1
+      - path: aa/Root/Leg_ik.L
+        weight: 1
+      - path: aa/Root/Leg_ik.L/Leg_ik.L_end
+        weight: 1
+      - path: aa/Root/Leg_ik.R
+        weight: 1
+      - path: aa/Root/Leg_ik.R/Leg_ik.R_end
+        weight: 1
+      - path: aa/Root/Torso
+        weight: 1
+      - path: aa/Root/Torso/Chest
+        weight: 1
+      - path: aa/Root/Torso/Chest/Neck
+        weight: 1
+      - path: aa/Root/Torso/Chest/Neck/Head
+        weight: 1
+      - path: aa/Root/Torso/Chest/Neck/Head/Head_end
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.L
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.L/Lower_arm.L
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.L/Lower_arm.L/Hand.L
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.L/Lower_arm.L/Hand.L/Finger.L
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.L/Lower_arm.L/Hand.L/Finger.L/Finger.L_end
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.R
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.R/Lower_arm.R
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.R/Lower_arm.R/Hand.R
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.R/Lower_arm.R/Hand.R/Finger.R
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.R/Lower_arm.R/Hand.R/Finger.R/Finger.R_end
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.L
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.L/Lower_leg.L
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.L/Lower_leg.L/Foot.L
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.L/Lower_leg.L/Foot.L/Foot.L_end
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.R
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.R/Lower_leg.R
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.R/Lower_leg.R/Foot.R
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.R/Lower_leg.R/Foot.R/Foot.R_end
+        weight: 1
+      - path: hair
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: aa|Stun
+      takeName: aa|Stun
+      firstFrame: 0
+      lastFrame: 26
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: aa
+        weight: 1
+      - path: aa/Root
+        weight: 1
+      - path: aa/Root/Arm_ik.L
+        weight: 1
+      - path: aa/Root/Arm_ik.L/Arm_ik.L_end
+        weight: 1
+      - path: aa/Root/Arm_ik.R
+        weight: 1
+      - path: aa/Root/Arm_ik.R/Arm_ik.R_end
+        weight: 1
+      - path: aa/Root/Leg_ik.L
+        weight: 1
+      - path: aa/Root/Leg_ik.L/Leg_ik.L_end
+        weight: 1
+      - path: aa/Root/Leg_ik.R
+        weight: 1
+      - path: aa/Root/Leg_ik.R/Leg_ik.R_end
+        weight: 1
+      - path: aa/Root/Torso
+        weight: 1
+      - path: aa/Root/Torso/Chest
+        weight: 1
+      - path: aa/Root/Torso/Chest/Neck
+        weight: 1
+      - path: aa/Root/Torso/Chest/Neck/Head
+        weight: 1
+      - path: aa/Root/Torso/Chest/Neck/Head/Head_end
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.L
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.L/Lower_arm.L
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.L/Lower_arm.L/Hand.L
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.L/Lower_arm.L/Hand.L/Finger.L
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.L/Lower_arm.L/Hand.L/Finger.L/Finger.L_end
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.R
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.R/Lower_arm.R
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.R/Lower_arm.R/Hand.R
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.R/Lower_arm.R/Hand.R/Finger.R
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.R/Lower_arm.R/Hand.R/Finger.R/Finger.R_end
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.L
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.L/Lower_leg.L
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.L/Lower_leg.L/Foot.L
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.L/Lower_leg.L/Foot.L/Foot.L_end
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.R
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.R/Lower_leg.R
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.R/Lower_leg.R/Foot.R
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.R/Lower_leg.R/Foot.R/Foot.R_end
+        weight: 1
+      - path: hair
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: aa|Stun_1
+      takeName: aa|Stun_1
+      firstFrame: 0
+      lastFrame: 43
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: aa
+        weight: 1
+      - path: aa/Root
+        weight: 1
+      - path: aa/Root/Arm_ik.L
+        weight: 1
+      - path: aa/Root/Arm_ik.L/Arm_ik.L_end
+        weight: 1
+      - path: aa/Root/Arm_ik.R
+        weight: 1
+      - path: aa/Root/Arm_ik.R/Arm_ik.R_end
+        weight: 1
+      - path: aa/Root/Leg_ik.L
+        weight: 1
+      - path: aa/Root/Leg_ik.L/Leg_ik.L_end
+        weight: 1
+      - path: aa/Root/Leg_ik.R
+        weight: 1
+      - path: aa/Root/Leg_ik.R/Leg_ik.R_end
+        weight: 1
+      - path: aa/Root/Torso
+        weight: 1
+      - path: aa/Root/Torso/Chest
+        weight: 1
+      - path: aa/Root/Torso/Chest/Neck
+        weight: 1
+      - path: aa/Root/Torso/Chest/Neck/Head
+        weight: 1
+      - path: aa/Root/Torso/Chest/Neck/Head/Head_end
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.L
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.L/Lower_arm.L
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.L/Lower_arm.L/Hand.L
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.L/Lower_arm.L/Hand.L/Finger.L
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.L/Lower_arm.L/Hand.L/Finger.L/Finger.L_end
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.R
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.R/Lower_arm.R
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.R/Lower_arm.R/Hand.R
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.R/Lower_arm.R/Hand.R/Finger.R
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.R/Lower_arm.R/Hand.R/Finger.R/Finger.R_end
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.L
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.L/Lower_leg.L
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.L/Lower_leg.L/Foot.L
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.L/Lower_leg.L/Foot.L/Foot.L_end
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.R
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.R/Lower_leg.R
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.R/Lower_leg.R/Foot.R
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.R/Lower_leg.R/Foot.R/Foot.R_end
+        weight: 1
+      - path: hair
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: aa|Walk
+      takeName: aa|Walk
+      firstFrame: 0
+      lastFrame: 24
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: aa
+        weight: 1
+      - path: aa/Root
+        weight: 1
+      - path: aa/Root/Arm_ik.L
+        weight: 1
+      - path: aa/Root/Arm_ik.L/Arm_ik.L_end
+        weight: 1
+      - path: aa/Root/Arm_ik.R
+        weight: 1
+      - path: aa/Root/Arm_ik.R/Arm_ik.R_end
+        weight: 1
+      - path: aa/Root/Leg_ik.L
+        weight: 1
+      - path: aa/Root/Leg_ik.L/Leg_ik.L_end
+        weight: 1
+      - path: aa/Root/Leg_ik.R
+        weight: 1
+      - path: aa/Root/Leg_ik.R/Leg_ik.R_end
+        weight: 1
+      - path: aa/Root/Torso
+        weight: 1
+      - path: aa/Root/Torso/Chest
+        weight: 1
+      - path: aa/Root/Torso/Chest/Neck
+        weight: 1
+      - path: aa/Root/Torso/Chest/Neck/Head
+        weight: 1
+      - path: aa/Root/Torso/Chest/Neck/Head/Head_end
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.L
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.L/Lower_arm.L
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.L/Lower_arm.L/Hand.L
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.L/Lower_arm.L/Hand.L/Finger.L
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.L/Lower_arm.L/Hand.L/Finger.L/Finger.L_end
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.R
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.R/Lower_arm.R
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.R/Lower_arm.R/Hand.R
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.R/Lower_arm.R/Hand.R/Finger.R
+        weight: 1
+      - path: aa/Root/Torso/Chest/Upper_arm.R/Lower_arm.R/Hand.R/Finger.R/Finger.R_end
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.L
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.L/Lower_leg.L
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.L/Lower_leg.L/Foot.L
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.L/Lower_leg.L/Foot.L/Foot.L_end
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.R
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.R/Lower_leg.R
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.R/Lower_leg.R/Foot.R
+        weight: 1
+      - path: aa/Root/Torso/Upper_leg.R/Lower_leg.R/Foot.R/Foot.R_end
+        weight: 1
+      - path: hair
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
     isReadable: 1
   meshes:
     lODScreenPercentages: []

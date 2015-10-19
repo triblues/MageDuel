@@ -54,30 +54,38 @@ public class weaponBase : MonoBehaviour {
 	}
 	protected virtual void OnTriggerEnter(Collider other)
 	{
-		if(other.GetComponent<CharacterBase>() != null)//has this script
-		{
-			if(other.GetComponent<CharacterBase>().getCharacterTag() != numTag)//prevent own attack to hit ownself
-			{
-				if(other.GetComponent<CharacterBase>().getIsBlocking() == false)
-				{
-					other.GetComponent<CharacterBase>().TakesDamage(damage);
+   //     Debug.Log("other: " + other.name);
+        if (other.GetComponent<CharacterBase>() != null)//has this script
+        {
+            if (other.GetComponent<CharacterBase>().getCharacterTag() != numTag)//prevent own attack to hit ownself
+            {
+                if (other.GetComponent<CharacterBase>().getIsBlocking() == false)
+                {
+                   other.GetComponent<CharacterBase>().TakesDamage(damage);
+                  
                     other.GetComponent<CharacterBase>().getEnemy().GetComponent<CharacterBase>().setComboCount(1);
+
                     other.GetComponent<Rigidbody>().AddForce(-other.GetComponent<Transform>().forward * knockBack,
                                                              ForceMode.Impulse);
-                    // other.GetComponent<CharacterBase>().checkDead();
 
 
-                    
+
                     other.GetComponent<CharacterBase>().getEnemy().GetComponent<CharacterBase>().
                   addCurrentChargingBar(chargeAmount);
 
 
                 }
-			}
-		}
-		
-		
-	}
+                gameObject.SetActive(false);
+            }
+        }
+        else
+        {
+            if (other.GetComponent<weaponBase>() == null)//don have this script
+                gameObject.SetActive(false);
+        }
+
+
+    }
 }
 
 

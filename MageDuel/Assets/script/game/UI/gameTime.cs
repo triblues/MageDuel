@@ -16,16 +16,18 @@ public class gameTime : MonoBehaviour {
 
 	IEnumerator countDownTimer(float interval)
 	{
-		while(totalTime > 0)
+		while(totalTime > 0 && gameController.isFinish == false)
 		{
 			totalTime --;
-			yield return new WaitForSeconds(interval);
+            mytext.text = "Time: " + totalTime.ToString();
+            yield return new WaitForSeconds(interval);
 		}
+        gameController.isFinish = true;
 		yield return null;
 	}
 	// Update is called once per frame
 	void Update () {
 	
-		mytext.text = "Time: " + totalTime.ToString ();
+		
 	}
 }

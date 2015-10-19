@@ -16,7 +16,7 @@ public class poolObject : MonoBehaviour
     void Start()
     {
 
-        Debug.Log("start");
+
 
 
         //		

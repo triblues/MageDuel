@@ -32,15 +32,33 @@ public class fireball : weaponBase {
 
 	override protected void OnTriggerEnter(Collider other)
 	{
-		base.OnTriggerEnter (other);
+        base.OnTriggerEnter(other);
+
         if (other.GetComponent<weaponBase>() != null)//has this script
         {
             if (other.GetComponent<weaponBase>().getTag() != numTag)//prevent own attack from cancel own attack
                 gameObject.SetActive(false);
 
-            return;
+            
+         //   return;
         }
-        gameObject.SetActive(false);
+        if (other.GetComponent<CharacterBase>() != null)//has this script
+        {
+            if (other.GetComponent<CharacterBase>().getIsBlocking() == false)//player get hit
+            {
+                //stop my movement here
+                other.GetComponent<CharacterBase>().setStunRate(1);
+            }
+            else
+            {
+                Debug.Log("the name: " + other.GetComponent<CharacterBase>().getEnemy().name);
+                other.GetComponent<CharacterBase>().setBlockAnimation();
+            }
+        }
+       
+
+        //  if(other.tag != "meleeBox")//prevent attack from disappear when touch melee box
+        //  gameObject.SetActive(false);
         //		if(other.GetComponent<CharacterBase>() != null)//has this script
         //		{
         //			if(other.GetComponent<CharacterBase>().getCharacterTag() != numTag)//prevent own attack to hit ownself

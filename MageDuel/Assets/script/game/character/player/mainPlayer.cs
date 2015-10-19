@@ -10,70 +10,38 @@ public class mainPlayer : CharacterBase {
     
     protected override void Awake()
     {
-        if (customNetworkManager.isMultiplayer == false)
-        {
-            healthText = GameObject.Find("Canvas").transform.Find("player/health").GetComponent<Text>();
-            manaText = GameObject.Find("Canvas").transform.Find("player/mana").GetComponent<Text>();
+        
+        healthText = GameObject.Find("Canvas").transform.Find("player/health").GetComponent<Text>();
+        manaText = GameObject.Find("Canvas").transform.Find("player/mana").GetComponent<Text>();
 
-            combo = GameObject.Find("Canvas").transform.Find("player/combo text").gameObject;
-            chargingBar = GameObject.Find("Canvas").transform.Find("player/charging bar outer/charging bar inner").
-                GetComponent<Image>();
+        combo = GameObject.Find("Canvas").transform.Find("player/combo text").gameObject;
+        chargingBar = GameObject.Find("Canvas").transform.Find("player/charging bar outer/charging bar inner").
+            GetComponent<Image>();
 
            
 
-        }
-        else//in multiplayer
-        {
-            setNetworkIdentify();
-
-            if(mynetworkID.ToString() == "1")
-            {
-                healthText = GameObject.Find("Canvas").transform.Find("player/health").GetComponent<Text>();
-                manaText = GameObject.Find("Canvas").transform.Find("player/mana").GetComponent<Text>();
-                combo = GameObject.Find("Canvas").transform.Find("player/combo text").gameObject;
-                chargingBar = GameObject.Find("Canvas").transform.Find("player/charging bar outer/charging bar inner").
-                    GetComponent<Image>();
-            }
-            else
-            {
-                healthText = GameObject.Find("Canvas").transform.Find("enemy/health").GetComponent<Text>();
-                manaText = GameObject.Find("Canvas").transform.Find("enemy/mana").GetComponent<Text>();
-
-                combo = GameObject.Find("Canvas").transform.Find("enemy/combo text").gameObject;
-                chargingBar = GameObject.Find("Canvas").transform.Find("enemy/charging bar outer/charging bar inner").
-                    GetComponent<Image>();
-            }
-        }
+        
         base.Awake();
     }
-    void Start()
+    protected override void Start()
 	{
+        base.Start();
         myDrawShape = GetComponent<drawShape>();
-        if (customNetworkManager.isMultiplayer == false)
-            enemy = GameObject.FindWithTag("Enemy").gameObject;
-        else
-        {
-            GameObject[] temp;
-            temp = GameObject.FindGameObjectsWithTag("Main Player");
+       
+        enemy = GameObject.FindWithTag("Enemy").gameObject;
+        // Debug.Log(enemy.name);
 
-            foreach (GameObject _enemy in temp)
-            {
-                if (_enemy == gameObject)
-                    continue;
-                else
-                {
-                    enemy = gameObject;
-                    break;
-                }
-            }
-        }
+
 
     }
 
 	protected override void Update()
 	{
-        if (isFinish == true)
+      
+        setAnimation();
+        if (gameController.isFinish == true)
             return;
+       
         checkBlocking();
         base.Update ();
 
@@ -115,27 +83,33 @@ public class mainPlayer : CharacterBase {
     }
     protected override void attack()
 	{
+       
 		if (currentMana <= 0)
 			return;
 		if (canRangeAttack == false)
 			return;
 		if(Input.GetKeyDown("k"))//one fireball
 		{
-			Vector3 direction = enemy.transform.position - transform.position;
-		
-			rangeAttack(transform.position,direction,gameController.projectileType.fireball);
+            rangeAttackAnimation();
+            Vector3 offsetPos = transform.position;
+            offsetPos.y = offsetPos.y + 1;
+            Vector3 direction = enemy.transform.position - offsetPos;
+
+         rangeAttack(offsetPos, direction,gameController.projectileType.fireball);
 		}
 		if (Input.GetKeyDown ("l")) //multiple fireball
 		{
-
-			for(int i=0;i<3;i++)//3
+            rangeAttackAnimation();
+            for (int i=0;i<3;i++)//3
 			{
 				Vector3 newPos = new Vector3(enemy.transform.position.x,
 				                             enemy.transform.position.y,enemy.transform.position.z);
 				newPos.y = newPos.y + i*1.5f;
-				Vector3 direction = newPos - transform.position;
-
-				rangeAttack(transform.position,direction,gameController.projectileType.fireball);
+                Vector3 offsetPos = transform.position;
+                offsetPos.y = offsetPos.y + 1;
+                Vector3 direction = newPos - offsetPos;
+               
+                rangeAttack(offsetPos, direction,gameController.projectileType.fireball);
 			
 			}
 		}
@@ -155,45 +129,65 @@ public class mainPlayer : CharacterBase {
 		{
             if(canCombo == true)
             {
-                if (coolDownMeleeTimer[1] <= 0)
+                //if (coolDownMeleeTimer[1] <= 0)
+                if (isMeleeComboCount[1] == false)
                 {
                     if (Time.time - coolDownMeleeTimer[0] < coolDownMeleeAttackRate)
                     {
                         
-                        if(enemy.GetComponent<CharacterBase>().getIsBlocking() == false)
-                            enemy.GetComponent<CharacterBase>().TakesDamage(3.0f);
-                        coolDownMeleeTimer[1] = Time.time;
+                     //   if(enemy.GetComponent<CharacterBase>().getIsBlocking() == false)
+                         //   enemy.GetComponent<CharacterBase>().TakesDamage(3.0f);
 
+                        coolDownMeleeTimer[1] = Time.time;//this check if player press fast enough for the next combo
+                        isMeleeComboCount[1] = true;//this is for melee 2nd attack animation
+                        //Debug.Log("in 2nd");
                     }
-                    else
-                    {
-                        canCombo = false;
-                        canMeleeAttack = true;
-                        coolDownMeleeTimer[0] = 0;
-                    }
+                    //else
+                    //{
+                    //    Debug.Log("in here");
+                    //    canCombo = false;
+                    //    canMeleeAttack = true;
+                    //    coolDownMeleeTimer[0] = 0;
+                    //    isMeleeComboCount[0] = false;
+                    //}
                 }
                 else
                 {
-                    if (Time.time - coolDownMeleeTimer[1] < coolDownMeleeAttackRate)
+                    if (isMeleeComboCount[2] == false)
                     {
-                        stunTimer = coolDownStunRate * 3;
-                        if (enemy.GetComponent<CharacterBase>().getIsBlocking() == false)
+                        if (Time.time - coolDownMeleeTimer[1] < coolDownMeleeAttackRate)
                         {
-                            enemy.GetComponent<Rigidbody>().AddForce(transform.forward * 20, ForceMode.Impulse);
-                            enemy.GetComponent<CharacterBase>().TakesDamage(3.0f);
-                        }
-                       
+                            //  stunTimer = coolDownStunRate * 3;
+                            //if (enemy.GetComponent<CharacterBase>().getIsBlocking() == false)
+                            //{
+                            //    enemy.GetComponent<Rigidbody>().AddForce(transform.forward * 20, ForceMode.Impulse);
+                            //    enemy.GetComponent<CharacterBase>().TakesDamage(3.0f);
+                            //}
+                           
+                            isMeleeComboCount[2] = true;//this is for melee 3rd attack animation
+                            meleeAttack();//do last combo
+                           // Debug.Log("in 3rd");
 
+                        }
+                        //else
+                        //{
+                        //    canCombo = false;
+                        //    canMeleeAttack = true;
+                        //    coolDownMeleeTimer[0] = 0;
+                        //    coolDownMeleeTimer[1] = 0;
+                        //    isMeleeComboCount[0] = false;
+                        //    isMeleeComboCount[1] = false;
+                        //}
                     }
-                    canCombo = false;
-                    canMeleeAttack = true;
-                    coolDownMeleeTimer[0] = 0;
-                    coolDownMeleeTimer[1] = 0;
+                  
+                    
+
                 }
             }
          
 
-            meleeAttack();
+            if (isMeleeComboCount[2] == false)//cannot attack when in final combo
+                meleeAttack();
 
         }
 
@@ -244,10 +238,10 @@ public class mainPlayer : CharacterBase {
         }
     }
 
-    [Client]
-    protected void setNetworkIdentify()
-    {
-        mynetworkID = GetComponent<NetworkIdentity>().netId;
-    }
+    //[Client]
+    //protected void setNetworkIdentify()
+    //{
+    //    mynetworkID = GetComponent<NetworkIdentity>().netId;
+    //}
 
 }

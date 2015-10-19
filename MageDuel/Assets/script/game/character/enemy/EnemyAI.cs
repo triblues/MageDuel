@@ -60,27 +60,38 @@ public class EnemyAI : CharacterBase
         base.Awake();
     }
     // Use this for initialization
-    void Start()
+    protected override void Start()
     {
+        base.Start();
         meleeComboCount = 0;
         inMeleeCombo = false;
         changeState = false;
-		myAIState = AIState.idle;
-	//	myAIStateAttack = AIAttack.melee;
+		//myAIState = AIState.attack;
+		//myAIStateAttack = AIAttack.rangeSingle;
 
 		isReverseDirection = false;
 
 		aggressiveLevel = Mathf.Clamp (aggressiveLevel, 1, 6);
 
+        GameObject[] temp;
+        temp = GameObject.FindGameObjectsWithTag("Main Player");
 
-        enemy = GameObject.FindWithTag("Main Player").gameObject;
+        foreach (GameObject a in temp)
+        {
+            if (a.name.Contains("Clone") == true)
+                GameObject.Destroy(a);
+            else
+                enemy = a;
+        }
+
+      
     }
 
     // Update is called once per frame
     protected override void Update()
     {
-      
-        if (isFinish == true)
+
+        if (gameController.isFinish == true)
             return;
 
         if (shouldTurn(transform.position,enemy.transform.position) == true)
@@ -96,13 +107,18 @@ public class EnemyAI : CharacterBase
 
 
         base.Update();//move and jump
-       // action();
-      //  AI_Agent();
+
         if (testMode)
         {
             horizontal = 0;
             jumping = 0;
         }
+        else
+        {
+            action();
+            
+        }
+        AI_Agent();
 
     }
 
@@ -232,7 +248,9 @@ public class EnemyAI : CharacterBase
 
         if (myAIStateAttack == AIAttack.rangeSingle)
         {
-            direction = enemy.transform.position - transform.position;
+            Vector3 offsetPos = enemy.transform.position;
+            offsetPos.y = offsetPos.y + 1;
+            direction = offsetPos - transform.position;
             rangeAttack(transform.position, direction, gameController.projectileType.fireball);
         }
         else //multiple attack
