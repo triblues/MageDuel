@@ -193,6 +193,11 @@ public class mainPlayer : CharacterBase
                 }
             }
 
+            if (Input.GetKeyDown("Escape"))
+            {
+                Application.LoadLevel("pauseGame");
+            }
+
 
             if (isMeleeComboCount[2] == false)//cannot attack when in final combo
                 meleeAttack();

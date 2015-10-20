@@ -23,6 +23,7 @@ public class gameTime : MonoBehaviour {
             yield return new WaitForSeconds(interval);
 		}
         gameController.isFinish = true;
+        Application.LoadLevel("timeOut");
 		yield return null;
 	}
 	// Update is called once per frame

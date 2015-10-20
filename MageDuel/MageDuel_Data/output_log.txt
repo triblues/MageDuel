@@ -1,0 +1,64 @@
+Initialize engine version: 5.2.1f1 (44735ea161b3)
+GfxDevice: creating device client; threaded=1
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.0]
+    Renderer: Intel(R) HD Graphics 5500 (ID=0x1616)
+    Vendor:   Intel
+    VRAM:     1919 MB
+Begin MonoManager ReloadAssembly
+Platform assembly: C:\Users\Shaun\Desktop\SIM-CSCI321-MM15-3A\MageDuel\MageDuel\MageDuel_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading C:\Users\Shaun\Desktop\SIM-CSCI321-MM15-3A\MageDuel\MageDuel\MageDuel_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: C:\Users\Shaun\Desktop\SIM-CSCI321-MM15-3A\MageDuel\MageDuel\MageDuel_Data\Managed\Assembly-CSharp-firstpass.dll (this message is harmless)
+Loading C:\Users\Shaun\Desktop\SIM-CSCI321-MM15-3A\MageDuel\MageDuel\MageDuel_Data\Managed\Assembly-CSharp-firstpass.dll into Unity Child Domain
+Platform assembly: C:\Users\Shaun\Desktop\SIM-CSCI321-MM15-3A\MageDuel\MageDuel\MageDuel_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading C:\Users\Shaun\Desktop\SIM-CSCI321-MM15-3A\MageDuel\MageDuel\MageDuel_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: C:\Users\Shaun\Desktop\SIM-CSCI321-MM15-3A\MageDuel\MageDuel\MageDuel_Data\Managed\UnityEngine.UI.dll (this message is harmless)
+Loading C:\Users\Shaun\Desktop\SIM-CSCI321-MM15-3A\MageDuel\MageDuel\MageDuel_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
+Platform assembly: C:\Users\Shaun\Desktop\SIM-CSCI321-MM15-3A\MageDuel\MageDuel\MageDuel_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
+Loading C:\Users\Shaun\Desktop\SIM-CSCI321-MM15-3A\MageDuel\MageDuel\MageDuel_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
+Platform assembly: C:\Users\Shaun\Desktop\SIM-CSCI321-MM15-3A\MageDuel\MageDuel\MageDuel_Data\Managed\System.Core.dll (this message is harmless)
+- Completed reload, in  0.077 seconds
+desktop: 1920x1080 60Hz; virtual: 1920x1080 at 0,0
+<RI> Initializing input.
+XInput1_3.dll not found. Trying XInput9_1_0.dll instead...
+<RI> Input initialized.
+<RI> Initialized touch support.
+Platform assembly: C:\Users\Shaun\Desktop\SIM-CSCI321-MM15-3A\MageDuel\MageDuel\MageDuel_Data\Managed\System.dll (this message is harmless)
+Setting up 1 worker threads for Enlighten.
+  Thread -> id: 170c -> priority: 1 
+Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 4.906901 ms
+
+Unloading 7 unused Assets to reduce memory usage. Loaded Objects now: 274.
+Total: 0.452457 ms (FindLiveObjects: 0.050463 ms CreateObjectMapping: 0.050890 ms MarkObjects: 0.322878 ms  DeleteObjects: 0.015823 ms)
+
+Unloading 2 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 0.351531 ms
+
+Unloading 3 unused Assets to reduce memory usage. Loaded Objects now: 318.
+Total: 0.286955 ms (FindLiveObjects: 0.036350 ms CreateObjectMapping: 0.011119 ms MarkObjects: 0.232216 ms  DeleteObjects: 0.006842 ms)
+
+Unloading 2 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 0.418245 ms
+
+Unloading 6 unused Assets to reduce memory usage. Loaded Objects now: 305.
+Total: 0.247611 ms (FindLiveObjects: 0.023093 ms CreateObjectMapping: 0.010691 ms MarkObjects: 0.204846 ms  DeleteObjects: 0.008553 ms)
+
+Unloading 2 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 0.559799 ms
+
+Unloading 3 unused Assets to reduce memory usage. Loaded Objects now: 318.
+Total: 0.370776 ms (FindLiveObjects: 0.025659 ms CreateObjectMapping: 0.020099 ms MarkObjects: 0.314753 ms  DeleteObjects: 0.008980 ms)
+
+Unloading 2 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 0.472130 ms
+
+Unloading 6 unused Assets to reduce memory usage. Loaded Objects now: 305.
+Total: 0.333997 ms (FindLiveObjects: 0.038916 ms CreateObjectMapping: 0.013684 ms MarkObjects: 0.268566 ms  DeleteObjects: 0.011974 ms)
+
+Unloading 2 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 0.399856 ms
+
+Unloading 3 unused Assets to reduce memory usage. Loaded Objects now: 318.
+Total: 0.330576 ms (FindLiveObjects: 0.027797 ms CreateObjectMapping: 0.039771 ms MarkObjects: 0.254881 ms  DeleteObjects: 0.007697 ms)
+
