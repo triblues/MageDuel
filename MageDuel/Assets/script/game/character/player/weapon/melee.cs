@@ -44,16 +44,24 @@ public class melee : weaponBase {
        
         if (other.GetComponent<CharacterBase>() != null)//has a body
         {
+
             if (other.GetComponent<CharacterBase>().getEnemy().GetComponent<CharacterBase>().getCanCombo() == false)
             {
+
                 other.GetComponent<CharacterBase>().getEnemy().GetComponent<CharacterBase>().setCanCombo(true);
-                other.GetComponent<CharacterBase>().getEnemy().GetComponent<CharacterBase>().setFirstCoolDownMeleeTimer();
+                //Debug.Log("touch");
+               // other.GetComponent<CharacterBase>().getEnemy().GetComponent<CharacterBase>().setFirstCoolDownMeleeTimer();
 
             }
-            
+           
+
             if (other.GetComponent<CharacterBase>().getIsBlocking() == false)
             {
-                other.GetComponent<CharacterBase>().setStunRate(3);
+                other.GetComponent<CharacterBase>().setStunRate(5);
+            }
+            else
+            {
+                other.GetComponent<CharacterBase>().setBlockAnimation();
             }
             
         }
@@ -61,15 +69,7 @@ public class melee : weaponBase {
 
         gameObject.GetComponent<melee>().enabled = false;
       
-        //if(other.GetComponent<CharacterBase>() != null)//has a body
-        //{
-
-        //	other.GetComponent<CharacterBase>().TakesDamage(damage);
-        //	other.GetComponent<CharacterBase>().checkDead();
-
-        //	other.GetComponent<Rigidbody>().AddForce(transform.forward * knockBack);
-        //	gameObject.GetComponent<melee>().enabled = false;
-        //}
+        
     }
 }
 

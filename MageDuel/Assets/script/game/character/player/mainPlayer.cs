@@ -4,74 +4,110 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 
-public class mainPlayer : CharacterBase
-{
+public class mainPlayer : CharacterBase {
 
+    enum spellType
+    {
+        armor_spell,
+        passive_spell,
+        ultimate_spell,
+        no_spell
+    };
     protected drawShape myDrawShape;
-    public AudioClip jumped;
-    public AudioClip impact;
-    public AudioClip walking;
-    public AudioClip[] sounds;
-    public AudioSource audio;
+    drawShape.shape lastDrawShape;
+  //  bool canMeleeCast;
+    bool[] isSpellCast;
+   // spellType myspellType;
+
     protected override void Awake()
     {
-        audio = (AudioSource)GetComponent<AudioSource>();
-        healthText = GameObject.Find("Canvas").transform.Find("player/health").GetComponent<Text>();
-        manaText = GameObject.Find("Canvas").transform.Find("player/mana").GetComponent<Text>();
+
+        healthBar = GameObject.Find("Canvas").transform.Find("player/health/outer/inner").GetComponent<Image>();
+        manaBar = GameObject.Find("Canvas").transform.Find("player/mana/outer/inner").GetComponent<Image>();
 
         combo = GameObject.Find("Canvas").transform.Find("player/combo text").gameObject;
         chargingBar = GameObject.Find("Canvas").transform.Find("player/charging bar outer/charging bar inner").
             GetComponent<Image>();
 
-
-
+        isSpellCast = new bool[3];
+        for (int i = 0; i < isSpellCast.Length; i++)
+            isSpellCast[i] = false;
+        //myspellType = spellType.no_spell;
 
         base.Awake();
     }
     protected override void Start()
-    {
+	{
         base.Start();
-        myDrawShape = GetComponent<drawShape>();
+        myDrawShape = GameObject.Find("draw line").GetComponent<drawShape>();
 
-        //Instantiate(audio.gameObject, Vector3.zero, Quaternion.identity);
         enemy = GameObject.FindWithTag("Enemy").gameObject;
+        lastDrawShape = drawShape.shape.no_shape;
+      //  canMeleeCast = false;
         // Debug.Log(enemy.name);
 
 
 
     }
 
-    protected override void Update()
-    {
-
+	protected override void Update()
+	{
         setAnimation();
         if (gameController.isFinish == true)
+        {
+            resetAnimation();
             return;
-
+        }
+       
         checkBlocking();
-        base.Update();
+        base.Update ();
 
-        if (shouldTurn(transform.position, enemy.transform.position) == true)//facing right
-        {
-            isBlockLeft = false;
-            rb.rotation = Quaternion.Euler(0, 270, 0);
-        }
-        else//facing right
-        {
-            isBlockLeft = true;
-            rb.rotation = Quaternion.Euler(0, 90, 0);
-        }
+		if(shouldTurn (transform.position, enemy.transform.position) == true)//facing left
+		{
+			isBlockLeft = false;
+			rb.rotation = Quaternion.Euler (0, 270, 0);
+		}
+		else//facing right
+		{
+			isBlockLeft = true;
+			rb.rotation = Quaternion.Euler (0, 90, 0);
+		}
 
         if (isCastMode == false)
-            attack();
-        else
         {
-            checkShapeDraw();
+            if(isCastModeAnimation == false)
+            {
+                if(characterSelectManager.selectedCharacter == (int)characterSelectManager.mage.Inferno)
+                {
+                  //  attack();
+                }
+                else if (characterSelectManager.selectedCharacter == (int)characterSelectManager.mage.Pristine)
+                {
+                   // attack();
+                }
+                else if (characterSelectManager.selectedCharacter == (int)characterSelectManager.mage.Radiance)
+                {
+                    if (Input.GetKeyDown("space"))
+                    {
+                        //castingModeAnimation();
+                        activateCastingMode();
+                    }
+                    RadianceSpell();//keyboard spell
+                    comboAttack();
+                }
+            }
+                
         }
+        
 
-    }
+	}
     void checkBlocking()
     {
+        if(blockCount <= 0)
+        {
+            isBlocking = false;
+            return;
+        }
         if (isBlockLeft == true)
         {
             if (horizontal < 0)//going left side
@@ -88,43 +124,48 @@ public class mainPlayer : CharacterBase
         }
     }
     protected override void attack()
-    {
-
-        if (currentMana <= 0)
-            return;
-        if (canRangeAttack == false)
-            return;
-        if (Input.GetKeyDown("k") && currentMana >= 5)//one fireball
-        {
-            audio.PlayOneShot(impact);
-            rangeAttackAnimation();
-            Vector3 offsetPos = transform.position;
-            offsetPos.y = offsetPos.y + 1;
-            Vector3 direction = enemy.transform.position - offsetPos;
-
-            rangeAttack(offsetPos, direction, gameController.projectileType.fireball);
-        }
-        if (Input.GetKeyDown("l") && currentMana >= 10) //multiple fireball
-        {
-            audio.PlayOneShot(impact);
-            rangeAttackAnimation();
-            for (int i = 0; i < 3; i++)//3
-            {
-                Vector3 newPos = new Vector3(enemy.transform.position.x,
-                                             enemy.transform.position.y, enemy.transform.position.z);
-                newPos.y = newPos.y + i * 1.5f;
-                Vector3 offsetPos = transform.position;
-                offsetPos.y = offsetPos.y + 1;
-                Vector3 direction = newPos - offsetPos;
-
-                rangeAttack(offsetPos, direction, gameController.projectileType.fireball);
-
-            }
-        }
+	{
         if (Input.GetKeyDown("space"))
         {
+            //castingModeAnimation();
             activateCastingMode();
         }
+
+        if (currentMana <= 0)
+			return;
+        if (canRangeAttack == true)
+        {
+            if (Input.GetKeyDown("k"))//one fireball
+            {
+                if (isAttack == true)//prevent use of range attack
+                    return;
+                rangeAttackAnimation();
+                Vector3 offsetPos = transform.position;
+                offsetPos.y = offsetPos.y + 1;
+                Vector3 direction = enemy.transform.position - offsetPos;
+
+                rangeAttack(offsetPos, direction, gameController.projectileType.fireball);
+            }
+            if (Input.GetKeyDown("l")) //multiple fireball
+            {
+                if (isAttack == true)
+                    return;
+                rangeAttackAnimation();
+                for (int i = 0; i < 3; i++)//3
+                {
+                    Vector3 newPos = new Vector3(enemy.transform.position.x,
+                                                 enemy.transform.position.y, enemy.transform.position.z);
+                    newPos.y = newPos.y + i * 1.5f;
+                    Vector3 offsetPos = transform.position;
+                    offsetPos.y = offsetPos.y + 1;
+                    Vector3 direction = newPos - offsetPos;
+
+                    rangeAttack(offsetPos, direction, gameController.projectileType.fireball);
+
+                }
+            }
+        }
+       
         //		if(Input.GetKeyDown ("n"))//one iceball
         //		{
         //			Vector3 mypos = enemy.transform.position;
@@ -133,106 +174,227 @@ public class mainPlayer : CharacterBase
         //
         //			rangeAttack(mypos,-transform.up,gameController.projectileType.iceball);
         //		}
-        if (Input.GetKeyDown("o"))//melee attack
-        {
-            if (canCombo == true)
-            {
-                //if (coolDownMeleeTimer[1] <= 0)
-                if (isMeleeComboCount[1] == false)
-                {
-                    if (Time.time - coolDownMeleeTimer[0] < coolDownMeleeAttackRate)
-                    {
 
-                        //   if(enemy.GetComponent<CharacterBase>().getIsBlocking() == false)
-                        //   enemy.GetComponent<CharacterBase>().TakesDamage(3.0f);
-
-                        coolDownMeleeTimer[1] = Time.time;//this check if player press fast enough for the next combo
-                        isMeleeComboCount[1] = true;//this is for melee 2nd attack animation
-                        //Debug.Log("in 2nd");
-                    }
-                    //else
-                    //{
-                    //    Debug.Log("in here");
-                    //    canCombo = false;
-                    //    canMeleeAttack = true;
-                    //    coolDownMeleeTimer[0] = 0;
-                    //    isMeleeComboCount[0] = false;
-                    //}
-                }
-                else
-                {
-                    if (isMeleeComboCount[2] == false)
-                    {
-                        if (Time.time - coolDownMeleeTimer[1] < coolDownMeleeAttackRate)
-                        {
-                            //  stunTimer = coolDownStunRate * 3;
-                            //if (enemy.GetComponent<CharacterBase>().getIsBlocking() == false)
-                            //{
-                            //    enemy.GetComponent<Rigidbody>().AddForce(transform.forward * 20, ForceMode.Impulse);
-                            //    enemy.GetComponent<CharacterBase>().TakesDamage(3.0f);
-                            //}
-
-                            isMeleeComboCount[2] = true;//this is for melee 3rd attack animation
-                            meleeAttack();//do last combo
-                                          // Debug.Log("in 3rd");
-
-                        }
-                        //else
-                        //{
-                        //    canCombo = false;
-                        //    canMeleeAttack = true;
-                        //    coolDownMeleeTimer[0] = 0;
-                        //    coolDownMeleeTimer[1] = 0;
-                        //    isMeleeComboCount[0] = false;
-                        //    isMeleeComboCount[1] = false;
-                        //}
-                    }
-
-
-
-                }
-            }
-
-            if (Input.GetKeyDown("Escape"))
-            {
-                Application.LoadLevel("pauseGame");
-            }
-
-
-            if (isMeleeComboCount[2] == false)//cannot attack when in final combo
-                meleeAttack();
-
-        }
-
-
+      
+        comboAttack();
 
     }
-
-    void checkShapeDraw()
+ 
+    void comboAttack()
     {
-
-        if (canRangeAttack == false)
+        if (isEndOfRangeAttack == false)//still doing range attack
             return;
-        if (myDrawShape.getShape() == drawShape.shape.horizontal_line)
+        if (Input.GetKeyDown("o"))//melee attack
         {
-            Vector3 direction = enemy.transform.position - transform.position;
+            if(canCombo == false)
+            {
+                
+                coolDownMeleeTimer[0] = coolDownMeleeAttackRate;
+            }
+            if (isMeleeComboCount[0] == false)//1st attack
+            {
+               
+                meleeAttack();
+                isMeleeComboCount[0] = true;
+                myAnimator.SetBool("meleeAttack1", true);
+                StartCoroutine(WaitForAnimation("melee 1", 0));
 
-            rangeAttack(transform.position, direction, gameController.projectileType.fireball);
+            }
+            else
+            {
+                if (canCombo == true)
+                {          
+                    if (isMeleeComboCount[1] == false)//haven do 2nd combo
+                    {
+                        if (coolDownMeleeTimer[0] > 0)//2nd attack combo
+                        {
+                            meleeAttack();
+                            isMeleeComboCount[1] = true;
+                            coolDownMeleeTimer[1] = coolDownMeleeAttackRate;
+                            myAnimator.SetBool("meleeAttack2", true); 
+                        }
+                    }
+                    else
+                    {
+                        if (isMeleeComboCount[2] == false)//haven do final combo
+                        {
+                            if (coolDownMeleeTimer[1] > 0)//final combo
+                            {
+                                meleeAttack();
+                                isMeleeComboCount[2] = true;
+                                myAnimator.SetBool("meleeAttack3", true);
+                                myAnimator.SetBool("finishCombo", true);
+                                StartCoroutine(WaitForAnimation("melee 3", 0));
+                              
+                            }
+                        }
+                    }
+                }
+
+            }
+        }
+       
+    }
+
+    public void checkShapeDraw(drawShape.shape myshape)
+    {
+        if (canRangeAttack == false)//prevent use of melee
+            return;
+
+        if (lastDrawShape == drawShape.shape.horizontal_line)
+        {
+            if (myshape == drawShape.shape.vertical_line)
+            {
+                if (isAttack == true)
+                    return;
+             
+                //multiple attack
+                rangeAttackAnimation();
+                for (int i = 0; i < 3; i++)//3
+                {
+                    Vector3 newPos = new Vector3(enemy.transform.position.x,
+                                                 enemy.transform.position.y, enemy.transform.position.z);
+                    newPos.y = newPos.y + i * 1.5f;
+                    Vector3 offsetPos = transform.position;
+                    offsetPos.y = offsetPos.y + 1;
+                    Vector3 direction = newPos - offsetPos;
+
+                    rangeAttack(offsetPos, direction, gameController.projectileType.fireball);
+                    lastDrawShape = drawShape.shape.no_shape;//reset
+
+                }
+            }
+            else
+            {
+                lastDrawShape = drawShape.shape.no_shape;
+                checkShapeDraw(myshape);//call ownself again
+            }
+        }
+        else if (lastDrawShape == drawShape.shape.diagonal_BLTR)//positive
+        {
+            //in combo
+           
+            if (myshape == drawShape.shape.diagonal_TLBR)//negative
+            {
+                Debug.Log("can combo: " + canCombo.ToString());
+                if (canCombo == true)
+                {
+                    //  canCombo = true;
+                    castModeMeleeCombo();
+                }
+
+                lastDrawShape = drawShape.shape.no_shape;
+            }
+            else if (myshape == drawShape.shape.diagonal_BLTR)//positive
+            {
+                meleeAttack();
+                isMeleeComboCount[0] = true;
+                myAnimator.SetBool("meleeAttack1", true);
+                coolDownMeleeTimer[0] = coolDownMeleeAttackRate;
+                StartCoroutine(WaitForAnimation("melee 1", 0));
+
+                lastDrawShape = drawShape.shape.diagonal_BLTR;
+            }
+            else
+            {
+                lastDrawShape = drawShape.shape.no_shape;
+                checkShapeDraw(myshape);//call ownself again
+            }
+        }
+        else if (lastDrawShape == drawShape.shape.triangle)
+        {
+            if(myshape == drawShape.shape.square)
+            {
+              
+            }
+            else
+            {
+                lastDrawShape = drawShape.shape.no_shape;
+                checkShapeDraw(myshape);//call ownself again
+            }
+        }
+        else if (lastDrawShape == drawShape.shape.square)
+        {
 
         }
+        else if (lastDrawShape == drawShape.shape.diamond)
+        {
 
-        myDrawShape.setShape();
+        }
+        else if (lastDrawShape == drawShape.shape.no_shape)
+        {
+            if (myshape == drawShape.shape.vertical_line)
+            {
+                if (isAttack == true)
+                    return;
+                //single attack
+                rangeAttackAnimation();
+                Vector3 offsetPos = transform.position;
+                offsetPos.y = offsetPos.y + 1;
+                Vector3 direction = enemy.transform.position - offsetPos;
+
+                rangeAttack(offsetPos, direction, gameController.projectileType.fireball);
+                lastDrawShape = drawShape.shape.no_shape;//reset
+                Debug.Log("in vert");
+            }
+            else if (myshape == drawShape.shape.diagonal_BLTR)//positive
+            {             
+                meleeAttack();
+                isMeleeComboCount[0] = true;
+                myAnimator.SetBool("meleeAttack1", true);
+                coolDownMeleeTimer[0] = coolDownMeleeAttackRate;
+                StartCoroutine(WaitForAnimation("melee 1", 0));
+
+                lastDrawShape = drawShape.shape.diagonal_BLTR;
+
+                Debug.Log("do not come in twice");
+            }
+            else
+            {
+                lastDrawShape = myshape;
+            }
+        }
+
+       
+    }
+
+    protected void castModeMeleeCombo()
+    {
+        meleeAttack();
+       // canMeleeCast = false;
+       
+        myAnimator.SetBool("meleeAttack2", true);
+        myAnimator.SetBool("meleeAttack3", true);
+        myAnimator.SetBool("finishCombo", true);
+        StartCoroutine(main_WaitForAnimationStart("melee 3", 0));
+    }
+    protected void castingModeAnimation()
+    {
+        if (isCastMode == true || isCastModeAnimation == true)
+            return;
+
+        if (chargingBar.fillAmount >= 1)//max
+        {
+            myUltiCamera.setCharacterDetail(transform, isBlockLeft);
+            myUltiCamera.enabled = true;
+            isCastModeAnimation = true;
+        
+            myAnimator.SetBool("castingMode", true);
+
+            Camera.main.enabled = false;
+            StartCoroutine(main_WaitForAnimation("castingMode", 0));
+        }
+      
     }
     protected void activateCastingMode()
     {
-        if (isCastMode == true)
-            return;
-        if (chargingBar.fillAmount >= 1)//max
-        {
-            isCastMode = true;
-            myDrawShape.enabled = true;
-            StartCoroutine(castingModeCountDown(1.0f));
-        }
+       
+        myUltiCamera.enabled = false;
+     
+        isCastMode = true;
+      //  canMeleeCast = true;
+        myDrawShape.enabled = true;
+    //    StartCoroutine(castingModeCountDown(1.0f));
     }
     IEnumerator castingModeCountDown(float wait)
     {
@@ -243,6 +405,7 @@ public class mainPlayer : CharacterBase
             {
                 myDrawShape.enabled = false;
                 isCastMode = false;
+              //  canMeleeCast = false;
                 CurrentChargingBar = 0;
                 break;
             }
@@ -251,6 +414,248 @@ public class mainPlayer : CharacterBase
         }
     }
 
+    protected IEnumerator main_WaitForAnimationStart(string name,int count)
+    {
+        while (myAnimator.GetCurrentAnimatorStateInfo(count).IsName(name) == false)//the animation has not run yet
+        {
+           
+            yield return new WaitForSeconds(0.05f);
+
+        }
+        if(name == "melee 3")
+        {
+            isMeleeComboCount[2] = true;
+            myAnimator.SetBool("meleeAttack2", false);
+            StartCoroutine(WaitForAnimation("melee 3", 0));
+        }
+    }
+    protected IEnumerator main_WaitForAnimation(string name, int count)
+    {
+        yield return new WaitForSeconds(1.0f);
+        while (myAnimator.GetCurrentAnimatorStateInfo(count).IsName(name) == true)//the animation is still running
+        {
+            if (name == "castingMode")
+            {
+                myAnimator.SetBool("castingMode", false);
+            }
+            yield return new WaitForSeconds(0.05f);
+
+        }
+        if (name == "castingMode")
+        {
+            isCastModeAnimation = false;
+            activateCastingMode();
+        }
+        else if(name == "melee 3")
+        {
+            myAnimator.SetBool("finishCombo", false);
+            myAnimator.SetBool("meleeAttack3", false);
+          //  canMeleeCast = true;
+            canCombo = false;
+        }
+    }
+
+    void RadianceSpell()
+    {
+        if (currentMana <= 0)
+            return;
+        if (canRangeAttack == true)
+        {
+            if (Input.GetKeyDown("k"))//one fireball
+            {
+                if (isAttack == true)//prevent use of range attack
+                    return;
+                rangeAttackAnimation();
+                Vector3 offsetPos = transform.position;
+                offsetPos.y = offsetPos.y + 1;
+                Vector3 direction = enemy.transform.position - offsetPos;
+
+                rangeAttack(offsetPos, direction, gameController.projectileType.fireball);
+            }
+            if (Input.GetKeyDown("l")) //multiple fireball
+            {
+                if (isAttack == true)
+                    return;
+                rangeAttackAnimation();
+                for (int i = 0; i < 3; i++)//3
+                {
+                    Vector3 newPos = new Vector3(enemy.transform.position.x,
+                                                 enemy.transform.position.y, enemy.transform.position.z);
+                    newPos.y = newPos.y + i * 1.5f;
+                    Vector3 offsetPos = transform.position;
+                    offsetPos.y = offsetPos.y + 1;
+                    Vector3 direction = newPos - offsetPos;
+
+                    rangeAttack(offsetPos, direction, gameController.projectileType.fireball);
+
+                }
+            }
+        }
+    }
+    public void RadianceShapeDraw(drawShape.shape myshape)
+    {
+        if (canRangeAttack == false)//prevent use of melee
+            return;
+
+        if (lastDrawShape == drawShape.shape.horizontal_line)
+        {
+            if (myshape == drawShape.shape.vertical_line)
+            {
+                if (isAttack == true)
+                    return;
+
+                //multiple attack
+                rangeAttackAnimation();
+                for (int i = 0; i < 3; i++)//3
+                {
+                    Vector3 newPos = new Vector3(enemy.transform.position.x,
+                                                 enemy.transform.position.y, enemy.transform.position.z);
+                    newPos.y = newPos.y + i * 1.5f;
+                    Vector3 offsetPos = transform.position;
+                    offsetPos.y = offsetPos.y + 1;
+                    Vector3 direction = newPos - offsetPos;
+
+                    rangeAttack(offsetPos, direction, gameController.projectileType.fireball);
+                    lastDrawShape = drawShape.shape.no_shape;//reset
+
+                }
+            }
+            else
+            {
+                lastDrawShape = drawShape.shape.no_shape;
+                RadianceShapeDraw(myshape);//call ownself again
+            }
+        }
+        else if (lastDrawShape == drawShape.shape.diagonal_BLTR)//positive
+        {
+            //in combo
+
+            if (myshape == drawShape.shape.diagonal_TLBR)//negative
+            {
+              //  Debug.Log("can combo: " + canCombo.ToString());
+                if (canCombo == true)
+                {
+                  
+                    castModeMeleeCombo();
+                }
+
+                lastDrawShape = drawShape.shape.no_shape;
+            }
+            else if (myshape == drawShape.shape.diagonal_BLTR)//positive
+            {
+                meleeAttack();
+                isMeleeComboCount[0] = true;
+                myAnimator.SetBool("meleeAttack1", true);
+                coolDownMeleeTimer[0] = coolDownMeleeAttackRate;
+                StartCoroutine(WaitForAnimation("melee 1", 0));
+
+                lastDrawShape = drawShape.shape.diagonal_BLTR;
+            }
+            else
+            {
+                lastDrawShape = drawShape.shape.no_shape;
+                RadianceShapeDraw(myshape);//call ownself again
+            }
+        }
+        else if (lastDrawShape == drawShape.shape.triangle)
+        {
+            if (myshape == drawShape.shape.square)
+            {
+                if (isSpellCast[(int)spellType.armor_spell] == true)
+                    return;//use before
+                Debug.Log("in armor");
+                defFactor = 1.5f;//increase defense 
+                isSpellCast[(int)spellType.armor_spell] = true;
+                StartCoroutine(startSpell(spellType.armor_spell, 8.0f));
+            }
+            else
+            {
+                lastDrawShape = drawShape.shape.no_shape;
+                RadianceShapeDraw(myshape);//call ownself again
+            }
+        }
+        else if (lastDrawShape == drawShape.shape.square)
+        {
+
+        }
+        else if (lastDrawShape == drawShape.shape.diamond)
+        {
+
+        }
+        else if (lastDrawShape == drawShape.shape.no_shape)
+        {
+            if (myshape == drawShape.shape.vertical_line)
+            {
+                if (isAttack == true)
+                    return;
+                //single attack
+                rangeAttackAnimation();
+                Vector3 offsetPos = transform.position;
+                offsetPos.y = offsetPos.y + 1;
+                Vector3 direction = enemy.transform.position - offsetPos;
+
+                rangeAttack(offsetPos, direction, gameController.projectileType.fireball);
+                lastDrawShape = drawShape.shape.no_shape;//reset
+                Debug.Log("in vert");
+            }
+            else if (myshape == drawShape.shape.diagonal_BLTR)//positive
+            {
+                meleeAttack();
+                isMeleeComboCount[0] = true;
+                myAnimator.SetBool("meleeAttack1", true);
+                coolDownMeleeTimer[0] = coolDownMeleeAttackRate;
+                StartCoroutine(WaitForAnimation("melee 1", 0));
+
+                lastDrawShape = drawShape.shape.diagonal_BLTR;
+
+                Debug.Log("do not come in twice");
+            }
+            else
+            {
+                lastDrawShape = myshape;
+            }
+        }
+
+
+    }
+    IEnumerator startSpell(spellType _spell,float timeTaken)
+    {
+        yield return new WaitForSeconds(timeTaken);
+
+        if (characterSelectManager.selectedCharacter == (int)characterSelectManager.mage.Inferno)
+        {
+            if (_spell == spellType.armor_spell)
+            {
+                defFactor = 1;//reset
+            }
+            else if (_spell == spellType.passive_spell)
+            {
+                //defFactor = 1;//reset
+            }
+        }
+        else if (characterSelectManager.selectedCharacter == (int)characterSelectManager.mage.Pristine)
+        {
+            if (_spell == spellType.armor_spell)
+            {
+                defFactor = 1;//reset
+            }
+            else if (_spell == spellType.passive_spell)
+            {
+                //defFactor = 1;//reset
+            }
+        }
+        else if (characterSelectManager.selectedCharacter == (int)characterSelectManager.mage.Radiance)
+        {
+            if (_spell == spellType.armor_spell)
+            {
+                defFactor = 1;//reset
+            }
+            else if (_spell == spellType.passive_spell)
+            {
+                //defFactor = 1;//reset
+            }
+        }
+    }
     //[Client]
     //protected void setNetworkIdentify()
     //{

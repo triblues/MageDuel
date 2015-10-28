@@ -11,12 +11,14 @@ public class weaponBase : MonoBehaviour {
 	[SerializeField] protected float knockBack;
 	protected Vector3 movement;
 	protected int numTag;//store the number that the character fire this attack
+    protected int comboCount;
 	protected float totalTime;
 	// Use this for initialization
 	void Start () {
-	
 
-	}
+        comboCount = 1;//default
+
+    }
 
 	public float getDeSpawnTime()
 	{
@@ -54,7 +56,6 @@ public class weaponBase : MonoBehaviour {
 	}
 	protected virtual void OnTriggerEnter(Collider other)
 	{
-   //     Debug.Log("other: " + other.name);
         if (other.GetComponent<CharacterBase>() != null)//has this script
         {
             if (other.GetComponent<CharacterBase>().getCharacterTag() != numTag)//prevent own attack to hit ownself
@@ -62,25 +63,24 @@ public class weaponBase : MonoBehaviour {
                 if (other.GetComponent<CharacterBase>().getIsBlocking() == false)
                 {
                    other.GetComponent<CharacterBase>().TakesDamage(damage);
-                  
-                    other.GetComponent<CharacterBase>().getEnemy().GetComponent<CharacterBase>().setComboCount(1);
+                    other.GetComponent<CharacterBase>().getEnemy().GetComponent<CharacterBase>().setComboCount(comboCount);
 
                     other.GetComponent<Rigidbody>().AddForce(-other.GetComponent<Transform>().forward * knockBack,
                                                              ForceMode.Impulse);
 
 
-
+                    
                     other.GetComponent<CharacterBase>().getEnemy().GetComponent<CharacterBase>().
                   addCurrentChargingBar(chargeAmount);
 
 
                 }
-                gameObject.SetActive(false);
+           
             }
         }
         else
         {
-            if (other.GetComponent<weaponBase>() == null)//don have this script
+            if (other.GetComponent<weaponBase>() == null)//don have this script (mean hit a wall)
                 gameObject.SetActive(false);
         }
 

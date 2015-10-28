@@ -20,6 +20,8 @@ public class drawShape : MonoBehaviour
     {
         horizontal_line,
         vertical_line,
+        diagonal_BLTR,//positive
+        diagonal_TLBR,//negative
         triangle,
         square,
         diamond,
@@ -43,62 +45,78 @@ public class drawShape : MonoBehaviour
     [Tooltip("maximum must be positive")]
     public float maxOffset = 1.0f;
 
-    List<Vector3> mypointList;//all the point the player draw
-    List<Vector3> turningPointList;//contain all the turining point, eg, a square will have 4 turning point
-    List<Vector3> allLineVector;//contain all the line vector,
+    public Color drawColor;
+    public Color rightColor;
+    public Color wrongColor;
+
+    List<Vector2> mypointList;//all the point the player draw
+    List<Vector2> turningPointList;//contain all the turining point, eg, a square will have 4 turning point
+    List<Vector2> allLineVector;//contain all the line vector,
     List<direction> allGradientList;//contain all the gradient
     List<float> allAngle;
 
     LineRenderer myline;
     bool isMousePressed;
-    Vector3 mousePos;
+    Vector2 mousePos;
     float mytime;
+    float mytFadeTmer;
     direction current_direction;
     direction last_direction;
     shape myshape;
+    mainPlayer mycharbase;
+    Camera drawCam;
+    Coroutine co;
 
     void Start()
     {
+        
         isMousePressed = false;
         myline = GetComponent<LineRenderer>();
-        mypointList = new List<Vector3>();
-        turningPointList = new List<Vector3>();
+        mypointList = new List<Vector2>();
+        turningPointList = new List<Vector2>();
         allAngle = new List<float>();
-        allLineVector = new List<Vector3>();
+        allLineVector = new List<Vector2>();
         allGradientList = new List<direction>();
         mytime = -1;
+        mytFadeTmer = 1.0f;
         myshape = shape.no_shape;
 
-        //Vector2 a = new Vector2(1, 1);
-        //Vector2 b = new Vector2(1, -3);
-        //double angle = Mathf.Atan2(b.y - a.y, b.x - a.x) * 180 / Mathf.PI;
 
+        GameObject[] temp;
+        temp = GameObject.FindGameObjectsWithTag("Main Player");
 
+        foreach (GameObject a in temp)
+        {
+            if (a.name.Contains("Clone") == true)
+                GameObject.Destroy(a);
+            else
+                mycharbase = a.GetComponent<mainPlayer>();
+        }
 
+        drawCam = GameObject.Find("draw camera").GetComponent<Camera>();
+
+        myline.SetColors(drawColor, drawColor);
     }
     public shape getShape()
     {
         return myshape;
     }
-    public void setShape()
+    public void resetShape()
     {
         myshape = shape.no_shape;
     }
     // Update is called once per frame
     void Update()
     {
-
+        
         if (Input.GetMouseButtonDown(0))
         {
-            
+            if (co != null)
+            {
+                //  Debug.Log("in co");
+                StopCoroutine(co);
+            }
             isMousePressed = true;
-
-        }
-        if (Input.GetMouseButtonUp(0))
-        {
-            isMousePressed = false;
-            new_check_line();
-
             mypointList.RemoveRange(0, mypointList.Count);
             turningPointList.RemoveRange(0, turningPointList.Count);
             allLineVector.RemoveRange(0, allLineVector.Count);
@@ -106,23 +124,54 @@ public class drawShape : MonoBehaviour
             allGradientList.RemoveRange(0, allGradientList.Count);
             myline.SetVertexCount(0);
 
+
+             myline.SetColors(drawColor, drawColor);
+            Debug.Log("here press");
+
+        }
+        if (Input.GetMouseButtonUp(0))
+        {
+            mytFadeTmer = 1.0f;
+            isMousePressed = false;
+            new_check_line();
+            if (myshape == shape.no_shape)
+                myline.SetColors(wrongColor, wrongColor);
+            else
+                myline.SetColors(rightColor, rightColor);
+
+            co = StartCoroutine(waitForSecond(1.0f));
+            if (characterSelectManager.selectedCharacter == (int)characterSelectManager.mage.Inferno)
+            {
+                // mycharbase.checkShapeDraw(myshape);
+            }
+            else if (characterSelectManager.selectedCharacter == (int)characterSelectManager.mage.Pristine)
+            {
+                // mycharbase.checkShapeDraw(myshape);
+            }
+            else if (characterSelectManager.selectedCharacter == (int)characterSelectManager.mage.Radiance)
+            {
+                mycharbase.RadianceShapeDraw(myshape);
+            }
+
+            resetShape();
         }
        
 
         if (isMousePressed == true)
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            Plane xy = new Plane(Vector3.forward, new Vector3(0, 0, 1));
+            //Ray ray = drawCam.ScreenPointToRay(Input.mousePosition);
+            mousePos = drawCam.ScreenToWorldPoint(Input.mousePosition);
+            // Plane xy = new Plane(Vector3.forward, new Vector3(0, 0, 1));
 
-            float distance;
-            xy.Raycast(ray, out distance);
-            ray.GetPoint(distance).Set(ray.GetPoint(distance).x, ray.GetPoint(distance).y, 0);
+            //  float distance;
+            // xy.Raycast(ray, out distance);
+            //ray.GetPoint(distance).Set(ray.GetPoint(distance).x, ray.GetPoint(distance).y, 0);
 
             if (mypointList.Count > 0)
             {
-                if (mypointList[mypointList.Count - 1] == ray.GetPoint(distance))//mousepos
+                if (mypointList[mypointList.Count - 1] == mousePos)//mousepos,ray.GetPoint(distance)
                 {
-                    Debug.Log("in2");
+                   
                     return;//player never move their mouse
                 }
 
@@ -132,10 +181,14 @@ public class drawShape : MonoBehaviour
             if (mytime < Time.time)
             {
                
-                mypointList.Add(ray.GetPoint(distance));
-              
+                //mypointList.Add(ray.GetPoint(distance));
+                //myline.SetVertexCount(mypointList.Count);
+                //myline.SetPosition(mypointList.Count - 1, ray.GetPoint(distance));
+                //mytime = Time.time + delayTime;
+
+                mypointList.Add(mousePos);
                 myline.SetVertexCount(mypointList.Count);
-                myline.SetPosition(mypointList.Count - 1, ray.GetPoint(distance));
+                myline.SetPosition(mypointList.Count - 1, mousePos);
                 mytime = Time.time + delayTime;
             }
         }
@@ -235,8 +288,8 @@ public class drawShape : MonoBehaviour
                     last_direction = current_direction;
                     allGradientList.Add(current_direction);
 
-                    Debug.Log("last: " + last_direction.ToString() + " " + i.ToString() + " " + (i + increaseLoopCount).ToString());
-                    Debug.DrawLine(mypointList[i], mypointList[i + increaseLoopCount], Color.blue);
+                   // Debug.Log("last: " + last_direction.ToString() + " " + i.ToString() + " " + (i + increaseLoopCount).ToString());
+                    //Debug.DrawLine(mypointList[i], mypointList[i + increaseLoopCount], Color.blue);
                 }
                 else
                 {
@@ -252,8 +305,8 @@ public class drawShape : MonoBehaviour
                         allGradientList.Add(current_direction);
 
                     }
-                    Debug.Log("last: " + last_direction.ToString() + " " + i.ToString() + " " + (i + increaseLoopCount).ToString());
-                    Debug.DrawLine(mypointList[i], mypointList[i + increaseLoopCount], Color.blue);
+                  //  Debug.Log("last: " + last_direction.ToString() + " " + i.ToString() + " " + (i + increaseLoopCount).ToString());
+                    //Debug.DrawLine(mypointList[i], mypointList[i + increaseLoopCount], Color.blue);
                 }
             }
             determineShape(num_of_turning_point);
@@ -279,12 +332,12 @@ public class drawShape : MonoBehaviour
 
                 if (turningPointList.Count == 3)
                 {
-                   
+                    myshape = shape.triangle;
                     Debug.Log("triangle");
                 }
                 else if (turningPointList.Count >= 4)
                 {
-                    Debug.Log("gradient list: " + allGradientList.Count.ToString());
+                  //  Debug.Log("gradient list: " + allGradientList.Count.ToString());
 
                     if (allGradientList[0] == allGradientList[2] && allGradientList[1] == allGradientList[3])
                     {
@@ -292,7 +345,8 @@ public class drawShape : MonoBehaviour
                         {
                             if (allGradientList[1] == direction.horizontal || allGradientList[1] == direction.vertical)
                             {
-
+                                myshape = shape.square;
+                                Debug.Log("square");
                                 return;
                             }
 
@@ -301,7 +355,8 @@ public class drawShape : MonoBehaviour
                         {
                             if (allGradientList[1] == direction.positive || allGradientList[1] == direction.negative)
                             {
-
+                                myshape = shape.diamond;
+                                Debug.Log("diamond");
                                 return;
                             }
                         }
@@ -310,9 +365,13 @@ public class drawShape : MonoBehaviour
                     }
                     else
                     {
-
+                        myshape = shape.no_shape;
 
                     }
+                }
+                else
+                {
+                    myshape = shape.no_shape;
                 }
 
                
@@ -324,7 +383,7 @@ public class drawShape : MonoBehaviour
             //we know this is a line
             float gradient = getGradient(mypointList[0], mypointList[mypointList.Count - 1]);//first and last point
             getDirection(gradient);
-            Debug.Log("gradient: " + gradient.ToString());
+          //  Debug.Log("gradient: " + gradient.ToString());
             //Debug.Log("current: " + current_direction.ToString());
             if (current_direction == direction.horizontal)
             {
@@ -336,12 +395,33 @@ public class drawShape : MonoBehaviour
                 myshape = shape.vertical_line;
                 Debug.Log("vertical line");
             }
+            else if(current_direction == direction.positive)
+            {
+                Debug.Log("positive");
+                myshape = shape.diagonal_BLTR;
+            }
+            else if(current_direction == direction.negative)
+            {
+                Debug.Log("negative");
+                myshape = shape.diagonal_TLBR;
+            }
             else
             {
-                
+                myshape = shape.no_shape;
                 Debug.Log("this is a bug");
             }
         }
+    }
+
+    IEnumerator waitForSecond(float second)
+    {
+        yield return new WaitForSeconds(second);
+        mypointList.RemoveRange(0, mypointList.Count);
+        turningPointList.RemoveRange(0, turningPointList.Count);
+        allLineVector.RemoveRange(0, allLineVector.Count);
+        allAngle.RemoveRange(0, allAngle.Count);
+        allGradientList.RemoveRange(0, allGradientList.Count);
+        myline.SetVertexCount(0);
     }
 
 }

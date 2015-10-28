@@ -4,7 +4,8 @@ using UnityEngine.UI;
 
 public class characterSelectManager : MonoBehaviour {
 
-    enum mage
+    [HideInInspector]
+    public enum mage
     {
         Inferno,
         Pristine,

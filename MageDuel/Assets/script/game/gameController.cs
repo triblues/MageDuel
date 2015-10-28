@@ -40,7 +40,7 @@ public class gameController : MonoBehaviour
             myPoolObj.Add(temp);
         }
 
-       
+        characterSelectManager.selectedCharacter = 2;//plz remove
         //GameObject myplayer = Instantiate(allCharacter[characterSelectManager.selectedCharacter], spawnPos[0], 
         //    Quaternion.identity) as GameObject;//spawn player
 
@@ -50,8 +50,8 @@ public class gameController : MonoBehaviour
         //myplayer.GetComponent<CharacterBase>().enabled = true;
         //myenemy.GetComponent<CharacterBase>().enabled = true;
         //Camera.main.GetComponent<CameraController>().enabled = true;
-        
-        
+
+
     }
 
     // Update is called once per frame
