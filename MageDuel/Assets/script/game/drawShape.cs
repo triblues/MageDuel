@@ -82,17 +82,17 @@ public class drawShape : MonoBehaviour
         myshape = shape.no_shape;
 
 
-        GameObject[] temp;
-        temp = GameObject.FindGameObjectsWithTag("Main Player");
+        //GameObject[] temp;
+        //temp = GameObject.FindGameObjectsWithTag("Main Player");
 
-        foreach (GameObject a in temp)
-        {
-            if (a.name.Contains("Clone") == true)
-                GameObject.Destroy(a);
-            else
-                mycharbase = a.GetComponent<CharacterBase>();
-        }
-
+        //foreach (GameObject a in temp)
+        //{
+        //    if (a.name.Contains("Clone") == true)
+        //        GameObject.Destroy(a);
+        //    else
+        //        mycharbase = a.GetComponent<CharacterBase>();
+        //}
+        mycharbase = GameObject.FindGameObjectWithTag("Main Player").GetComponent<CharacterBase>();
         drawCam = GameObject.Find("draw camera").GetComponent<Camera>();
 
         myline.SetColors(drawColor, drawColor);

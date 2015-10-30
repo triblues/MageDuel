@@ -57,9 +57,11 @@
      <Compile Include="Assets\script\game\camera\CameraController.cs" />
      <Compile Include="Assets\script\game\camera\ultimateCameraController.cs" />
      <Compile Include="Assets\script\game\character\CharacterBase.cs" />
+     <Compile Include="Assets\script\game\character\UI\UICoolDown.cs" />
      <Compile Include="Assets\script\game\character\enemy\EnemyAI.cs" />
      <Compile Include="Assets\script\game\character\enemy\EnemyAttack.cs" />
      <Compile Include="Assets\script\game\character\enemy\EnemyMovement.cs" />
+     <Compile Include="Assets\script\game\character\enemy\batController.cs" />
      <Compile Include="Assets\script\game\character\player\blockController.cs" />
      <Compile Include="Assets\script\game\character\player\infernoPlayerController.cs" />
      <Compile Include="Assets\script\game\character\player\mainPlayer.cs" />
@@ -72,6 +74,7 @@
      <Compile Include="Assets\script\game\gameController.cs" />
      <Compile Include="Assets\script\game\network\networkManagerController.cs" />
      <Compile Include="Assets\script\gameSettings.cs" />
+     <Compile Include="Assets\script\level select\levelSelectController.cs" />
      <Compile Include="Assets\script\menu\DisplayCredits.cs" />
      <Compile Include="Assets\script\menu\MainMenuButton.cs" />
      <Compile Include="Assets\script\menu\MainMenuGUI.cs" />

@@ -24,12 +24,14 @@ public class infernoPlayerController : CharacterBase
     int[] spellDuration;
    
 
-    ParticleSystem myArmorPS;
-    ParticleSystem mySpeedPS;
-    ParticleSystem myPassivePS;
+    ParticleSystem myArmorPS;//armor
+    ParticleSystem mySpeedPS;//active
+    ParticleSystem myPassivePS;//passive
     protected drawShape myDrawShape;
     drawShape.shape lastDrawShape;
 
+    UICoolDown UIarmorCD;
+    UICoolDown UIActiveCD;
     bool[] canCastSpell;
 
 
@@ -43,6 +45,8 @@ public class infernoPlayerController : CharacterBase
         chargingBar = GameObject.Find("Canvas").transform.Find("player/charging bar outer/charging bar inner").
             GetComponent<Image>();
 
+        UIarmorCD = GameObject.Find("Canvas").transform.Find("player/armor image outer/armor image inner").GetComponent<UICoolDown>();
+        UIActiveCD = GameObject.Find("Canvas").transform.Find("player/active image outer/active image inner").GetComponent<UICoolDown>();
 
         myArmorPS = transform.Find("armor").GetComponent<ParticleSystem>();
         mySpeedPS = transform.Find("Fire Trail").GetComponent<ParticleSystem>();
@@ -98,7 +102,21 @@ public class infernoPlayerController : CharacterBase
         }
 
        
+        //if(Input.GetKeyDown(KeyCode.Space))
+        //{
+        //    if (canCastSpell[0] == true)//armor spell
+        //    {
+        //        Debug.Log("in armor");
+        //        isKnockBack = false;
+        //        canCastSpell[0] = false;
+        //        myArmorPS.Play();
+        //        UIarmorCD.startCoolDown(spellCastCoolDown[0], canCastSpell,0);
+        //        StartCoroutine(spellDurationTimer(spellType.armor_spell, spellDuration[0]));
+        //      //  StartCoroutine(spellCoolDown(spellCastCoolDown[0], canCastSpell, 0));
 
+
+        //    }
+        //}
 
     }
     void checkBlocking()
@@ -126,6 +144,7 @@ public class infernoPlayerController : CharacterBase
 
     protected void castModeMeleeCombo()
     {
+        isInCombo = true;
         meleeAttack();//2nd attack
 
         myAnimator.SetBool("meleeAttack2", true);
@@ -183,24 +202,28 @@ public class infernoPlayerController : CharacterBase
         {
             if (myshape == drawShape.shape.vertical_line)
             {
-                if (isAttack == true)
-                    return;
-
-                //multiple attack
-                rangeAttackAnimation();
-                for (int i = 0; i < 3; i++)//3
+                if (canRangeAttack == true && canMeleeAttack == true)
                 {
-                    Vector3 newPos = new Vector3(enemy.transform.position.x,
-                                                 enemy.transform.position.y, enemy.transform.position.z);
-                    newPos.y = newPos.y + i * 1.5f;
-                    Vector3 offsetPos = transform.position;
-                    offsetPos.y = offsetPos.y + 1;
-                    Vector3 direction = newPos - offsetPos;
 
-                    rangeAttack(offsetPos, direction, gameController.projectileType.fireball);
-                    lastDrawShape = drawShape.shape.no_shape;//reset
+                    //multiple range attack
+                    rangeAttackAnimation();
+                    for (int i = 1; i <= 3; i++)//3
+                    {
+                        Vector3 newPos = new Vector3(enemy.transform.position.x,
+                                                     enemy.transform.position.y, enemy.transform.position.z);
+                        newPos.y = newPos.y + i * 1.5f;
+                        Vector3 offsetPos = transform.position;
+                        offsetPos.y = offsetPos.y + 1;
+                        Vector3 direction = newPos - offsetPos;
 
+                        rangeAttack(offsetPos, direction, gameController.projectileType.fireball);
+
+                        
+
+
+                    }
                 }
+                lastDrawShape = drawShape.shape.no_shape;//reset
             }
             else
             {
@@ -234,22 +257,25 @@ public class infernoPlayerController : CharacterBase
         {
             if (myshape == drawShape.shape.square)
             {
-                if (canCastSpell[0] == false)//armor spell
-                    return;//in cooldown
-                           
-                isKnockBack = false;
-                canCastSpell[0] = false;
-                myArmorPS.Play();
-                StartCoroutine(spellDurationTimer(spellType.armor_spell, spellDuration[0]));
-                StartCoroutine(spellCoolDown(spellCastCoolDown[0], canCastSpell, 0));
+                if (canCastSpell[0] == true)//armor spell
+                {
+                    isKnockBack = false;
+                    canCastSpell[0] = false;
+                    myArmorPS.Play();
+                    UIarmorCD.startCoolDown(spellCastCoolDown[0], canCastSpell, 0);
+                    StartCoroutine(spellDurationTimer(spellType.armor_spell, spellDuration[0]));
+                  
 
+                    
+                }
                 lastDrawShape = drawShape.shape.no_shape;
             }
-            else if(myshape == drawShape.shape.diamond)
+            else if(myshape == drawShape.shape.diamond)//ultimate
             {
                 myUltiCamera.setCharacterDetail(transform, transform.forward, isBlockLeft);
                 myUltiCamera.enabled = true;
                 isCastModeAnimation = true;
+                lastDrawShape = drawShape.shape.no_shape;
             }
             else
             {
@@ -261,14 +287,14 @@ public class infernoPlayerController : CharacterBase
         {
             if (myshape == drawShape.shape.diamond)
             {
-                if (canCastSpell[2] == false)//instant cooldown spell
-                    return;//in cooldown
+                if (canCastSpell[2] == true)//instant cooldown spell
+                {
 
-                canCastSpell[0] = true;
-                canCastSpell[1] = true;
-                canCastSpell[2] = false;
-                myPassivePS.Play();
-
+                    canCastSpell[0] = true;
+                    canCastSpell[1] = true;
+                    canCastSpell[2] = false;
+                    myPassivePS.Play();
+                }
                 lastDrawShape = drawShape.shape.no_shape;
                
             }
@@ -282,16 +308,18 @@ public class infernoPlayerController : CharacterBase
         {
             if (myshape == drawShape.shape.triangle)//speed boost
             {
-                if (canCastSpell[1] == false)//speed spell
-                    return;//in cooldown
+                if (canCastSpell[1] == true)//speed spell
+                {
 
-                canCastSpell[1] = false;
-                mySpeedPS.enableEmission = true;
-                normalSpeed = normalSpeed * 2;
+                    canCastSpell[1] = false;
+                    mySpeedPS.enableEmission = true;
+                    normalSpeed = normalSpeed * 2;
 
+                    UIActiveCD.startCoolDown(spellCastCoolDown[1], canCastSpell, 1);
+                    StartCoroutine(spellDurationTimer(spellType.active_spell, spellDuration[1]));
+                    //StartCoroutine(spellCoolDown(spellCastCoolDown[1], canCastSpell, 1));
+                }
                 lastDrawShape = drawShape.shape.no_shape;
-                StartCoroutine(spellDurationTimer(spellType.active_spell, spellDuration[1]));
-                StartCoroutine(spellCoolDown(spellCastCoolDown[1], canCastSpell, 1));
             }
             else
             {
@@ -303,34 +331,38 @@ public class infernoPlayerController : CharacterBase
         {
             if (myshape == drawShape.shape.vertical_line)
             {
-                if (isAttack == true)
+                if (canRangeAttack == true && canMeleeAttack == true)
                 {
-                    Debug.Log("in here att");
-                    return;
+                    //single attack
+                    rangeAttackAnimation();
+                    Vector3 offsetPos = transform.position;
+                    Vector3 offsetPos_enemy = enemy.transform.position;
+                    offsetPos.y = offsetPos.y + 1;
+                    offsetPos_enemy.y = offsetPos_enemy.y + 1;
+                    Vector3 direction = offsetPos_enemy - offsetPos;
+
+                    rangeAttack(offsetPos, direction, gameController.projectileType.fireball);
                 }
 
-                //single attack
-                rangeAttackAnimation();
-                Vector3 offsetPos = transform.position;
-                offsetPos.y = offsetPos.y + 1;
-                Vector3 direction = enemy.transform.position - offsetPos;
-
-                rangeAttack(offsetPos, direction, gameController.projectileType.fireball);
+                
                 lastDrawShape = drawShape.shape.no_shape;//reset
 
             }
             else if (myshape == drawShape.shape.diagonal_BLTR)//positive
             {
-                if (canRangeAttack == false)//prevent use of melee
-                    return;
-                Debug.Log("melee att 1");
-                meleeAttack();
-                isMeleeComboCount[0] = true;
-                myAnimator.SetBool("meleeAttack1", true);
-                coolDownMeleeTimer[0] = coolDownMeleeAttackRate;
-                StartCoroutine(WaitForAnimation("melee 1", 0));
+                if (canRangeAttack == true)//check if can use of melee
+                {
 
-                lastDrawShape = drawShape.shape.diagonal_BLTR;
+                    meleeAttack();
+                    isMeleeComboCount[0] = true;
+                    myAnimator.SetBool("meleeAttack1", true);
+                    coolDownMeleeTimer[0] = coolDownMeleeAttackRate;
+                    StartCoroutine(WaitForAnimation("melee 1", 0));
+
+                    lastDrawShape = drawShape.shape.diagonal_BLTR;
+                }
+                else
+                    lastDrawShape = drawShape.shape.no_shape;
 
             }
             else

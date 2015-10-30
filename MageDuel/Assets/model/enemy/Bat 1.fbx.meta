@@ -1,0 +1,970 @@
+fileFormatVersion: 2
+guid: 7685df94c89aef14aac5c0dfdbbf2db7
+timeCreated: 1446179243
+licenseType: Free
+ModelImporter:
+  serializedVersion: 18
+  fileIDToRecycleName:
+    100000: Armature
+    100002: //RootNode
+    100004: Body
+    100006: Cube
+    100008: Foot.L
+    100010: Foot.R
+    100012: Leg.L
+    100014: Leg.R
+    100016: Lower_foot.L
+    100018: Lower_foot.L_end
+    100020: Lower_foot.R
+    100022: Lower_foot.R_end
+    100024: Wing_1.L
+    100026: Wing_1.R
+    100028: Wing_2.L
+    100030: Wing_2.R
+    100032: Wing_3.L
+    100034: Wing_3.R
+    100036: Wing_4.L
+    100038: Wing_4.L_end
+    100040: Wing_4.R
+    100042: Wing_4.R_end
+    400000: Armature
+    400002: //RootNode
+    400004: Body
+    400006: Cube
+    400008: Foot.L
+    400010: Foot.R
+    400012: Leg.L
+    400014: Leg.R
+    400016: Lower_foot.L
+    400018: Lower_foot.L_end
+    400020: Lower_foot.R
+    400022: Lower_foot.R_end
+    400024: Wing_1.L
+    400026: Wing_1.R
+    400028: Wing_2.L
+    400030: Wing_2.R
+    400032: Wing_3.L
+    400034: Wing_3.R
+    400036: Wing_4.L
+    400038: Wing_4.L_end
+    400040: Wing_4.R
+    400042: Wing_4.R_end
+    4300000: Cube
+    7400000: Armature|Attack
+    7400002: Armature|Default
+    7400004: Armature|Defence
+    7400006: Armature|Die
+    7400008: Armature|Idle
+    7400010: Armature|Melee_!
+    7400012: Armature|Melee_2
+    7400014: Armature|Melee_3
+    7400016: Armature|Stun
+    7400018: Armature|Take damage
+    7400020: Cube|Default
+    7400022: Cube|Die
+    9500000: //RootNode
+    13700000: Cube
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Armature|Attack
+      takeName: Armature|Attack
+      firstFrame: 0
+      lastFrame: 24
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Armature
+        weight: 1
+      - path: Armature/Body
+        weight: 1
+      - path: Armature/Body/Leg.L
+        weight: 1
+      - path: Armature/Body/Leg.L/Foot.L
+        weight: 1
+      - path: Armature/Body/Leg.L/Foot.L/Lower_foot.L
+        weight: 1
+      - path: Armature/Body/Leg.L/Foot.L/Lower_foot.L/Lower_foot.L_end
+        weight: 1
+      - path: Armature/Body/Leg.R
+        weight: 1
+      - path: Armature/Body/Leg.R/Foot.R
+        weight: 1
+      - path: Armature/Body/Leg.R/Foot.R/Lower_foot.R
+        weight: 1
+      - path: Armature/Body/Leg.R/Foot.R/Lower_foot.R/Lower_foot.R_end
+        weight: 1
+      - path: Armature/Body/Wing_1.L
+        weight: 1
+      - path: Armature/Body/Wing_1.L/Wing_2.L
+        weight: 1
+      - path: Armature/Body/Wing_1.L/Wing_2.L/Wing_3.L
+        weight: 1
+      - path: Armature/Body/Wing_1.L/Wing_2.L/Wing_3.L/Wing_4.L
+        weight: 1
+      - path: Armature/Body/Wing_1.L/Wing_2.L/Wing_3.L/Wing_4.L/Wing_4.L_end
+        weight: 1
+      - path: Armature/Body/Wing_1.R
+        weight: 1
+      - path: Armature/Body/Wing_1.R/Wing_2.R
+        weight: 1
+      - path: Armature/Body/Wing_1.R/Wing_2.R/Wing_3.R
+        weight: 1
+      - path: Armature/Body/Wing_1.R/Wing_2.R/Wing_3.R/Wing_4.R
+        weight: 1
+      - path: Armature/Body/Wing_1.R/Wing_2.R/Wing_3.R/Wing_4.R/Wing_4.R_end
+        weight: 1
+      - path: Cube
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Armature|Default
+      takeName: Armature|Default
+      firstFrame: 0
+      lastFrame: 1
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Armature
+        weight: 1
+      - path: Armature/Body
+        weight: 1
+      - path: Armature/Body/Leg.L
+        weight: 1
+      - path: Armature/Body/Leg.L/Foot.L
+        weight: 1
+      - path: Armature/Body/Leg.L/Foot.L/Lower_foot.L
+        weight: 1
+      - path: Armature/Body/Leg.L/Foot.L/Lower_foot.L/Lower_foot.L_end
+        weight: 1
+      - path: Armature/Body/Leg.R
+        weight: 1
+      - path: Armature/Body/Leg.R/Foot.R
+        weight: 1
+      - path: Armature/Body/Leg.R/Foot.R/Lower_foot.R
+        weight: 1
+      - path: Armature/Body/Leg.R/Foot.R/Lower_foot.R/Lower_foot.R_end
+        weight: 1
+      - path: Armature/Body/Wing_1.L
+        weight: 1
+      - path: Armature/Body/Wing_1.L/Wing_2.L
+        weight: 1
+      - path: Armature/Body/Wing_1.L/Wing_2.L/Wing_3.L
+        weight: 1
+      - path: Armature/Body/Wing_1.L/Wing_2.L/Wing_3.L/Wing_4.L
+        weight: 1
+      - path: Armature/Body/Wing_1.L/Wing_2.L/Wing_3.L/Wing_4.L/Wing_4.L_end
+        weight: 1
+      - path: Armature/Body/Wing_1.R
+        weight: 1
+      - path: Armature/Body/Wing_1.R/Wing_2.R
+        weight: 1
+      - path: Armature/Body/Wing_1.R/Wing_2.R/Wing_3.R
+        weight: 1
+      - path: Armature/Body/Wing_1.R/Wing_2.R/Wing_3.R/Wing_4.R
+        weight: 1
+      - path: Armature/Body/Wing_1.R/Wing_2.R/Wing_3.R/Wing_4.R/Wing_4.R_end
+        weight: 1
+      - path: Cube
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Armature|Defence
+      takeName: Armature|Defence
+      firstFrame: 0
+      lastFrame: 11
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Armature
+        weight: 1
+      - path: Armature/Body
+        weight: 1
+      - path: Armature/Body/Leg.L
+        weight: 1
+      - path: Armature/Body/Leg.L/Foot.L
+        weight: 1
+      - path: Armature/Body/Leg.L/Foot.L/Lower_foot.L
+        weight: 1
+      - path: Armature/Body/Leg.L/Foot.L/Lower_foot.L/Lower_foot.L_end
+        weight: 1
+      - path: Armature/Body/Leg.R
+        weight: 1
+      - path: Armature/Body/Leg.R/Foot.R
+        weight: 1
+      - path: Armature/Body/Leg.R/Foot.R/Lower_foot.R
+        weight: 1
+      - path: Armature/Body/Leg.R/Foot.R/Lower_foot.R/Lower_foot.R_end
+        weight: 1
+      - path: Armature/Body/Wing_1.L
+        weight: 1
+      - path: Armature/Body/Wing_1.L/Wing_2.L
+        weight: 1
+      - path: Armature/Body/Wing_1.L/Wing_2.L/Wing_3.L
+        weight: 1
+      - path: Armature/Body/Wing_1.L/Wing_2.L/Wing_3.L/Wing_4.L
+        weight: 1
+      - path: Armature/Body/Wing_1.L/Wing_2.L/Wing_3.L/Wing_4.L/Wing_4.L_end
+        weight: 1
+      - path: Armature/Body/Wing_1.R
+        weight: 1
+      - path: Armature/Body/Wing_1.R/Wing_2.R
+        weight: 1
+      - path: Armature/Body/Wing_1.R/Wing_2.R/Wing_3.R
+        weight: 1
+      - path: Armature/Body/Wing_1.R/Wing_2.R/Wing_3.R/Wing_4.R
+        weight: 1
+      - path: Armature/Body/Wing_1.R/Wing_2.R/Wing_3.R/Wing_4.R/Wing_4.R_end
+        weight: 1
+      - path: Cube
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Armature|Die
+      takeName: Armature|Die
+      firstFrame: 0
+      lastFrame: 24
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Armature
+        weight: 1
+      - path: Armature/Body
+        weight: 1
+      - path: Armature/Body/Leg.L
+        weight: 1
+      - path: Armature/Body/Leg.L/Foot.L
+        weight: 1
+      - path: Armature/Body/Leg.L/Foot.L/Lower_foot.L
+        weight: 1
+      - path: Armature/Body/Leg.L/Foot.L/Lower_foot.L/Lower_foot.L_end
+        weight: 1
+      - path: Armature/Body/Leg.R
+        weight: 1
+      - path: Armature/Body/Leg.R/Foot.R
+        weight: 1
+      - path: Armature/Body/Leg.R/Foot.R/Lower_foot.R
+        weight: 1
+      - path: Armature/Body/Leg.R/Foot.R/Lower_foot.R/Lower_foot.R_end
+        weight: 1
+      - path: Armature/Body/Wing_1.L
+        weight: 1
+      - path: Armature/Body/Wing_1.L/Wing_2.L
+        weight: 1
+      - path: Armature/Body/Wing_1.L/Wing_2.L/Wing_3.L
+        weight: 1
+      - path: Armature/Body/Wing_1.L/Wing_2.L/Wing_3.L/Wing_4.L
+        weight: 1
+      - path: Armature/Body/Wing_1.L/Wing_2.L/Wing_3.L/Wing_4.L/Wing_4.L_end
+        weight: 1
+      - path: Armature/Body/Wing_1.R
+        weight: 1
+      - path: Armature/Body/Wing_1.R/Wing_2.R
+        weight: 1
+      - path: Armature/Body/Wing_1.R/Wing_2.R/Wing_3.R
+        weight: 1
+      - path: Armature/Body/Wing_1.R/Wing_2.R/Wing_3.R/Wing_4.R
+        weight: 1
+      - path: Armature/Body/Wing_1.R/Wing_2.R/Wing_3.R/Wing_4.R/Wing_4.R_end
+        weight: 1
+      - path: Cube
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Armature|Idle
+      takeName: Armature|Idle
+      firstFrame: 0
+      lastFrame: 20
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Armature
+        weight: 1
+      - path: Armature/Body
+        weight: 1
+      - path: Armature/Body/Leg.L
+        weight: 1
+      - path: Armature/Body/Leg.L/Foot.L
+        weight: 1
+      - path: Armature/Body/Leg.L/Foot.L/Lower_foot.L
+        weight: 1
+      - path: Armature/Body/Leg.L/Foot.L/Lower_foot.L/Lower_foot.L_end
+        weight: 1
+      - path: Armature/Body/Leg.R
+        weight: 1
+      - path: Armature/Body/Leg.R/Foot.R
+        weight: 1
+      - path: Armature/Body/Leg.R/Foot.R/Lower_foot.R
+        weight: 1
+      - path: Armature/Body/Leg.R/Foot.R/Lower_foot.R/Lower_foot.R_end
+        weight: 1
+      - path: Armature/Body/Wing_1.L
+        weight: 1
+      - path: Armature/Body/Wing_1.L/Wing_2.L
+        weight: 1
+      - path: Armature/Body/Wing_1.L/Wing_2.L/Wing_3.L
+        weight: 1
+      - path: Armature/Body/Wing_1.L/Wing_2.L/Wing_3.L/Wing_4.L
+        weight: 1
+      - path: Armature/Body/Wing_1.L/Wing_2.L/Wing_3.L/Wing_4.L/Wing_4.L_end
+        weight: 1
+      - path: Armature/Body/Wing_1.R
+        weight: 1
+      - path: Armature/Body/Wing_1.R/Wing_2.R
+        weight: 1
+      - path: Armature/Body/Wing_1.R/Wing_2.R/Wing_3.R
+        weight: 1
+      - path: Armature/Body/Wing_1.R/Wing_2.R/Wing_3.R/Wing_4.R
+        weight: 1
+      - path: Armature/Body/Wing_1.R/Wing_2.R/Wing_3.R/Wing_4.R/Wing_4.R_end
+        weight: 1
+      - path: Cube
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Armature|Melee_!
+      takeName: Armature|Melee_!
+      firstFrame: 0
+      lastFrame: 9
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Armature
+        weight: 1
+      - path: Armature/Body
+        weight: 1
+      - path: Armature/Body/Leg.L
+        weight: 1
+      - path: Armature/Body/Leg.L/Foot.L
+        weight: 1
+      - path: Armature/Body/Leg.L/Foot.L/Lower_foot.L
+        weight: 1
+      - path: Armature/Body/Leg.L/Foot.L/Lower_foot.L/Lower_foot.L_end
+        weight: 1
+      - path: Armature/Body/Leg.R
+        weight: 1
+      - path: Armature/Body/Leg.R/Foot.R
+        weight: 1
+      - path: Armature/Body/Leg.R/Foot.R/Lower_foot.R
+        weight: 1
+      - path: Armature/Body/Leg.R/Foot.R/Lower_foot.R/Lower_foot.R_end
+        weight: 1
+      - path: Armature/Body/Wing_1.L
+        weight: 1
+      - path: Armature/Body/Wing_1.L/Wing_2.L
+        weight: 1
+      - path: Armature/Body/Wing_1.L/Wing_2.L/Wing_3.L
+        weight: 1
+      - path: Armature/Body/Wing_1.L/Wing_2.L/Wing_3.L/Wing_4.L
+        weight: 1
+      - path: Armature/Body/Wing_1.L/Wing_2.L/Wing_3.L/Wing_4.L/Wing_4.L_end
+        weight: 1
+      - path: Armature/Body/Wing_1.R
+        weight: 1
+      - path: Armature/Body/Wing_1.R/Wing_2.R
+        weight: 1
+      - path: Armature/Body/Wing_1.R/Wing_2.R/Wing_3.R
+        weight: 1
+      - path: Armature/Body/Wing_1.R/Wing_2.R/Wing_3.R/Wing_4.R
+        weight: 1
+      - path: Armature/Body/Wing_1.R/Wing_2.R/Wing_3.R/Wing_4.R/Wing_4.R_end
+        weight: 1
+      - path: Cube
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Armature|Melee_2
+      takeName: Armature|Melee_2
+      firstFrame: 0
+      lastFrame: 20
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Armature
+        weight: 1
+      - path: Armature/Body
+        weight: 1
+      - path: Armature/Body/Leg.L
+        weight: 1
+      - path: Armature/Body/Leg.L/Foot.L
+        weight: 1
+      - path: Armature/Body/Leg.L/Foot.L/Lower_foot.L
+        weight: 1
+      - path: Armature/Body/Leg.L/Foot.L/Lower_foot.L/Lower_foot.L_end
+        weight: 1
+      - path: Armature/Body/Leg.R
+        weight: 1
+      - path: Armature/Body/Leg.R/Foot.R
+        weight: 1
+      - path: Armature/Body/Leg.R/Foot.R/Lower_foot.R
+        weight: 1
+      - path: Armature/Body/Leg.R/Foot.R/Lower_foot.R/Lower_foot.R_end
+        weight: 1
+      - path: Armature/Body/Wing_1.L
+        weight: 1
+      - path: Armature/Body/Wing_1.L/Wing_2.L
+        weight: 1
+      - path: Armature/Body/Wing_1.L/Wing_2.L/Wing_3.L
+        weight: 1
+      - path: Armature/Body/Wing_1.L/Wing_2.L/Wing_3.L/Wing_4.L
+        weight: 1
+      - path: Armature/Body/Wing_1.L/Wing_2.L/Wing_3.L/Wing_4.L/Wing_4.L_end
+        weight: 1
+      - path: Armature/Body/Wing_1.R
+        weight: 1
+      - path: Armature/Body/Wing_1.R/Wing_2.R
+        weight: 1
+      - path: Armature/Body/Wing_1.R/Wing_2.R/Wing_3.R
+        weight: 1
+      - path: Armature/Body/Wing_1.R/Wing_2.R/Wing_3.R/Wing_4.R
+        weight: 1
+      - path: Armature/Body/Wing_1.R/Wing_2.R/Wing_3.R/Wing_4.R/Wing_4.R_end
+        weight: 1
+      - path: Cube
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Armature|Melee_3
+      takeName: Armature|Melee_3
+      firstFrame: 0
+      lastFrame: 16
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Armature
+        weight: 1
+      - path: Armature/Body
+        weight: 1
+      - path: Armature/Body/Leg.L
+        weight: 1
+      - path: Armature/Body/Leg.L/Foot.L
+        weight: 1
+      - path: Armature/Body/Leg.L/Foot.L/Lower_foot.L
+        weight: 1
+      - path: Armature/Body/Leg.L/Foot.L/Lower_foot.L/Lower_foot.L_end
+        weight: 1
+      - path: Armature/Body/Leg.R
+        weight: 1
+      - path: Armature/Body/Leg.R/Foot.R
+        weight: 1
+      - path: Armature/Body/Leg.R/Foot.R/Lower_foot.R
+        weight: 1
+      - path: Armature/Body/Leg.R/Foot.R/Lower_foot.R/Lower_foot.R_end
+        weight: 1
+      - path: Armature/Body/Wing_1.L
+        weight: 1
+      - path: Armature/Body/Wing_1.L/Wing_2.L
+        weight: 1
+      - path: Armature/Body/Wing_1.L/Wing_2.L/Wing_3.L
+        weight: 1
+      - path: Armature/Body/Wing_1.L/Wing_2.L/Wing_3.L/Wing_4.L
+        weight: 1
+      - path: Armature/Body/Wing_1.L/Wing_2.L/Wing_3.L/Wing_4.L/Wing_4.L_end
+        weight: 1
+      - path: Armature/Body/Wing_1.R
+        weight: 1
+      - path: Armature/Body/Wing_1.R/Wing_2.R
+        weight: 1
+      - path: Armature/Body/Wing_1.R/Wing_2.R/Wing_3.R
+        weight: 1
+      - path: Armature/Body/Wing_1.R/Wing_2.R/Wing_3.R/Wing_4.R
+        weight: 1
+      - path: Armature/Body/Wing_1.R/Wing_2.R/Wing_3.R/Wing_4.R/Wing_4.R_end
+        weight: 1
+      - path: Cube
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Armature|Stun
+      takeName: Armature|Stun
+      firstFrame: 0
+      lastFrame: 20
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Armature
+        weight: 1
+      - path: Armature/Body
+        weight: 1
+      - path: Armature/Body/Leg.L
+        weight: 1
+      - path: Armature/Body/Leg.L/Foot.L
+        weight: 1
+      - path: Armature/Body/Leg.L/Foot.L/Lower_foot.L
+        weight: 1
+      - path: Armature/Body/Leg.L/Foot.L/Lower_foot.L/Lower_foot.L_end
+        weight: 1
+      - path: Armature/Body/Leg.R
+        weight: 1
+      - path: Armature/Body/Leg.R/Foot.R
+        weight: 1
+      - path: Armature/Body/Leg.R/Foot.R/Lower_foot.R
+        weight: 1
+      - path: Armature/Body/Leg.R/Foot.R/Lower_foot.R/Lower_foot.R_end
+        weight: 1
+      - path: Armature/Body/Wing_1.L
+        weight: 1
+      - path: Armature/Body/Wing_1.L/Wing_2.L
+        weight: 1
+      - path: Armature/Body/Wing_1.L/Wing_2.L/Wing_3.L
+        weight: 1
+      - path: Armature/Body/Wing_1.L/Wing_2.L/Wing_3.L/Wing_4.L
+        weight: 1
+      - path: Armature/Body/Wing_1.L/Wing_2.L/Wing_3.L/Wing_4.L/Wing_4.L_end
+        weight: 1
+      - path: Armature/Body/Wing_1.R
+        weight: 1
+      - path: Armature/Body/Wing_1.R/Wing_2.R
+        weight: 1
+      - path: Armature/Body/Wing_1.R/Wing_2.R/Wing_3.R
+        weight: 1
+      - path: Armature/Body/Wing_1.R/Wing_2.R/Wing_3.R/Wing_4.R
+        weight: 1
+      - path: Armature/Body/Wing_1.R/Wing_2.R/Wing_3.R/Wing_4.R/Wing_4.R_end
+        weight: 1
+      - path: Cube
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Armature|Take damage
+      takeName: Armature|Take damage
+      firstFrame: 0
+      lastFrame: 10
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Armature
+        weight: 1
+      - path: Armature/Body
+        weight: 1
+      - path: Armature/Body/Leg.L
+        weight: 1
+      - path: Armature/Body/Leg.L/Foot.L
+        weight: 1
+      - path: Armature/Body/Leg.L/Foot.L/Lower_foot.L
+        weight: 1
+      - path: Armature/Body/Leg.L/Foot.L/Lower_foot.L/Lower_foot.L_end
+        weight: 1
+      - path: Armature/Body/Leg.R
+        weight: 1
+      - path: Armature/Body/Leg.R/Foot.R
+        weight: 1
+      - path: Armature/Body/Leg.R/Foot.R/Lower_foot.R
+        weight: 1
+      - path: Armature/Body/Leg.R/Foot.R/Lower_foot.R/Lower_foot.R_end
+        weight: 1
+      - path: Armature/Body/Wing_1.L
+        weight: 1
+      - path: Armature/Body/Wing_1.L/Wing_2.L
+        weight: 1
+      - path: Armature/Body/Wing_1.L/Wing_2.L/Wing_3.L
+        weight: 1
+      - path: Armature/Body/Wing_1.L/Wing_2.L/Wing_3.L/Wing_4.L
+        weight: 1
+      - path: Armature/Body/Wing_1.L/Wing_2.L/Wing_3.L/Wing_4.L/Wing_4.L_end
+        weight: 1
+      - path: Armature/Body/Wing_1.R
+        weight: 1
+      - path: Armature/Body/Wing_1.R/Wing_2.R
+        weight: 1
+      - path: Armature/Body/Wing_1.R/Wing_2.R/Wing_3.R
+        weight: 1
+      - path: Armature/Body/Wing_1.R/Wing_2.R/Wing_3.R/Wing_4.R
+        weight: 1
+      - path: Armature/Body/Wing_1.R/Wing_2.R/Wing_3.R/Wing_4.R/Wing_4.R_end
+        weight: 1
+      - path: Cube
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Cube|Default
+      takeName: Cube|Default
+      firstFrame: 0
+      lastFrame: 1
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Armature
+        weight: 1
+      - path: Armature/Body
+        weight: 1
+      - path: Armature/Body/Leg.L
+        weight: 1
+      - path: Armature/Body/Leg.L/Foot.L
+        weight: 1
+      - path: Armature/Body/Leg.L/Foot.L/Lower_foot.L
+        weight: 1
+      - path: Armature/Body/Leg.L/Foot.L/Lower_foot.L/Lower_foot.L_end
+        weight: 1
+      - path: Armature/Body/Leg.R
+        weight: 1
+      - path: Armature/Body/Leg.R/Foot.R
+        weight: 1
+      - path: Armature/Body/Leg.R/Foot.R/Lower_foot.R
+        weight: 1
+      - path: Armature/Body/Leg.R/Foot.R/Lower_foot.R/Lower_foot.R_end
+        weight: 1
+      - path: Armature/Body/Wing_1.L
+        weight: 1
+      - path: Armature/Body/Wing_1.L/Wing_2.L
+        weight: 1
+      - path: Armature/Body/Wing_1.L/Wing_2.L/Wing_3.L
+        weight: 1
+      - path: Armature/Body/Wing_1.L/Wing_2.L/Wing_3.L/Wing_4.L
+        weight: 1
+      - path: Armature/Body/Wing_1.L/Wing_2.L/Wing_3.L/Wing_4.L/Wing_4.L_end
+        weight: 1
+      - path: Armature/Body/Wing_1.R
+        weight: 1
+      - path: Armature/Body/Wing_1.R/Wing_2.R
+        weight: 1
+      - path: Armature/Body/Wing_1.R/Wing_2.R/Wing_3.R
+        weight: 1
+      - path: Armature/Body/Wing_1.R/Wing_2.R/Wing_3.R/Wing_4.R
+        weight: 1
+      - path: Armature/Body/Wing_1.R/Wing_2.R/Wing_3.R/Wing_4.R/Wing_4.R_end
+        weight: 1
+      - path: Cube
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Cube|Die
+      takeName: Cube|Die
+      firstFrame: 0
+      lastFrame: 24
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Armature
+        weight: 1
+      - path: Armature/Body
+        weight: 1
+      - path: Armature/Body/Leg.L
+        weight: 1
+      - path: Armature/Body/Leg.L/Foot.L
+        weight: 1
+      - path: Armature/Body/Leg.L/Foot.L/Lower_foot.L
+        weight: 1
+      - path: Armature/Body/Leg.L/Foot.L/Lower_foot.L/Lower_foot.L_end
+        weight: 1
+      - path: Armature/Body/Leg.R
+        weight: 1
+      - path: Armature/Body/Leg.R/Foot.R
+        weight: 1
+      - path: Armature/Body/Leg.R/Foot.R/Lower_foot.R
+        weight: 1
+      - path: Armature/Body/Leg.R/Foot.R/Lower_foot.R/Lower_foot.R_end
+        weight: 1
+      - path: Armature/Body/Wing_1.L
+        weight: 1
+      - path: Armature/Body/Wing_1.L/Wing_2.L
+        weight: 1
+      - path: Armature/Body/Wing_1.L/Wing_2.L/Wing_3.L
+        weight: 1
+      - path: Armature/Body/Wing_1.L/Wing_2.L/Wing_3.L/Wing_4.L
+        weight: 1
+      - path: Armature/Body/Wing_1.L/Wing_2.L/Wing_3.L/Wing_4.L/Wing_4.L_end
+        weight: 1
+      - path: Armature/Body/Wing_1.R
+        weight: 1
+      - path: Armature/Body/Wing_1.R/Wing_2.R
+        weight: 1
+      - path: Armature/Body/Wing_1.R/Wing_2.R/Wing_3.R
+        weight: 1
+      - path: Armature/Body/Wing_1.R/Wing_2.R/Wing_3.R/Wing_4.R
+        weight: 1
+      - path: Armature/Body/Wing_1.R/Wing_2.R/Wing_3.R/Wing_4.R/Wing_4.R_end
+        weight: 1
+      - path: Cube
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

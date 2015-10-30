@@ -44,7 +44,6 @@ public class CharacterBase : MonoBehaviour {
 	protected melee mymelee;
     protected bool isKnockBack;
     protected float stunTimer;
-    protected float canMoveTimer;
     protected float myblockTimer;
     protected float stunRate;
     protected float coolDownRangeTimer;
@@ -60,7 +59,8 @@ public class CharacterBase : MonoBehaviour {
 	protected bool canRangeAttack;
 	protected bool canMeleeAttack;
 	protected bool isLose;
-    protected bool isInComboAnimation;
+    protected bool canMove;
+    protected bool isInCombo;
     protected bool isStun;
     protected bool isEndOfRangeAttack;
     protected bool isAttack;
@@ -99,9 +99,16 @@ public class CharacterBase : MonoBehaviour {
 	float tapspeed = 0.3f;
 	bool isDoubleTap;
 
+    //audio
+    public AudioClip gotHitSound;
+    public AudioClip jumpedSound;
+    public AudioClip attackSound;
+    protected AudioSource myaudio;
+    //audio
+
     //networking stuff
-  //  protected NetworkInstanceId mynetworkID;
-    
+    //  protected NetworkInstanceId mynetworkID;
+
 
     // Use this for initialization
     protected virtual void Awake () {
@@ -109,24 +116,26 @@ public class CharacterBase : MonoBehaviour {
         currentHealth = startingHealth;
         currentMana = startingMana;
 
-        if (isAI == false)
-            myblockController = transform.Find("block").GetComponent<blockController>();
+      
+        myblockController = transform.Find("block").GetComponent<blockController>();
         myUltiCamera = GameObject.FindGameObjectWithTag("ultimateCamera").GetComponent<ultimateCameraController>();
        
         mymelee = transform.Find ("melee trigger box").GetComponent<melee> ();
-        
+        myaudio = GetComponent<AudioSource>();
         rb = GetComponent<Rigidbody> ();
 		isJumping = false;
         isAttack = false;
         isCastMode = false;
         playBlockAnimation = false;
         isLose = false;
+        canMove = true;
         isWalking = false;
+        isInCombo = false;
         isKnockBack = true;
         isEndOfRangeAttack = true;
 
         isFinishCombo = true;
-        isInComboAnimation = false;
+        
         isStun = false;
         isCrouch = false;
         canCombo = false;
@@ -172,7 +181,7 @@ public class CharacterBase : MonoBehaviour {
         manaBar.fillAmount = currentMana / 100;
         comboText.text = "Combo: " + comboCount.ToString();
         chargingBar.fillAmount = CurrentChargingBar ;
-        if(isAI == false)
+      
         myAnimator = transform.Find("model").GetComponent<Animator>();
     }
     IEnumerator regenMana(float time)
@@ -206,13 +215,11 @@ public class CharacterBase : MonoBehaviour {
 	{
        // if(isAI == false)
 		checkCoolDown ();
-        
-        //checkComboAnimation();
+       
         Move ();
 		jump ();
 		crouch ();
-        //if (isAI == false)
-        //    setAnimation();
+       
 
         if (currentMana <= 0)
 			currentMana = 0;
@@ -233,15 +240,22 @@ public class CharacterBase : MonoBehaviour {
 
         if (damage <= 0)
             return;
+        //AudioSource.PlayClipAtPoint(gotHitSound, new Vector3(5, 1, 2));
+        myaudio.PlayOneShot(gotHitSound);
 
         damage = damage * (1 + (1 - defFactor));
         // Reduce health
         currentHealth -= damage;
-      //  Debug.Log("damage: " + damage.ToString());
+     
         stunTimer = coolDownStunRate * stunRate;
 
         if(isKnockBack == true)
+        {
             isStun = true;
+           // stunTimer = coolDownStunRate;
+            myAnimator.SetBool("stun", isStun);
+        }
+            
 
         checkDead();
         healthBar.fillAmount = currentHealth / 100;
@@ -293,6 +307,7 @@ public class CharacterBase : MonoBehaviour {
     public void setStunRate(float amount)
     {
         playBlockAnimation = false;
+        myAnimator.SetBool("defend", false);
         stunRate = amount;
     }
     public void setBlockAnimation()
@@ -301,7 +316,7 @@ public class CharacterBase : MonoBehaviour {
         if (blockCount <= 0)
         {
             playBlockAnimation = false;
-            //isBlocking = false;
+            myAnimator.SetBool("defend", false);
             return;
         }
         isWalking = false;
@@ -309,7 +324,8 @@ public class CharacterBase : MonoBehaviour {
         myblockController.animateBlock(blockCount,maxBlockCount);
         myblockTimer = coolDownBlockTimer;
         playBlockAnimation = true;
-        
+        myAnimator.SetBool("defend", true);
+
 
         //Debug.Log("blockcount: " + blockCount.ToString());
     }
@@ -400,8 +416,13 @@ public class CharacterBase : MonoBehaviour {
 
             if (stunTimer <= 0)
             {
-                stunTimer = coolDownStunRate;
-                isStun = false;
+              //  if (canCombo == false)
+               // {
+                    stunTimer = coolDownStunRate;
+                    isStun = false;
+                    myAnimator.SetBool("stun", isStun);
+                    Debug.Log("end stun");
+               // }
             }
                 
         }
@@ -413,6 +434,7 @@ public class CharacterBase : MonoBehaviour {
             {
                 myblockTimer = coolDownBlockTimer;
                 playBlockAnimation = false;
+                myAnimator.SetBool("defend", false);
             }
         }
 
@@ -420,34 +442,33 @@ public class CharacterBase : MonoBehaviour {
 
         if (coolDownRangeTimer <= 0)
         {
+            
             canRangeAttack = true;
-           // if (isAI == false)
-              //  myAnimator.SetBool("rangeAttack", false);
+          
         }
         else
             canRangeAttack = false;
 
-        if (isAI == false)
-        {
-           // if (canCombo == false)
-           // {
-                if (isMeleeComboCount[0] == true)
+       // if (isAI == false)
+        //{
+          
+            if (isMeleeComboCount[0] == true)
+            {
+               
+                coolDownMeleeTimer[0] -= Time.deltaTime;//1st melee attack
+                if (coolDownMeleeTimer[0] <= 0)
                 {
-                    //  Debug.Log("melee time: " + coolDownMeleeTimer[0].ToString());
-                    coolDownMeleeTimer[0] -= Time.deltaTime;//1st melee attack
-                    if (coolDownMeleeTimer[0] <= 0)
-                    {
-                        myAnimator.SetBool("meleeAttack1", false);
-                        //isAttack = false;
-                        canMeleeAttack = true;
-                        isMeleeComboCount[0] = false;
+                    myAnimator.SetBool("meleeAttack1", false);
+                  
+                    canMeleeAttack = true;
+                    isMeleeComboCount[0] = false;
                     
-                    }
-                    else
-                        canMeleeAttack = false;
                 }
-           // }
-        }
+                else
+                    canMeleeAttack = false;
+            }
+           
+      //  }
             /* else
              {
                  if (isMeleeComboCount[2] == true)//doing final combo
@@ -504,7 +525,9 @@ public class CharacterBase : MonoBehaviour {
             currentHealth = 0;
 
             isStun = false;
+            myAnimator.SetBool("stun", isStun);
             isLose = true;
+            myAnimator.SetBool("die", true);
             gameController.isFinish = true;
          
         }
@@ -526,8 +549,9 @@ public class CharacterBase : MonoBehaviour {
         
         if (isStun == true)
             return;
-        isAttack = true;
-
+        myaudio.PlayOneShot(attackSound);
+        //isAttack = true;
+        canMove = false;
         myAnimator.SetTrigger("rangeAttack");
         //myAnimator.SetBool("rangeAttack", true);
         StartCoroutine(WaitForAnimation("range attack",0));
@@ -547,7 +571,7 @@ public class CharacterBase : MonoBehaviour {
             return;
 
 
-        if (isAttack == true)
+        if (canMove == false)//isAttack
         {
             Debug.Log("in att base");
             speed = normalSpeed;
@@ -651,13 +675,14 @@ public class CharacterBase : MonoBehaviour {
 		if(jumping > 0 && check_touchGround(groundMask, distanceToGround) == true)//player press jump while on the ground
 		{
         
-            if (isStun == false && isAttack == false)
+            if (isStun == false && canRangeAttack == true && canMeleeAttack == true)//isAttack
             {
                 jumpingMovement.y = jumpSpeed;
                 rb.velocity = new Vector3(rb.velocity.x, jumpingMovement.y,
                                                rb.velocity.z);
                 isJumping = true;
                 isCrouch = false;
+                myaudio.PlayOneShot(jumpedSound);
             }
            
 
@@ -675,16 +700,17 @@ public class CharacterBase : MonoBehaviour {
 		{
 
             jumpingMovement.y = -fallSpeed;
-            rb.AddForce(jumpingMovement, ForceMode.Acceleration);
-            if (transform.position.y < 0)
-                transform.position = new Vector3(transform.position.x, 0, transform.position.z);
+            rb.AddForce(jumpingMovement, ForceMode.Impulse);
+
+            if (transform.position.y <= 0.3)
+                transform.position = new Vector3(transform.position.x, 0.2f, transform.position.z);
 
         }
 
-		if (check_touchGround (targetMask,0.1f) == true)//prevent player from standing on top
+		if (check_touchGround (targetMask,0.3f) == true)//prevent player from standing on top
 		{
 			Debug.Log("touch");
-			rb.AddForce (transform.forward * -speed * 2,ForceMode.VelocityChange);
+			rb.AddForce (transform.forward * -speed * 5,ForceMode.Impulse);
 		}
 		
 
@@ -715,7 +741,9 @@ public class CharacterBase : MonoBehaviour {
             return;
         if (canMeleeAttack == true)
 		{
-            isAttack = true;
+            myaudio.PlayOneShot(attackSound);
+            canMove = false;
+        //    isAttack = true;
             mymelee.enabled = true;
        
         }
@@ -747,12 +775,12 @@ public class CharacterBase : MonoBehaviour {
         myAnimator.SetBool("crouch", false);
         myAnimator.SetBool("defend", false);
         myAnimator.SetBool("stun", false);
-        //myAnimator.SetBool("die", true);
+       
 
         myAnimator.SetBool("meleeAttack1", false);
         myAnimator.SetBool("meleeAttack2", false);
         myAnimator.SetBool("meleeAttack3", false);
-        //myAnimator.SetBool("finishCombo", false);
+        
     }
     protected void setAnimation()
     {
@@ -762,15 +790,12 @@ public class CharacterBase : MonoBehaviour {
         myAnimator.SetBool("dash", isDoubleTap);
         myAnimator.SetBool("jump", isJumping);
         myAnimator.SetBool("crouch", isCrouch);
-        myAnimator.SetBool("defend", playBlockAnimation);
-        myAnimator.SetBool("stun", isStun);
-        myAnimator.SetBool("die", isLose);
 
-        //myAnimator.SetBool("meleeAttack1", isMeleeComboCount[0]);
-        //myAnimator.SetBool("meleeAttack2", isMeleeComboCount[1]);
-        //myAnimator.SetBool("meleeAttack3", isMeleeComboCount[2]);
-        //myAnimator.SetBool("finishCombo", true);
+        //myAnimator.SetBool("defend", playBlockAnimation);
+        //myAnimator.SetBool("stun", isStun);
+      //  myAnimator.SetBool("die", isLose);
 
+       
        
     }
 	protected IEnumerator WaitForAnimation ( string name,int count )
@@ -784,35 +809,40 @@ public class CharacterBase : MonoBehaviour {
 		}
         if (name == "range attack")
         {
-            Debug.Log("end range");
-            isAttack = false;
+            //Debug.Log("end range");
+            canMove = true;
+            //isAttack = false;
             isEndOfRangeAttack = true;
-        //    myAnimator.SetBool("rangeAttack", false);
+      
 
         }
         else if(name == "melee 1")
         {
-            //if (canCombo == false)
-            isAttack = false;
-            canCombo = false;
+            if (isInCombo == false)
+            {
+                canMove = true;
+                canCombo = false;
+                Debug.Log("end melee 1");
+            }
+
         }
         else if (name == "melee 3")
         {
             if (enemy.GetComponent<CharacterBase>().getIsBlocking() == false)
             {
-              
                 enemy.GetComponent<Rigidbody>().AddForce(transform.forward * 15, ForceMode.Impulse);
 
             }
             Debug.Log("finish combo");
-            isAttack = false;
+            canMove = true;
+            isInCombo = false;//end combo
             canCombo = false;
             canMeleeAttack = true;
             isMeleeComboCount[0] = false;
             isMeleeComboCount[1] = false;
 
             isMeleeComboCount[2] = false;
-          //  myAnimator.SetBool("finishCombo", false);
+       
             myAnimator.SetBool("meleeAttack2", false);
             myAnimator.SetBool("meleeAttack3", false);
 

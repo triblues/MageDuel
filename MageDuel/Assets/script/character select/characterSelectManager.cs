@@ -185,6 +185,7 @@ public class characterSelectManager : MonoBehaviour {
     public void saveCharacter()
     {
         selectedCharacter = (int)mymage;
+        Debug.Log(selectedCharacter.ToString());
         //PlayerPrefs.SetString("character", mymage.ToString());
     }
 }

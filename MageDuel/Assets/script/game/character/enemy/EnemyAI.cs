@@ -35,6 +35,8 @@ public class EnemyAI : CharacterBase
 
 	public AIState myAIState;
 	public AIAttack myAIStateAttack;
+
+
   	public enum AIState
 	{
 		idle,
@@ -68,24 +70,24 @@ public class EnemyAI : CharacterBase
         changeState = false;
         //myAIState = AIState.attack;
         //myAIStateAttack = AIAttack.rangeSingle;
-
-        //isBlocking = true;
+       
+       // isBlocking = true;
         isReverseDirection = false;
 
 		aggressiveLevel = Mathf.Clamp (aggressiveLevel, 1, 6);
 
-        GameObject[] temp;
-        temp = GameObject.FindGameObjectsWithTag("Main Player");
+        //GameObject[] temp;
+        //temp = GameObject.FindGameObjectsWithTag("Main Player");
 
-        foreach (GameObject a in temp)
-        {
-            if (a.name.Contains("Clone") == true)
-                GameObject.Destroy(a);
-            else
-                enemy = a;
-        }
+        //foreach (GameObject a in temp)
+        //{
+        //    if (a.name.Contains("Clone") == true)
+        //        GameObject.Destroy(a);
+        //    else
+        //        enemy = a;
+        //}
 
-      
+        enemy = GameObject.FindGameObjectWithTag("Main Player");
     }
 
     // Update is called once per frame
@@ -256,14 +258,19 @@ public class EnemyAI : CharacterBase
 
         if (myAIStateAttack == AIAttack.rangeSingle)
         {
-            Vector3 offsetPos = enemy.transform.position;
+           
+
+            Vector3 offsetPos = transform.position;
+            Vector3 offsetPos_enemy = enemy.transform.position;
             offsetPos.y = offsetPos.y + 1;
-            direction = offsetPos - transform.position;
-            rangeAttack(transform.position, direction, gameController.projectileType.fireball);
+            offsetPos_enemy.y = offsetPos_enemy.y + 1;
+            direction = offsetPos_enemy - offsetPos;
+
+            rangeAttack(offsetPos, direction, gameController.projectileType.fireball);
         }
         else //multiple attack
         {
-            for (int i = 0; i < 3; i++)//3
+            for (int i = 1; i <= 3; i++)//3
             {
                 Vector3 newPos = new Vector3(enemy.transform.position.x,
                                              enemy.transform.position.y, enemy.transform.position.z);
@@ -393,7 +400,10 @@ public class EnemyAI : CharacterBase
                 changeState = true;
                 attackTimer = 0;//reset
                 inMeleeCombo = false;
-                isAttack = false;
+                myAIState = AIState.idle;
+                idleTimer = 0;
+                //isAttack = false;
+                canMove = true;
                 break;
             }
                

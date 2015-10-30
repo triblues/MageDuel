@@ -25,16 +25,16 @@ public class SceneFade : MonoBehaviour {
 	}
 
     // Draws the fade screen GUI
-    void onGUI ()
-    {
-        alpha += fadeDirection * fadeSpeed * Time.deltaTime;
-        alpha = Mathf.Clamp01(alpha);
+    //void onGUI ()
+    //{
+    //    alpha += fadeDirection * fadeSpeed * Time.deltaTime;
+    //    alpha = Mathf.Clamp01(alpha);
 
-        // Sets the colour of the fade GUI
-        GUI.color = new Color(GUI.color.r, GUI.color.g, GUI.color.b, alpha);
-        GUI.depth = drawDepth;
-        GUI.DrawTexture (new Rect (0, 0, Screen.width, Screen.height), fadeOutTexture);
-    }
+    //    // Sets the colour of the fade GUI
+    //    GUI.color = new Color(GUI.color.r, GUI.color.g, GUI.color.b, alpha);
+    //    GUI.depth = drawDepth;
+    //    GUI.DrawTexture (new Rect (0, 0, Screen.width, Screen.height), fadeOutTexture);
+    //}
 
     // Sets fade direction to the direction parameter making the scene fade in if value is -1 and out if value is 1
     public float beginFade (int direction)
@@ -44,7 +44,7 @@ public class SceneFade : MonoBehaviour {
     }
 
     // This function is called whenever a level is loaded so that the the fade in can be limited to certain scenes
-    void OnLevelWasLoaded ()
+    void OnLevelWasLoaded(int level)
     {
         beginFade(-1);
     }
