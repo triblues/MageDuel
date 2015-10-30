@@ -40,7 +40,7 @@ public class gameController : MonoBehaviour
             myPoolObj.Add(temp);
         }
 
-        characterSelectManager.selectedCharacter = 2;//plz remove
+        
         //GameObject myplayer = Instantiate(allCharacter[characterSelectManager.selectedCharacter], spawnPos[0], 
         //    Quaternion.identity) as GameObject;//spawn player
 

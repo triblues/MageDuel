@@ -61,7 +61,9 @@
      <Compile Include="Assets\script\game\character\enemy\EnemyAttack.cs" />
      <Compile Include="Assets\script\game\character\enemy\EnemyMovement.cs" />
      <Compile Include="Assets\script\game\character\player\blockController.cs" />
+     <Compile Include="Assets\script\game\character\player\infernoPlayerController.cs" />
      <Compile Include="Assets\script\game\character\player\mainPlayer.cs" />
+     <Compile Include="Assets\script\game\character\player\pristinePlayerController.cs" />
      <Compile Include="Assets\script\game\character\player\weapon\fireball.cs" />
      <Compile Include="Assets\script\game\character\player\weapon\iceball.cs" />
      <Compile Include="Assets\script\game\character\player\weapon\melee.cs" />

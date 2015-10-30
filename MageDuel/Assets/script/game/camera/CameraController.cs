@@ -3,6 +3,7 @@ using System.Collections;
 
 public class CameraController : MonoBehaviour {
 
+    
 	public float lerpRate = 15.0f;
     public float margin = 1.5f;
     private float z0 = 0; // coord z of the fighters plane
@@ -60,4 +61,5 @@ public class CameraController : MonoBehaviour {
             xR = p1.position.x + margin;
         }
     }
+    
 }

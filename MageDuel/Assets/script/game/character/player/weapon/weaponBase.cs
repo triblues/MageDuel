@@ -65,9 +65,11 @@ public class weaponBase : MonoBehaviour {
                    other.GetComponent<CharacterBase>().TakesDamage(damage);
                     other.GetComponent<CharacterBase>().getEnemy().GetComponent<CharacterBase>().setComboCount(comboCount);
 
-                    other.GetComponent<Rigidbody>().AddForce(-other.GetComponent<Transform>().forward * knockBack,
+                    if (other.GetComponent<CharacterBase>().getisKnockBack() == true)
+                    {
+                        other.GetComponent<Rigidbody>().AddForce(-other.GetComponent<Transform>().forward * knockBack,
                                                              ForceMode.Impulse);
-
+                    }
 
                     
                     other.GetComponent<CharacterBase>().getEnemy().GetComponent<CharacterBase>().

@@ -3,6 +3,8 @@ using System.Collections;
 
 public class ultimateCameraController : MonoBehaviour {
 
+    public float shakeTime = 2.0f;
+    public float shakeAmount = 0.1f;
     Camera mymainCam;
     Camera mycam;
     bool isFaceRight;
@@ -35,15 +37,16 @@ public class ultimateCameraController : MonoBehaviour {
         //{
         //    Debug.Log("2 characterTag: " + characterTag.ToString());
         //}
-        if(isFaceRight == true)
+        if (isFaceRight == true)
         {
-            transform.position = new Vector3(characterTrans.position.x + 3, 3.0f, 2);
+            transform.rotation = Quaternion.Euler(0, 270, 0);
         }
         else
         {
-            transform.position = new Vector3(characterTrans.position.x - 3, 3.0f, 2);
+            transform.rotation = Quaternion.Euler(0, 90, 0);
         }
-        transform.LookAt(characterTrans);
+
+        //transform.LookAt(characterTrans);
         mycam.enabled = true;
     }
     void OnDisable()
@@ -52,10 +55,26 @@ public class ultimateCameraController : MonoBehaviour {
         mycam.enabled = false;
         Debug.Log("disable ucam");
     }
-    public void setCharacterDetail(Transform mytrans,bool isRight)
+    public void setCharacterDetail(Transform charTrans,Vector3 mypos,bool isRight)
     {
-        characterTrans = mytrans;
+        characterTrans = charTrans;
+        transform.position = mypos;
+      
         isFaceRight = isRight;
-      //  characterTag = num;
+    
+    }
+    void shake()
+    {
+        StartCoroutine(countDown(shakeTime));
+
+    }
+    IEnumerator countDown(float waitTime)
+    {
+        while (waitTime > 0)
+        {
+            transform.position += Random.insideUnitSphere * shakeAmount;
+            waitTime -= Time.deltaTime;
+            yield return new WaitForSeconds(Time.deltaTime);
+        }
     }
 }

@@ -63,7 +63,7 @@ public class drawShape : MonoBehaviour
     direction current_direction;
     direction last_direction;
     shape myshape;
-    mainPlayer mycharbase;
+    CharacterBase mycharbase;
     Camera drawCam;
     Coroutine co;
 
@@ -90,7 +90,7 @@ public class drawShape : MonoBehaviour
             if (a.name.Contains("Clone") == true)
                 GameObject.Destroy(a);
             else
-                mycharbase = a.GetComponent<mainPlayer>();
+                mycharbase = a.GetComponent<CharacterBase>();
         }
 
         drawCam = GameObject.Find("draw camera").GetComponent<Camera>();
@@ -108,7 +108,8 @@ public class drawShape : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (CharacterBase.isCastModeAnimation == true)
+            return;   
         if (Input.GetMouseButtonDown(0))
         {
             if (co != null)
@@ -126,7 +127,7 @@ public class drawShape : MonoBehaviour
 
 
              myline.SetColors(drawColor, drawColor);
-            Debug.Log("here press");
+            
 
         }
         if (Input.GetMouseButtonUp(0))
@@ -140,19 +141,8 @@ public class drawShape : MonoBehaviour
                 myline.SetColors(rightColor, rightColor);
 
             co = StartCoroutine(waitForSecond(1.0f));
-            if (characterSelectManager.selectedCharacter == (int)characterSelectManager.mage.Inferno)
-            {
-                // mycharbase.checkShapeDraw(myshape);
-            }
-            else if (characterSelectManager.selectedCharacter == (int)characterSelectManager.mage.Pristine)
-            {
-                // mycharbase.checkShapeDraw(myshape);
-            }
-            else if (characterSelectManager.selectedCharacter == (int)characterSelectManager.mage.Radiance)
-            {
-                mycharbase.RadianceShapeDraw(myshape);
-            }
-
+          
+            mycharbase.ShapeDraw(myshape);
             resetShape();
         }
        
@@ -171,7 +161,7 @@ public class drawShape : MonoBehaviour
             {
                 if (mypointList[mypointList.Count - 1] == mousePos)//mousepos,ray.GetPoint(distance)
                 {
-                   
+                    mytime = Time.time + delayTime;
                     return;//player never move their mouse
                 }
 
@@ -207,12 +197,14 @@ public class drawShape : MonoBehaviour
 
         if (numerator == 0)
             return 0;
+        if (Mathf.Abs(denominator) < 0.9)
+            return 999;
 
         result = numerator / denominator;
 
         if (Mathf.Abs(numerator) > Mathf.Abs(denominator) + denominatorOffset)
         {
-            if (Mathf.Abs(result) >= Mathf.Abs(numerator))//denomantor close to zero
+            if (Mathf.Abs(result) + 2.5f >= Mathf.Abs(numerator))//denomantor close to zero
                 return 999;//vertical line
         }
 
@@ -223,10 +215,9 @@ public class drawShape : MonoBehaviour
         if (gradient == 999)
         {
             current_direction = direction.vertical;
-            //allGradientList.Add(current_direction);
-            //Debug.Log("gradient: " + gradient.ToString());
+           
             return;
-            //return direction.vertical;
+         
         }
 
         if (gradient >= minOffset && gradient <= maxOffset)//horizontal line, gradient will be close to zero
@@ -247,8 +238,7 @@ public class drawShape : MonoBehaviour
 
 
         }
-        //Debug.Log("gradient: " + gradient.ToString());
-        //allGradientList.Add(current_direction);
+      
     }
 
 

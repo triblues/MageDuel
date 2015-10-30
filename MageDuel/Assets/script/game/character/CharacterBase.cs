@@ -42,6 +42,7 @@ public class CharacterBase : MonoBehaviour {
 	protected float jumpSpeed;
 	protected float speed;
 	protected melee mymelee;
+    protected bool isKnockBack;
     protected float stunTimer;
     protected float canMoveTimer;
     protected float myblockTimer;
@@ -111,7 +112,7 @@ public class CharacterBase : MonoBehaviour {
         if (isAI == false)
             myblockController = transform.Find("block").GetComponent<blockController>();
         myUltiCamera = GameObject.FindGameObjectWithTag("ultimateCamera").GetComponent<ultimateCameraController>();
-        Debug.Log(myUltiCamera.name.ToString());
+       
         mymelee = transform.Find ("melee trigger box").GetComponent<melee> ();
         
         rb = GetComponent<Rigidbody> ();
@@ -121,6 +122,7 @@ public class CharacterBase : MonoBehaviour {
         playBlockAnimation = false;
         isLose = false;
         isWalking = false;
+        isKnockBack = true;
         isEndOfRangeAttack = true;
 
         isFinishCombo = true;
@@ -235,9 +237,11 @@ public class CharacterBase : MonoBehaviour {
         damage = damage * (1 + (1 - defFactor));
         // Reduce health
         currentHealth -= damage;
-        Debug.Log("damage: " + damage.ToString());
+      //  Debug.Log("damage: " + damage.ToString());
         stunTimer = coolDownStunRate * stunRate;
-        isStun = true;
+
+        if(isKnockBack == true)
+            isStun = true;
 
         checkDead();
         healthBar.fillAmount = currentHealth / 100;
@@ -266,7 +270,11 @@ public class CharacterBase : MonoBehaviour {
     {
         return defFactor;
     }
-	public float getDistanceToGround()
+    public bool getisKnockBack()
+    {
+        return isKnockBack;
+    }
+    public float getDistanceToGround()
 	{
 		return distanceToGround;
 	}
@@ -339,7 +347,7 @@ public class CharacterBase : MonoBehaviour {
     public void setCanCombo(bool _combo)
     {
         canCombo = _combo;
-        Debug.Log("at cancombo: " + canCombo.ToString());
+        
     }
     public void setFirstCoolDownMeleeTimer()
     {
@@ -421,11 +429,11 @@ public class CharacterBase : MonoBehaviour {
 
         if (isAI == false)
         {
-            if (canCombo == false)
-            {
+           // if (canCombo == false)
+           // {
                 if (isMeleeComboCount[0] == true)
                 {
-                  //  Debug.Log("melee time: " + coolDownMeleeTimer[0].ToString());
+                    //  Debug.Log("melee time: " + coolDownMeleeTimer[0].ToString());
                     coolDownMeleeTimer[0] -= Time.deltaTime;//1st melee attack
                     if (coolDownMeleeTimer[0] <= 0)
                     {
@@ -433,61 +441,63 @@ public class CharacterBase : MonoBehaviour {
                         //isAttack = false;
                         canMeleeAttack = true;
                         isMeleeComboCount[0] = false;
+                    
                     }
                     else
                         canMeleeAttack = false;
                 }
-            }
-            else
-            {
-                if (isMeleeComboCount[2] == true)//doing final combo
-                {
-                    Debug.Log("in melee count 2");
-                    myAnimator.SetBool("meleeAttack1", false);
-                    //myAnimator.SetBool("meleeAttack2", false);
-                }
-                else if (isMeleeComboCount[1] == true)//doing 2nd combo now
-                {
+           // }
+        }
+            /* else
+             {
+                 if (isMeleeComboCount[2] == true)//doing final combo
+                 {
+                     //Debug.Log("in melee count 2");
+                     myAnimator.SetBool("meleeAttack1", false);
+                     //myAnimator.SetBool("meleeAttack2", false);
+                 }
+                 else if (isMeleeComboCount[1] == true)//doing 2nd combo now
+                 {
 
-                    coolDownMeleeTimer[1] -= Time.deltaTime;//2nd melee attack
-                    if (coolDownMeleeTimer[1] <= 0)
-                    {
-                        myAnimator.SetBool("meleeAttack1", false);
-                        myAnimator.SetBool("meleeAttack2", false);
-                        isAttack = false;
-                        isMeleeComboCount[0] = false;
-                        isMeleeComboCount[1] = false;
-                        canCombo = false;
-                        Debug.Log("i am here 2");
-                    }
-                }
-                else if (isMeleeComboCount[0] == true)//doing 1st combo now
-                {
+                     coolDownMeleeTimer[1] -= Time.deltaTime;//2nd melee attack
+                     if (coolDownMeleeTimer[1] <= 0)
+                     {
+                         myAnimator.SetBool("meleeAttack1", false);
+                         myAnimator.SetBool("meleeAttack2", false);
+                         isAttack = false;
+                         isMeleeComboCount[0] = false;
+                         isMeleeComboCount[1] = false;
+                         canCombo = false;
+                         Debug.Log("i am here 2");
+                     }
+                 }
+                 else if (isMeleeComboCount[0] == true)//doing 1st combo now
+                 {
 
-                    coolDownMeleeTimer[0] -= Time.deltaTime;//1st melee attack
-                    if (coolDownMeleeTimer[0] <= 0)
-                    {
-                        myAnimator.SetBool("meleeAttack1", false);
+                     coolDownMeleeTimer[0] -= Time.deltaTime;//1st melee attack
+                     if (coolDownMeleeTimer[0] <= 0)
+                     {
+                         myAnimator.SetBool("meleeAttack1", false);
 
-                        isAttack = false;
-                        isMeleeComboCount[0] = false;
-                        canCombo = false;
-                        Debug.Log("i am here 1");
-                    }
-                }
+                         isAttack = false;
+                         isMeleeComboCount[0] = false;
+                         canCombo = false;
+                         Debug.Log("i am here 1");
+                     }
+                 }
 
 
-                canMeleeAttack = true;
-            }
+                 canMeleeAttack = true;
+             }
+         }*/
+
         }
 
-    }
-
     /*****************SCALE***********************/
-   /* Offensive Factor (OffFactor): 0.75 - 1.25 (Weak - Strong)
-      Defensive Factor (DefFactor): 0.75 - 1.25 (Weak - Strong)
-   */
-	public virtual void checkDead()
+    /* Offensive Factor (OffFactor): 0.75 - 1.25 (Weak - Strong)
+       Defensive Factor (DefFactor): 0.75 - 1.25 (Weak - Strong)
+    */
+    public virtual void checkDead()
 	{
 		if (currentHealth <= 0)
 		{
@@ -495,13 +505,15 @@ public class CharacterBase : MonoBehaviour {
 
             isStun = false;
             isLose = true;
-             gameController.isFinish = true;
-            //enemy.GetComponent<CharacterBase>().setisFinish(true);
-
-           
+            gameController.isFinish = true;
+         
         }
 	}
-	protected virtual void attack()
+    public virtual void ShapeDraw(drawShape.shape myshape)
+    {
+        //empty for overwrite
+    }
+    protected virtual void attack()
 	{
 //		if (currentMana <= 0)
 //			return;
@@ -537,13 +549,13 @@ public class CharacterBase : MonoBehaviour {
 
         if (isAttack == true)
         {
-         
+            Debug.Log("in att base");
             speed = normalSpeed;
             isDoubleTap = false;
             rb.velocity = new Vector3(0, rb.velocity.y, rb.velocity.z);
             return;
         }
-      
+        
         if (isCrouch == true)
             return;
 
@@ -556,10 +568,8 @@ public class CharacterBase : MonoBehaviour {
 			if((Time.time - doubleTapTimer) < tapspeed)
             {
 
-                //isWalking = false;
                 isDoubleTap = true;
 				speed = fastSpeed;
-             
              
 			}
           
@@ -582,13 +592,7 @@ public class CharacterBase : MonoBehaviour {
                     isWalking = false;
                 
                 }
-             }
-            //else
-            //{
-              
-            //    isWalking = false;
-            //}
-            
+             } 
            
         }
       
@@ -711,7 +715,6 @@ public class CharacterBase : MonoBehaviour {
             return;
         if (canMeleeAttack == true)
 		{
-           
             isAttack = true;
             mymelee.enabled = true;
        
@@ -749,7 +752,7 @@ public class CharacterBase : MonoBehaviour {
         myAnimator.SetBool("meleeAttack1", false);
         myAnimator.SetBool("meleeAttack2", false);
         myAnimator.SetBool("meleeAttack3", false);
-        myAnimator.SetBool("finishCombo", false);
+        //myAnimator.SetBool("finishCombo", false);
     }
     protected void setAnimation()
     {
@@ -789,9 +792,9 @@ public class CharacterBase : MonoBehaviour {
         }
         else if(name == "melee 1")
         {
-            if (canCombo == false)
-                isAttack = false;
-           
+            //if (canCombo == false)
+            isAttack = false;
+            canCombo = false;
         }
         else if (name == "melee 3")
         {
@@ -809,7 +812,7 @@ public class CharacterBase : MonoBehaviour {
             isMeleeComboCount[1] = false;
 
             isMeleeComboCount[2] = false;
-            myAnimator.SetBool("finishCombo", false);
+          //  myAnimator.SetBool("finishCombo", false);
             myAnimator.SetBool("meleeAttack2", false);
             myAnimator.SetBool("meleeAttack3", false);
 
@@ -818,9 +821,15 @@ public class CharacterBase : MonoBehaviour {
        
 		yield return null;
 	}
+    protected IEnumerator spellCoolDown(int waitTime, bool[] cd, int num)
+    {
 
-    
-   
+        yield return new WaitForSeconds(waitTime);
+        cd[num] = true;//cool down finish
+
+    }
+
+
 }
 
 
