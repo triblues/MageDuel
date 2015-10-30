@@ -80,9 +80,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\KeyboardInput.cs" />
-    <Compile Include="Assets\SceneFade.cs" />
-    <Compile Include="Assets\gameSettings.cs" />
+    <Compile Include="Assets\Mixamo\Magic Pack\Demo\CameraScroll.cs" />
+    <Compile Include="Assets\script\KeyboardInput.cs" />
+    <Compile Include="Assets\script\SceneFade.cs" />
     <Compile Include="Assets\script\character select\characterSelectManager.cs" />
     <Compile Include="Assets\script\drawGizmo.cs" />
     <Compile Include="Assets\script\game\ItemShop\Inventory.cs" />
@@ -90,10 +90,12 @@
     <Compile Include="Assets\script\game\ItemShop\Items.cs" />
     <Compile Include="Assets\script\game\UI\gameTime.cs" />
     <Compile Include="Assets\script\game\camera\CameraController.cs" />
+    <Compile Include="Assets\script\game\camera\ultimateCameraController.cs" />
     <Compile Include="Assets\script\game\character\CharacterBase.cs" />
     <Compile Include="Assets\script\game\character\enemy\EnemyAI.cs" />
     <Compile Include="Assets\script\game\character\enemy\EnemyAttack.cs" />
     <Compile Include="Assets\script\game\character\enemy\EnemyMovement.cs" />
+    <Compile Include="Assets\script\game\character\player\blockController.cs" />
     <Compile Include="Assets\script\game\character\player\mainPlayer.cs" />
     <Compile Include="Assets\script\game\character\player\weapon\fireball.cs" />
     <Compile Include="Assets\script\game\character\player\weapon\iceball.cs" />
@@ -102,6 +104,7 @@
     <Compile Include="Assets\script\game\drawShape.cs" />
     <Compile Include="Assets\script\game\gameController.cs" />
     <Compile Include="Assets\script\game\network\networkManagerController.cs" />
+    <Compile Include="Assets\script\gameSettings.cs" />
     <Compile Include="Assets\script\menu\DisplayCredits.cs" />
     <Compile Include="Assets\script\menu\MainMenuButton.cs" />
     <Compile Include="Assets\script\menu\MainMenuGUI.cs" />
