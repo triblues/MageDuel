@@ -16,6 +16,7 @@ public class characterSelectManager : MonoBehaviour {
     public GameObject[] allCharacter;
     public RectTransform target;
     public GameObject charInfo;
+    public launchScene mylaunchScene;
     public Text detailText;
     mage mymage;
     bool isSelect;
@@ -52,7 +53,7 @@ public class characterSelectManager : MonoBehaviour {
             return;
 
         isSelect = true;
-       // isMoving = true;
+
         if (name == "Inferno")
             mymage = mage.Inferno;
         else if (name == "Pristine")
@@ -62,9 +63,31 @@ public class characterSelectManager : MonoBehaviour {
         else
             mymage = mage.no_one;
 
-        characterInfo();
-        runAnimation(false);
-        StartCoroutine(changingPos(false));
+        if (launchScene.isPractice == true)
+        {
+            Debug.Log(mymage.ToString());
+            selectedCharacter = (int)mymage;
+            mylaunchScene.gotoScene("game");
+        }
+        else
+        {
+            
+
+           
+          
+            //if (name == "Inferno")
+            //    mymage = mage.Inferno;
+            //else if (name == "Pristine")
+            //    mymage = mage.Pristine;
+            //else if (name == "Radiance")
+            //    mymage = mage.Radiance;
+            //else
+            //    mymage = mage.no_one;
+
+            characterInfo();
+            runAnimation(false);
+            StartCoroutine(changingPos(false));
+        }
     }
 
     void characterInfo()

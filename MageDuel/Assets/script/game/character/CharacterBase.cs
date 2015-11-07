@@ -9,7 +9,7 @@ public class CharacterBase : MonoBehaviour {
 
 	public LayerMask groundMask;
 	public LayerMask targetMask;
-    public static bool isCastModeAnimation;
+    //public static bool isCastModeAnimation;
 
     [SerializeField] bool isAI = false;
 	[SerializeField] protected int characterTag;
@@ -33,8 +33,10 @@ public class CharacterBase : MonoBehaviour {
     [SerializeField] protected float manaRegenRate = 1.0f;
 	[SerializeField] float distanceToGround = 0.1f;//the amount of dist to stop falling
     [SerializeField] protected int maxBlockCount = 5;
+    [SerializeField] public int ultimateDamage = 30;
 
     protected GameObject enemy;
+    protected Transform enemyTrans;
     protected Text comboText;
     protected Animation comboAnimation;//this is the combo text animation,fade in/out
     protected int comboCount;
@@ -49,7 +51,9 @@ public class CharacterBase : MonoBehaviour {
     protected float coolDownRangeTimer;
 	protected float[] coolDownMeleeTimer;
     protected float currentHealth;
+    protected int highestComboAchieve;
     protected float currentMana;
+    protected int spellCoolDownRate;
 	protected Vector3 movement;                   // The vector to store the direction of the player's movement.
 	protected Vector3 jumpingMovement;
 	protected Rigidbody rb;          // Reference to the player's rigidbody.
@@ -60,13 +64,15 @@ public class CharacterBase : MonoBehaviour {
 	protected bool canMeleeAttack;
 	protected bool isLose;
     protected bool canMove;
-    protected bool isInCombo;
+    protected bool canCastUltimate;
     protected bool isStun;
     protected bool isEndOfRangeAttack;
     protected bool isAttack;
+    protected bool isPause;
     protected bool playBlockAnimation;
     protected bool isWalking;
     protected bool isCrouch;
+    protected bool isNotEnoughMana;
    
     protected bool isBlockLeft;//this determine the direction the character should be going to activate block
 	protected bool isBlocking;
@@ -81,6 +87,7 @@ public class CharacterBase : MonoBehaviour {
 
     //ultimate camera
     protected ultimateCameraController myUltiCamera;
+    protected bool isInUltimate;
     //ultimate camera
 
     //block stuff
@@ -97,7 +104,7 @@ public class CharacterBase : MonoBehaviour {
     float doubleTapTimer;
 	float highJumpTimer;
 	float tapspeed = 0.3f;
-	bool isDoubleTap;
+	protected bool isDoubleTap;
 
     //audio
     public AudioClip gotHitSound;
@@ -105,6 +112,21 @@ public class CharacterBase : MonoBehaviour {
     public AudioClip attackSound;
     protected AudioSource myaudio;
     //audio
+
+    //particle stuff
+    protected ParticleSystem myArmorPS;//armor
+    protected ParticleSystem myActivePS;//active
+    protected ParticleSystem myPassivePS;//passive
+    protected ParticleSystem myUltimatePS;//ultimate
+    protected GameObject ultimateObj;
+    //particle stuff
+
+    protected UICoolDown UIarmorCD;
+    protected UICoolDown UIActiveCD;
+    protected float[] spellComboArmor;
+    protected float[] spellComboActive;
+    protected float[] spellComboPassive;
+    protected bool[] canCastSpell;
 
     //networking stuff
     //  protected NetworkInstanceId mynetworkID;
@@ -123,14 +145,18 @@ public class CharacterBase : MonoBehaviour {
         mymelee = transform.Find ("melee trigger box").GetComponent<melee> ();
         myaudio = GetComponent<AudioSource>();
         rb = GetComponent<Rigidbody> ();
-		isJumping = false;
+        isInUltimate = false;
+        isJumping = false;
         isAttack = false;
         isCastMode = false;
         playBlockAnimation = false;
         isLose = false;
         canMove = true;
         isWalking = false;
-        isInCombo = false;
+        isPause = false;
+        canCastUltimate = true;
+
+        isNotEnoughMana = false;
         isKnockBack = true;
         isEndOfRangeAttack = true;
 
@@ -148,8 +174,10 @@ public class CharacterBase : MonoBehaviour {
         speed = normalSpeed;
         jumpSpeed = lowJumpSpeed;
         comboCount = 0;
+        highestComboAchieve = 0;
         blockCount = maxBlockCount;
         stunRate = 1;//default
+        spellCoolDownRate = 1;//how fast the spell cooldown, 1 is normal rate
         CurrentChargingBar = Mathf.Clamp01 (CurrentChargingBar);
 
 		
@@ -169,7 +197,20 @@ public class CharacterBase : MonoBehaviour {
         stunTimer = coolDownStunRate;
         comboText = combo.GetComponent<Text>();
         comboAnimation = combo.GetComponent<Animation>();
-        
+
+        spellComboArmor = new float[3];
+        spellComboActive = new float[3];
+        spellComboPassive = new float[3];
+        for (int i = 0; i < spellComboArmor.Length; i++)
+        {
+            spellComboArmor[i] = 0;
+            spellComboActive[i] = 0;
+            spellComboPassive[i] = 0;
+        }
+        canCastSpell = new bool[3];
+        for (int i = 0; i < canCastSpell.Length; i++)
+            canCastSpell[i] = true;
+
         StartCoroutine (regenMana (0.5f));
         StartCoroutine(regenBlockCount(2.0f));
     }
@@ -213,9 +254,13 @@ public class CharacterBase : MonoBehaviour {
     }
     protected virtual void Update()
 	{
-       // if(isAI == false)
-		checkCoolDown ();
-       
+        pause();
+        //if (isPause == true)
+          //  return;
+
+        checkCoolDown ();
+
+        
         Move ();
 		jump ();
 		crouch ();
@@ -225,7 +270,12 @@ public class CharacterBase : MonoBehaviour {
 			currentMana = 0;
 
         if (comboAnimation.IsPlaying("fade") == false)
+        {
+            if(comboCount > highestComboAchieve)
+                highestComboAchieve = comboCount;
+
             comboCount = 0;
+        }
 
     }
     public void TakesDamage(float damage)
@@ -238,29 +288,43 @@ public class CharacterBase : MonoBehaviour {
         //        = 12.5
         // The player will take more damage (12.5) because of its low defensive factor
 
-        if (damage <= 0)
-            return;
-        //AudioSource.PlayClipAtPoint(gotHitSound, new Vector3(5, 1, 2));
-        myaudio.PlayOneShot(gotHitSound);
+        if (launchScene.isPractice == true)
+            damage = 0;
 
-        damage = damage * (1 + (1 - defFactor));
-        // Reduce health
-        currentHealth -= damage;
-     
-        stunTimer = coolDownStunRate * stunRate;
-
-        if(isKnockBack == true)
+        if (damage < 0)//mean heal
         {
-            isStun = true;
-           // stunTimer = coolDownStunRate;
-            myAnimator.SetBool("stun", isStun);
+            currentHealth -= damage;
+            if (currentHealth >= startingHealth)
+                currentHealth = startingHealth;
         }
+        else
+        {
+          
+            myaudio.PlayOneShot(gotHitSound);
+
+            damage = damage * (1 + (1 - defFactor));
+            // Reduce health
+            currentHealth -= damage;
+
+            stunTimer = coolDownStunRate * stunRate;
+
+            if (isKnockBack == true)
+            {
+                isStun = true;
+                // stunTimer = coolDownStunRate;
+                myAnimator.SetBool("stun", isStun);
+            }
+
+
+            checkDead();
             
-
-        checkDead();
+        }
         healthBar.fillAmount = currentHealth / 100;
-
-        
+    }
+    public void setSpeed(float rate)
+    {
+        normalSpeed = normalSpeed * rate;
+        fastSpeed = fastSpeed * rate;
     }
 	public void setMana(float amount)
 	{
@@ -304,6 +368,10 @@ public class CharacterBase : MonoBehaviour {
 	{
 		return characterTag;
 	}
+    public void setSpellCoolDownRate(int amount)
+    {
+        spellCoolDownRate = amount;
+    }
     public void setStunRate(float amount)
     {
         playBlockAnimation = false;
@@ -315,6 +383,7 @@ public class CharacterBase : MonoBehaviour {
         blockCount--;
         if (blockCount <= 0)
         {
+           
             playBlockAnimation = false;
             myAnimator.SetBool("defend", false);
             return;
@@ -404,10 +473,14 @@ public class CharacterBase : MonoBehaviour {
 		else
 			return false;
 	}
-	protected float getCurrentMana()
+	public float getCurrentMana()
 	{
 		return currentMana;
 	}
+    public float getCurrentHealth()
+    {
+        return currentHealth;
+    }
 	protected void checkCoolDown()
 	{
         if(isStun == true)
@@ -416,13 +489,12 @@ public class CharacterBase : MonoBehaviour {
 
             if (stunTimer <= 0)
             {
-              //  if (canCombo == false)
-               // {
-                    stunTimer = coolDownStunRate;
-                    isStun = false;
-                    myAnimator.SetBool("stun", isStun);
-                    Debug.Log("end stun");
-               // }
+                
+                stunRate = 1;
+                stunTimer = coolDownStunRate;
+                isStun = false;
+                myAnimator.SetBool("stun", isStun);
+               
             }
                 
         }
@@ -449,70 +521,75 @@ public class CharacterBase : MonoBehaviour {
         else
             canRangeAttack = false;
 
-       // if (isAI == false)
+
+
+        //if (isMeleeComboCount[0] == true)
         //{
-          
-            if (isMeleeComboCount[0] == true)
-            {
-               
-                coolDownMeleeTimer[0] -= Time.deltaTime;//1st melee attack
-                if (coolDownMeleeTimer[0] <= 0)
-                {
-                    myAnimator.SetBool("meleeAttack1", false);
-                  
-                    canMeleeAttack = true;
-                    isMeleeComboCount[0] = false;
-                    
-                }
-                else
-                    canMeleeAttack = false;
-            }
-           
-      //  }
-            /* else
+        //    if (isInCombo == false)
+        //    {
+        //        coolDownMeleeTimer[0] -= Time.deltaTime;//1st melee attack
+        //        if (coolDownMeleeTimer[0] <= 0)
+        //        {
+        //            myAnimator.SetBool("meleeAttack1", false);
+        //            canMove = true;
+        //            canMeleeAttack = true;
+        //            canCombo = false;
+        //            isMeleeComboCount[0] = false;
+        //            Debug.Log("in here");
+        //        }
+        //        else
+        //            canMeleeAttack = false;
+        //    }
+        //    else
+        //    {
+        //        canMeleeAttack = true;
+        //    }
+        //}
+
+        /* else
+         {
+             if (isMeleeComboCount[2] == true)//doing final combo
              {
-                 if (isMeleeComboCount[2] == true)//doing final combo
-                 {
-                     //Debug.Log("in melee count 2");
-                     myAnimator.SetBool("meleeAttack1", false);
-                     //myAnimator.SetBool("meleeAttack2", false);
-                 }
-                 else if (isMeleeComboCount[1] == true)//doing 2nd combo now
-                 {
-
-                     coolDownMeleeTimer[1] -= Time.deltaTime;//2nd melee attack
-                     if (coolDownMeleeTimer[1] <= 0)
-                     {
-                         myAnimator.SetBool("meleeAttack1", false);
-                         myAnimator.SetBool("meleeAttack2", false);
-                         isAttack = false;
-                         isMeleeComboCount[0] = false;
-                         isMeleeComboCount[1] = false;
-                         canCombo = false;
-                         Debug.Log("i am here 2");
-                     }
-                 }
-                 else if (isMeleeComboCount[0] == true)//doing 1st combo now
-                 {
-
-                     coolDownMeleeTimer[0] -= Time.deltaTime;//1st melee attack
-                     if (coolDownMeleeTimer[0] <= 0)
-                     {
-                         myAnimator.SetBool("meleeAttack1", false);
-
-                         isAttack = false;
-                         isMeleeComboCount[0] = false;
-                         canCombo = false;
-                         Debug.Log("i am here 1");
-                     }
-                 }
-
-
-                 canMeleeAttack = true;
+                 //Debug.Log("in melee count 2");
+                 myAnimator.SetBool("meleeAttack1", false);
+                 //myAnimator.SetBool("meleeAttack2", false);
              }
-         }*/
+             else if (isMeleeComboCount[1] == true)//doing 2nd combo now
+             {
 
-        }
+                 coolDownMeleeTimer[1] -= Time.deltaTime;//2nd melee attack
+                 if (coolDownMeleeTimer[1] <= 0)
+                 {
+                     myAnimator.SetBool("meleeAttack1", false);
+                     myAnimator.SetBool("meleeAttack2", false);
+                     isAttack = false;
+                     isMeleeComboCount[0] = false;
+                     isMeleeComboCount[1] = false;
+                     canCombo = false;
+                     Debug.Log("i am here 2");
+                 }
+             }
+             else if (isMeleeComboCount[0] == true)//doing 1st combo now
+             {
+
+                 coolDownMeleeTimer[0] -= Time.deltaTime;//1st melee attack
+                 if (coolDownMeleeTimer[0] <= 0)
+                 {
+                     myAnimator.SetBool("meleeAttack1", false);
+
+                     isAttack = false;
+                     isMeleeComboCount[0] = false;
+                     canCombo = false;
+                     Debug.Log("i am here 1");
+                 }
+             }
+
+
+             canMeleeAttack = true;
+         }
+     }*/
+
+    }
 
     /*****************SCALE***********************/
     /* Offensive Factor (OffFactor): 0.75 - 1.25 (Weak - Strong)
@@ -529,9 +606,15 @@ public class CharacterBase : MonoBehaviour {
             isLose = true;
             myAnimator.SetBool("die", true);
             gameController.isFinish = true;
+         //   myGameController.showGameOver(currentHealth,startingHealth, highestComboAchieve,false);
+            isPause = false;
          
         }
 	}
+    public void setisInUltimate(bool inUlti)
+    {
+        isInUltimate = inUlti;
+    }
     public virtual void ShapeDraw(drawShape.shape myshape)
     {
         //empty for overwrite
@@ -557,23 +640,49 @@ public class CharacterBase : MonoBehaviour {
         StartCoroutine(WaitForAnimation("range attack",0));
         
     }
+    public virtual void ultimateMove()
+    {
+     //   Debug.Log("wtf ulti");
+    }
 
+    protected void pause()
+    {
+        if (isAI == false)
+        {
+            if (gameController.isFinish == false)
+            {
+                if (Input.GetKeyDown(KeyCode.Escape))
+                {
+                    isPause = !isPause;
+                  
+
+                    if (isPause == true)
+                        stopMoving();
+                    else
+                        startMoving();
+
+                    myGameController.showPause(isPause);
+                }
+            }
+        }
+    }
 	protected virtual void Move()
 	{
-        if (Input.GetButtonUp("Horizontal"))
+        if (isAI == false)
         {
-            speed = normalSpeed;
-            isDoubleTap = false;
-            isWalking = false;
+            if (Input.GetButtonUp("Horizontal"))
+            {
+                speed = normalSpeed;
+                isDoubleTap = false;
+                isWalking = false;
 
+            }
         }
-        if (isCastModeAnimation == true)
-            return;
+      
 
-
-        if (canMove == false)//isAttack
+        if (canMove == false || isInUltimate == true)
         {
-            Debug.Log("in att base");
+      
             speed = normalSpeed;
             isDoubleTap = false;
             rb.velocity = new Vector3(0, rb.velocity.y, rb.velocity.z);
@@ -586,20 +695,22 @@ public class CharacterBase : MonoBehaviour {
 		if(isAI == false)
 			horizontal = Input.GetAxisRaw ("Horizontal");
 
-       
-        if (Input.GetButtonDown ("Horizontal"))
-		{
-			if((Time.time - doubleTapTimer) < tapspeed)
-            {
 
-                isDoubleTap = true;
-				speed = fastSpeed;
-             
-			}
-          
-			doubleTapTimer = Time.time;
-		}
-		
+        if (isAI == false)
+        {
+            if (Input.GetButtonDown("Horizontal"))
+            {
+                if ((Time.time - doubleTapTimer) < tapspeed)
+                {
+
+                    isDoubleTap = true;
+                    speed = fastSpeed;
+
+                }
+
+                doubleTapTimer = Time.time;
+            }
+        }
 
 
         if (isJumping == false && isDoubleTap == false)
@@ -622,7 +733,6 @@ public class CharacterBase : MonoBehaviour {
       
         if (isStun == false && playBlockAnimation == false)
         {
-          
             movement.x = horizontal * speed;
             rb.velocity = new Vector3(movement.x, rb.velocity.y, rb.velocity.z);
            
@@ -631,20 +741,20 @@ public class CharacterBase : MonoBehaviour {
 	}
 	protected virtual void crouch()
 	{
-       
         if (isStun == false)
         {
             if (Input.GetKeyDown("s"))
             {
                 highJumpTimer = Time.time;
-                //if (isAttack == false && isCastModeAnimation == false)
-                if(isCastModeAnimation == false)
+
+                if (isInUltimate == false)
                     isCrouch = true;
-              
+
 
             }
-           
+
         }
+        
         if (Input.GetKeyUp("s"))
         {
             isCrouch = false;
@@ -655,12 +765,13 @@ public class CharacterBase : MonoBehaviour {
 	protected virtual void jump()
 	{
 
-        if (isCastModeAnimation == true)
-        {
-            return;
-        }
+
         if (isAI == false)
-			jumping = Input.GetAxisRaw ("Jump");
+        {
+            jumping = Input.GetAxisRaw("Jump");
+            if (isInUltimate == true)
+                jumping = 0;
+        }
 
 		if(Input.GetButtonDown("Jump"))
 		{
@@ -672,40 +783,69 @@ public class CharacterBase : MonoBehaviour {
                 }
             }
 		}
-		if(jumping > 0 && check_touchGround(groundMask, distanceToGround) == true)//player press jump while on the ground
+		if(jumping > 0)//player press jump while on the ground
 		{
-        
-            if (isStun == false && canRangeAttack == true && canMeleeAttack == true)//isAttack
+            if (check_touchGround(groundMask, distanceToGround) == true)
             {
-                jumpingMovement.y = jumpSpeed;
-                rb.velocity = new Vector3(rb.velocity.x, jumpingMovement.y,
-                                               rb.velocity.z);
-                isJumping = true;
-                isCrouch = false;
-                myaudio.PlayOneShot(jumpedSound);
+                
+                if (isStun == false && canRangeAttack == true && canMeleeAttack == true)//isAttack
+                {
+                    jumpingMovement.y = jumpSpeed;
+                    rb.velocity = new Vector3(rb.velocity.x, jumpingMovement.y,
+                                                   rb.velocity.z);
+                    isJumping = true;
+                    isCrouch = false;
+                    jumpSpeed = lowJumpSpeed;//reset
+                    myaudio.PlayOneShot(jumpedSound);
+                }
             }
-           
+            else
+            {
+                jumpingMovement.y = -fallSpeed * Time.deltaTime;
+                rb.AddForce(jumpingMovement, ForceMode.Impulse);
+              
+                if (transform.position.y <= 0.3)
+                {
+                
+                 //   transform.position = new Vector3(transform.position.x, 0.0f, transform.position.z);
+                }
+            }
 
 		}
-		else if(jumping == 0 && check_touchGround(groundMask, distanceToGround) == true)//player reach the ground
+		else if(jumping == 0)//player reach the ground
 		{
-       
-			jumpingMovement.y = 0;
-			isJumping = false;
-			jumpSpeed = lowJumpSpeed;
-        
+            if (check_touchGround(groundMask, distanceToGround) == true)
+            {
+               
+                jumpingMovement.y = 0;
+                isJumping = false;
+                jumpSpeed = lowJumpSpeed;
+            }
+            else
+            {
+                jumpingMovement.y = -fallSpeed * Time.deltaTime;
+                rb.AddForce(jumpingMovement, ForceMode.Impulse);
+
+                if (transform.position.y <= 0.3)
+                {
+                
+                  //  transform.position = new Vector3(transform.position.x, 0.0f, transform.position.z);
+                }
+            }
 
         }
-		else//player still in the air
-		{
+		//else//player still in the air
+		//{
+  //          jumpingMovement.y = -fallSpeed;
+  //          rb.AddForce(jumpingMovement, ForceMode.Impulse);
 
-            jumpingMovement.y = -fallSpeed;
-            rb.AddForce(jumpingMovement, ForceMode.Impulse);
+  //          if (transform.position.y <= 0.3)
+  //          {
+  //              //Debug.Log("end air");
+  //              transform.position = new Vector3(transform.position.x, 0.0f, transform.position.z);
+  //          }
 
-            if (transform.position.y <= 0.3)
-                transform.position = new Vector3(transform.position.x, 0.2f, transform.position.z);
-
-        }
+  //      }
 
 		if (check_touchGround (targetMask,0.3f) == true)//prevent player from standing on top
 		{
@@ -715,39 +855,47 @@ public class CharacterBase : MonoBehaviour {
 		
 
 	}
-	protected void rangeAttack(Vector3 position, Vector3 direction,gameController.projectileType myType)
-	{
+	protected void rangeAttack(Vector3 position, Vector3 direction)//gameController.projectileType myType
+    {
    
-        GameObject temp = myGameController.getPoolObjectInstance(myType).getPoolObject ();
+        GameObject temp = myGameController.getPoolObjectInstance().getPoolObject ();
 		
 		if (temp == null)
 			return;
 		weaponBase projectile = temp.GetComponent<weaponBase> ();
-		if (currentMana < projectile.getConsumeMana ())//not enough mana to cast spell
-			return;
-		
-		temp.transform.position = position + direction.normalized;
-		temp.SetActive (true);
-		projectile.launch (direction);
-		projectile.setTag (characterTag);
-		setMana (-projectile.getConsumeMana ());
-		coolDownRangeTimer = coolDownRangeAttackRate;
-        isEndOfRangeAttack = false;
+        if (currentMana < projectile.getConsumeMana())//not enough mana to cast spell
+        {
+            isNotEnoughMana = true;
+            return;
+        }
+        else
+        {
+            temp.transform.position = position + direction.normalized;
+            temp.SetActive(true);
+            projectile.launch(direction);
+            projectile.setTag(characterTag);
+            setMana(-projectile.getConsumeMana());
+            coolDownRangeTimer = coolDownRangeAttackRate;
+            isEndOfRangeAttack = false;
+            isDoubleTap = false;
+            isNotEnoughMana = false;
+        }
     }
 
 	protected void meleeAttack()
 	{
         if (isStun == true)
             return;
-        if (canMeleeAttack == true)
-		{
+        if (canMeleeAttack == true || canCombo == true)
+        {
             myaudio.PlayOneShot(attackSound);
+            isDoubleTap = false;
             canMove = false;
-        //    isAttack = true;
+            canMeleeAttack = false;
             mymelee.enabled = true;
-       
+            Debug.Log("hit");
         }
-
+       
 	}
    
   
@@ -777,9 +925,9 @@ public class CharacterBase : MonoBehaviour {
         myAnimator.SetBool("stun", false);
        
 
-        myAnimator.SetBool("meleeAttack1", false);
-        myAnimator.SetBool("meleeAttack2", false);
-        myAnimator.SetBool("meleeAttack3", false);
+        //myAnimator.SetBool("meleeAttack1", false);
+        //myAnimator.SetBool("meleeAttack2", false);
+        //myAnimator.SetBool("meleeAttack3", false);
         
     }
     protected void setAnimation()
@@ -809,22 +957,57 @@ public class CharacterBase : MonoBehaviour {
 		}
         if (name == "range attack")
         {
-            //Debug.Log("end range");
             canMove = true;
-            //isAttack = false;
+         
             isEndOfRangeAttack = true;
       
 
         }
         else if(name == "melee 1")
         {
-            if (isInCombo == false)
+            if (isMeleeComboCount[1] == true)//isInCombo
             {
-                canMove = true;
-                canCombo = false;
+                //if in here mean in my 2nd melee combo state
+               
+       
                 Debug.Log("end melee 1");
             }
+            else
+            {
+                //only do 1st melee only or no combo
+                canMove = true;
+               
+                canCombo = false;
+                canMeleeAttack = true;
+                isMeleeComboCount[0] = false;
+               
+            }
 
+        }
+        else if(name == "melee 2")
+        {
+            if (isMeleeComboCount[2] == true)
+            {
+                //if in here mean i in my final melee combo state
+               
+              //  myAnimator.SetBool("meleeAttack2", false);
+                Debug.Log("end melee 2");
+            }
+            else
+            {
+             
+                canMove = true;
+                
+                canCombo = false;
+                canMeleeAttack = true;
+                isMeleeComboCount[0] = false;
+                isMeleeComboCount[1] = false;
+                
+
+             //   myAnimator.SetBool("meleeAttack1", false);
+               // myAnimator.SetBool("meleeAttack2", false);
+               
+            }
         }
         else if (name == "melee 3")
         {
@@ -835,22 +1018,82 @@ public class CharacterBase : MonoBehaviour {
             }
             Debug.Log("finish combo");
             canMove = true;
-            isInCombo = false;//end combo
+            
             canCombo = false;
             canMeleeAttack = true;
             isMeleeComboCount[0] = false;
             isMeleeComboCount[1] = false;
-
             isMeleeComboCount[2] = false;
-       
-            myAnimator.SetBool("meleeAttack2", false);
-            myAnimator.SetBool("meleeAttack3", false);
+
+            //myAnimator.SetBool("meleeAttack1", false);
+            //myAnimator.SetBool("meleeAttack2", false);
+            //myAnimator.SetBool("meleeAttack3", false);
 
 
+        }
+        else if(name == "cast ultimate")
+        {
+            
+            canMove = true;
+            yield return new WaitForSeconds(5.0f);
+            canCastUltimate = true;
         }
        
 		yield return null;
 	}
+    protected void comboAttack()
+    {
+        if (isEndOfRangeAttack == false)//still doing range attack
+            return;
+        if (Input.GetKeyDown("o"))//melee attack
+        {
+
+            if (isMeleeComboCount[0] == false)//1st attack
+            {
+
+                meleeAttack();
+                isMeleeComboCount[0] = true;
+
+                myAnimator.SetTrigger("TmeleeAttack1");
+                StartCoroutine(WaitForAnimation("melee 1", 0));
+
+            }
+            else
+            {
+                if (canCombo == true)
+                {
+                    if (isMeleeComboCount[1] == false)//haven do 2nd combo
+                    {
+                        
+                        meleeAttack();
+
+                        isMeleeComboCount[1] = true;
+                        myAnimator.SetTrigger("TmeleeAttack2");
+                        StartCoroutine(WaitForAnimation("melee 2", 0));
+
+
+                    }
+                    else
+                    {
+                        if (isMeleeComboCount[2] == false)//haven do final combo
+                        {
+
+                            enemy.GetComponent<CharacterBase>().setStunRate(3.5f);
+                            meleeAttack();
+                            isMeleeComboCount[2] = true;
+                            myAnimator.SetTrigger("TmeleeAttack3");
+
+                            myAnimator.SetTrigger("finishCombo");
+                            StartCoroutine(WaitForAnimation("melee 3", 0));
+
+                        }
+                    }
+                }
+
+            }
+        }
+
+    }
     protected IEnumerator spellCoolDown(int waitTime, bool[] cd, int num)
     {
 

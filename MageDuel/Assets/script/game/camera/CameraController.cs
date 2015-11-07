@@ -25,6 +25,7 @@ public class CameraController : MonoBehaviour {
         CalcScreen(p1, p2);
         wScene = xR - xL;
         zCam = transform.position.z - z0;
+        Debug.Log("here");
         
     }
 	

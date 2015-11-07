@@ -19,22 +19,13 @@ public class fireball : weaponBase {
 
 	}
 	// Update is called once per frame
-	void Update () {
+	protected override void Update () {
 
-        if (CharacterBase.isCastModeAnimation == false)
-        {
-            transform.Translate(movement.normalized * speed * Time.deltaTime);
+        base.Update();
+        transform.Translate(movement.normalized * speed * Time.deltaTime);
 
-            if (deSpawn_Time == 0)//unlimited
-                return;
-
-            totalTime -= Time.deltaTime;
-
-            if (totalTime <= 0)
-            {
-                gameObject.SetActive(false);
-            }
-        }
+           
+        
 	}
 
 
@@ -65,21 +56,26 @@ public class fireball : weaponBase {
                         damage = 0;
                         comboCount = 0;
                         knockBack = 0;
+                        Debug.Log(other.gameObject.name);
+                        //Debug.Log("double true");
                     }
                     else
                     {
                         damage = ownDamage;
                         comboCount = 1;
                         knockBack = ownKnowckBack;
+
+                        Debug.Log("double false");
                     }
                     other.GetComponent<CharacterBase>().setStunRate(1);
                 }
                 else
                 {
-
+                    
                     other.GetComponent<CharacterBase>().setBlockAnimation();
                 }
-              
+
+                
                 gameObject.SetActive(false);
             }
         }

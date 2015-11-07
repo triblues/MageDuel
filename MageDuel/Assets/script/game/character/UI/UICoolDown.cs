@@ -20,6 +20,7 @@ public class UICoolDown : MonoBehaviour {
     {
         if (co != null)
             StopCoroutine(co);
+
         myimage.fillAmount = 0;
         co = StartCoroutine(coolDown(cdTime,cd,num));
     }
@@ -33,7 +34,6 @@ public class UICoolDown : MonoBehaviour {
             yield return new WaitForSeconds(0.1f);
         }
         cd[num] = true;
-        Debug.Log("in end");
-       // myimage.fillAmount = 1;
+        myimage.fillAmount = 1;
     }
 }

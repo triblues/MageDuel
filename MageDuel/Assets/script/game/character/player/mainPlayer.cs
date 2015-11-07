@@ -22,11 +22,10 @@ public class mainPlayer : CharacterBase {
     [SerializeField] int[] Pristine_spellDuration;
     [SerializeField] int[] Radiance_spellDuration;
     
-    ParticleSystem myArmorPS;
+ 
     protected drawShape myDrawShape;
     drawShape.shape lastDrawShape;
-    
-    bool[] canCastSpell;
+
    
     
     protected override void Awake()
@@ -159,7 +158,7 @@ public class mainPlayer : CharacterBase {
                 offsetPos.y = offsetPos.y + 1;
                 Vector3 direction = enemy.transform.position - offsetPos;
 
-                rangeAttack(offsetPos, direction, gameController.projectileType.fireball);
+                rangeAttack(offsetPos, direction);
             }
             if (Input.GetKeyDown("l")) //multiple fireball
             {
@@ -175,7 +174,7 @@ public class mainPlayer : CharacterBase {
                     offsetPos.y = offsetPos.y + 1;
                     Vector3 direction = newPos - offsetPos;
 
-                    rangeAttack(offsetPos, direction, gameController.projectileType.fireball);
+                    rangeAttack(offsetPos, direction);
 
                 }
             }
@@ -275,7 +274,7 @@ public class mainPlayer : CharacterBase {
                     offsetPos.y = offsetPos.y + 1;
                     Vector3 direction = newPos - offsetPos;
 
-                    rangeAttack(offsetPos, direction, gameController.projectileType.fireball);
+                    rangeAttack(offsetPos, direction);
                     lastDrawShape = drawShape.shape.no_shape;//reset
 
                 }
@@ -349,7 +348,7 @@ public class mainPlayer : CharacterBase {
                 offsetPos.y = offsetPos.y + 1;
                 Vector3 direction = enemy.transform.position - offsetPos;
 
-                rangeAttack(offsetPos, direction, gameController.projectileType.fireball);
+                rangeAttack(offsetPos, direction);
                 lastDrawShape = drawShape.shape.no_shape;//reset
                 Debug.Log("in vert");
             }
@@ -386,14 +385,14 @@ public class mainPlayer : CharacterBase {
     }
     protected void castingModeAnimation()
     {
-        if (isCastMode == true || isCastModeAnimation == true)
-            return;
-
+       // if (isCastMode == true || isCastModeAnimation == true)
+        //    return;
+        
         if (chargingBar.fillAmount >= 1)//max
         {
            // myUltiCamera.setCharacterDetail(transform, isBlockLeft);
             myUltiCamera.enabled = true;
-            isCastModeAnimation = true;
+           // isCastModeAnimation = true;
         
             myAnimator.SetBool("castingMode", true);
 
@@ -461,7 +460,7 @@ public class mainPlayer : CharacterBase {
         }
         if (name == "castingMode")
         {
-            isCastModeAnimation = false;
+         //   isCastModeAnimation = false;
             activateCastingMode();
         }
         else if(name == "melee 3")
@@ -488,7 +487,7 @@ public class mainPlayer : CharacterBase {
                 offsetPos.y = offsetPos.y + 1;
                 Vector3 direction = enemy.transform.position - offsetPos;
 
-                rangeAttack(offsetPos, direction, gameController.projectileType.fireball);
+                rangeAttack(offsetPos, direction);
             }
             if (Input.GetKeyDown("l")) //multiple fireball
             {
@@ -504,7 +503,7 @@ public class mainPlayer : CharacterBase {
                     offsetPos.y = offsetPos.y + 1;
                     Vector3 direction = newPos - offsetPos;
 
-                    rangeAttack(offsetPos, direction, gameController.projectileType.fireball);
+                    rangeAttack(offsetPos, direction);
 
                 }
             }
@@ -532,7 +531,7 @@ public class mainPlayer : CharacterBase {
                     offsetPos.y = offsetPos.y + 1;
                     Vector3 direction = newPos - offsetPos;
 
-                    rangeAttack(offsetPos, direction, gameController.projectileType.fireball);
+                    rangeAttack(offsetPos, direction);
                     lastDrawShape = drawShape.shape.no_shape;//reset
 
                 }
@@ -613,7 +612,7 @@ public class mainPlayer : CharacterBase {
                 offsetPos.y = offsetPos.y + 1;
                 Vector3 direction = enemy.transform.position - offsetPos;
 
-                rangeAttack(offsetPos, direction, gameController.projectileType.fireball);
+                rangeAttack(offsetPos, direction);
                 lastDrawShape = drawShape.shape.no_shape;//reset
              
             }
@@ -661,7 +660,7 @@ public class mainPlayer : CharacterBase {
                     offsetPos.y = offsetPos.y + 1;
                     Vector3 direction = newPos - offsetPos;
 
-                    rangeAttack(offsetPos, direction, gameController.projectileType.fireball);
+                    rangeAttack(offsetPos, direction);
                     lastDrawShape = drawShape.shape.no_shape;//reset
 
                 }
@@ -744,7 +743,7 @@ public class mainPlayer : CharacterBase {
                 offsetPos.y = offsetPos.y + 1;
                 Vector3 direction = enemy.transform.position - offsetPos;
 
-                rangeAttack(offsetPos, direction, gameController.projectileType.fireball);
+                rangeAttack(offsetPos, direction);
                 lastDrawShape = drawShape.shape.no_shape;//reset
 
             }

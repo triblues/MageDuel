@@ -15,24 +15,23 @@ public class infernoPlayerController : CharacterBase
         ultimate_spell,
         no_spell
     };
-    [SerializeField] public int ultimateDamage = 30;
+    
 
     [Header("armor,active,passive")]
     [SerializeField]
     int[] spellCastCoolDown;
     [SerializeField]
     int[] spellDuration;
-   
+    bool isInResult;
 
-    ParticleSystem myArmorPS;//armor
-    ParticleSystem mySpeedPS;//active
-    ParticleSystem myPassivePS;//passive
-    protected drawShape myDrawShape;
+    public delegate void spellDelegate();
+    //public static bool canUlti;
+
+   
+    //protected drawShape myDrawShape;
     drawShape.shape lastDrawShape;
 
-    UICoolDown UIarmorCD;
-    UICoolDown UIActiveCD;
-    bool[] canCastSpell;
+    
 
 
     protected override void Awake()
@@ -48,77 +47,234 @@ public class infernoPlayerController : CharacterBase
         UIarmorCD = GameObject.Find("Canvas").transform.Find("player/armor image outer/armor image inner").GetComponent<UICoolDown>();
         UIActiveCD = GameObject.Find("Canvas").transform.Find("player/active image outer/active image inner").GetComponent<UICoolDown>();
 
-        myArmorPS = transform.Find("armor").GetComponent<ParticleSystem>();
-        mySpeedPS = transform.Find("Fire Trail").GetComponent<ParticleSystem>();
-        myPassivePS = transform.Find("OTUSpell").GetComponent<ParticleSystem>();
-
-      
+        myArmorPS = transform.Find("armor").GetComponent<ParticleSystem>();//armor
+        myActivePS = transform.Find("Fire Trail").GetComponent<ParticleSystem>();//active
+        myPassivePS = transform.Find("OTUSpell").GetComponent<ParticleSystem>();//passive
         
-        canCastSpell = new bool[3];
-        for (int i = 0; i < canCastSpell.Length; i++)
-            canCastSpell[i] = true;
+        myUltimatePS = transform.parent.Find("fire ultimate").GetComponent<ParticleSystem>();//the particle when player has successfully landed the ultimate
+        ultimateObj = transform.parent.Find("ultimate start").gameObject;//the particle to show player has activate the ultimate
+        ultimateObj.GetComponent<weaponBase>().setTag(characterTag);
 
-        
+
+        isInResult = false;
         base.Awake();
     }
     protected override void Start()
     {
         base.Start();
-        myDrawShape = GameObject.Find("draw line").GetComponent<drawShape>();
+        //myDrawShape = GameObject.Find("draw line").GetComponent<drawShape>();
 
+        //canUlti = true;
         enemy = GameObject.FindWithTag("Enemy").gameObject;
+        enemyTrans = enemy.GetComponent<Transform>();
         lastDrawShape = drawShape.shape.no_shape;
 
-        //myUltiCamera.setCharacterDetail(transform, 
-        //    new Vector3(transform.position.x - transform.forward.x * 2, transform.position.y + 3,transform.position.z), isBlockLeft);
-        //myUltiCamera.enabled = true;
-        //isCastModeAnimation = true;
+        //myUltimatePS = GameObject.FindWithTag("Fire Ultimate").GetComponent<ParticleSystem>();
+
+        //myUltiCamera.setCharacterDetail(transform,
+        //      new Vector3(transform.position.x - transform.forward.x * 2, transform.position.y + 3, transform.position.z), !isBlockLeft);
+
+       
+    
 
     }
 
 
     protected override void Update()
     {
+       
+        
 
         setAnimation();
+        showResult();
         if (gameController.isFinish == true)
         {
             resetAnimation();
             return;
         }
-
-        checkBlocking();
         base.Update();
-
+        checkBlocking();
+        
+        Debug.Log(isDoubleTap.ToString());
         if (shouldTurn(transform.position, enemy.transform.position) == true)//facing left
         {
             isBlockLeft = false;
             rb.rotation = Quaternion.Euler(0, 270, 0);
+            spellCombo(spellComboArmor, 0.5f, armorSpell, KeyCode.S, KeyCode.D, KeyCode.K);//down right attack
+            spellCombo(spellComboActive, 0.5f, activeSpell, KeyCode.W, KeyCode.D, KeyCode.K);
         }
         else//facing right
         {
             isBlockLeft = true;
             rb.rotation = Quaternion.Euler(0, 90, 0);
+            spellCombo(spellComboArmor, 0.5f, armorSpell, KeyCode.S, KeyCode.A, KeyCode.K);//down left attack
+            spellCombo(spellComboActive, 0.5f, activeSpell, KeyCode.W, KeyCode.A, KeyCode.K);
+            
         }
 
-       
-        //if(Input.GetKeyDown(KeyCode.Space))
-        //{
-        //    if (canCastSpell[0] == true)//armor spell
-        //    {
-        //        Debug.Log("in armor");
-        //        isKnockBack = false;
-        //        canCastSpell[0] = false;
-        //        myArmorPS.Play();
-        //        UIarmorCD.startCoolDown(spellCastCoolDown[0], canCastSpell,0);
-        //        StartCoroutine(spellDurationTimer(spellType.armor_spell, spellDuration[0]));
-        //      //  StartCoroutine(spellCoolDown(spellCastCoolDown[0], canCastSpell, 0));
+        spellCombo(spellComboPassive, 0.2f, passiveSpell, KeyCode.K, KeyCode.L);
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            if(chargingBar.fillAmount >= 1)
+            {
+                
+                ultimateSpell();
+            }
+        }
+      
+
+        if(isInUltimate == false)
+            attack();
+    }
+
+   protected void showResult()
+    {
+        if(isInResult == false)
+        {
+            if(gameController.isFinish == true)
+            {
+                if (currentHealth <= 0)
+                {
+                    myGameController.showGameOver(currentHealth, startingHealth, highestComboAchieve, false);
+                  
+                }
+                if (enemy.GetComponent<CharacterBase>().getCurrentHealth() <= 0)
+                {
+                    myGameController.showGameOver(currentHealth, startingHealth, highestComboAchieve, true);
+                   
+                }
+                if(currentHealth >= enemy.GetComponent<CharacterBase>().getCurrentHealth())
+                {
+                    myGameController.showGameOver(currentHealth, startingHealth, highestComboAchieve, true);
+                 
+                }
+                else
+                {
+                    myGameController.showGameOver(currentHealth, startingHealth, highestComboAchieve, false);
+                   
+                }
+                isInResult = true;
+            }
+          
+        }
+    }
+    protected override void attack()
+    {
+        if (currentMana <= 0)
+            return;
+        if (canRangeAttack == true)
+        {
+            if (Input.GetKeyDown("k"))//one fireball
+            {
+                if (canMeleeAttack == false || canRangeAttack == false)//prevent use of range attack
+                    return;
+               
+                Vector3 offsetPos = transform.position;
+                Vector3 offsetPos_enemy = enemyTrans.position;
+                offsetPos.y = offsetPos.y + 1;
+                offsetPos_enemy.y = offsetPos_enemy.y + 1;
+                Vector3 direction = offsetPos_enemy - offsetPos;
+
+                rangeAttack(offsetPos, direction);
+                if (isNotEnoughMana == false)
+                    rangeAttackAnimation();
+            }
+            if (Input.GetKeyDown("l")) //multiple fireball
+            {
+                if (canMeleeAttack == false || canRangeAttack == false)
+                    return;
+               
+                for (int i = 1; i <= 3; i++)//3
+                {
+                    Vector3 newPos = new Vector3(enemyTrans.position.x,
+                                                 enemyTrans.position.y, enemyTrans.position.z);
+                    newPos.y = newPos.y + i * 1.5f;
+                    Vector3 offsetPos = transform.position;
+                    offsetPos.y = offsetPos.y + 1;
+                    Vector3 direction = newPos - offsetPos;
+
+                    rangeAttack(offsetPos, direction);
+                    if (isNotEnoughMana == true)
+                    {
+                        break;
+                    }
+                   
+                }
+                if (isNotEnoughMana == false)
+                {
+                    rangeAttackAnimation();
+                }
+                
+            }
+        }
+
+      
 
 
-        //    }
-        //}
+        comboAttack();
 
     }
+    //void comboAttack()
+    //{
+    //    if (isEndOfRangeAttack == false)//still doing range attack
+    //        return;
+    //    if (Input.GetKeyDown("o"))//melee attack
+    //    {
+    //        //if (canCombo == false)
+    //        //{
+    //        // //   coolDownMeleeTimer[0] = coolDownMeleeAttackRate;
+    //        //}
+    //        if (isMeleeComboCount[0] == false)//1st attack
+    //        {
+
+    //            meleeAttack();
+    //            isMeleeComboCount[0] = true;
+    //            //myAnimator.SetBool("meleeAttack1", true);
+    //            myAnimator.SetTrigger("TmeleeAttack1");
+    //            StartCoroutine(WaitForAnimation("melee 1", 0));
+
+    //        }
+    //        else
+    //        {
+    //            if (canCombo == true)
+    //            {
+    //                if (isMeleeComboCount[1] == false)//haven do 2nd combo
+    //                {
+    //                   // if (coolDownMeleeTimer[0] > 0)//2nd attack combo
+    //                  //  {
+    //                        meleeAttack();
+    //                        //isInCombo = true;
+    //                        isMeleeComboCount[1] = true;
+    //                        //coolDownMeleeTimer[1] = coolDownMeleeAttackRate;
+    //                        //myAnimator.SetBool("meleeAttack2", true);
+    //                        myAnimator.SetTrigger("TmeleeAttack2");
+    //                        StartCoroutine(WaitForAnimation("melee 2", 0));
+
+    //                   // }
+    //                }
+    //                else
+    //                {
+    //                    if (isMeleeComboCount[2] == false)//haven do final combo
+    //                    {
+
+    //                        enemy.GetComponent<CharacterBase>().setStunRate(3.5f);
+    //                        meleeAttack();
+    //                        isMeleeComboCount[2] = true;
+    //                        myAnimator.SetTrigger("TmeleeAttack3");
+                              
+    //                        myAnimator.SetTrigger("finishCombo");
+    //                        Debug.Log("click 3");
+    //                        StartCoroutine(WaitForAnimation("melee 3", 0));
+
+    //                    }
+    //                }
+    //            }
+
+    //        }
+    //    }
+
+    //}
     void checkBlocking()
     {
         if (blockCount <= 0)
@@ -144,7 +300,7 @@ public class infernoPlayerController : CharacterBase
 
     protected void castModeMeleeCombo()
     {
-        isInCombo = true;
+        
         meleeAttack();//2nd attack
 
         myAnimator.SetBool("meleeAttack2", true);
@@ -172,31 +328,13 @@ public class infernoPlayerController : CharacterBase
             StartCoroutine(WaitForAnimation("melee 3", 0));
         }
     }
-    //protected IEnumerator main_WaitForAnimation(string name, int count)
-    //{
-    //    yield return new WaitForSeconds(1.0f);
-    //    while (myAnimator.GetCurrentAnimatorStateInfo(count).IsName(name) == true)//the animation is still running
-    //    {
-            
-    //        yield return new WaitForSeconds(0.05f);
 
-    //    }
-       
-    //    if (name == "melee 3")
-    //    {
-
-    //        myAnimator.SetBool("meleeAttack3", false);
-    //        Debug.Log("in here?");
-    //        canCombo = false;
-    //        isAttack = false;
-    //    }
-    //}
 
     
     public override void ShapeDraw(drawShape.shape myshape)
     {
-        if (isCastModeAnimation == true)
-            return;
+       // if (isCastModeAnimation == true)
+           // return;
 
         if (lastDrawShape == drawShape.shape.horizontal_line)
         {
@@ -216,7 +354,7 @@ public class infernoPlayerController : CharacterBase
                         offsetPos.y = offsetPos.y + 1;
                         Vector3 direction = newPos - offsetPos;
 
-                        rangeAttack(offsetPos, direction, gameController.projectileType.fireball);
+                        rangeAttack(offsetPos, direction);
 
                         
 
@@ -272,9 +410,16 @@ public class infernoPlayerController : CharacterBase
             }
             else if(myshape == drawShape.shape.diamond)//ultimate
             {
-                myUltiCamera.setCharacterDetail(transform, transform.forward, isBlockLeft);
-                myUltiCamera.enabled = true;
-                isCastModeAnimation = true;
+                if (chargingBar.fillAmount >= 1)
+                {
+                //    myUltiCamera.setCharacterDetail(transform,
+                //new Vector3(transform.position.x - transform.forward.x * 2, transform.position.y + 3, transform.position.z), !isBlockLeft);
+                //    myUltiCamera.enabled = true;
+                //    isCastModeAnimation = true;
+                //    myUltimatePS.gameObject.transform.position = new Vector3(enemy.transform.position.x, enemy.transform.position.y + 8, enemy.transform.position.z);
+                //    myUltimatePS.Play();
+                //    StartCoroutine(spellDurationTimer(spellType.ultimate_spell, 5.0f));
+                }
                 lastDrawShape = drawShape.shape.no_shape;
             }
             else
@@ -312,7 +457,7 @@ public class infernoPlayerController : CharacterBase
                 {
 
                     canCastSpell[1] = false;
-                    mySpeedPS.enableEmission = true;
+                    myActivePS.enableEmission = true;
                     normalSpeed = normalSpeed * 2;
 
                     UIActiveCD.startCoolDown(spellCastCoolDown[1], canCastSpell, 1);
@@ -341,7 +486,7 @@ public class infernoPlayerController : CharacterBase
                     offsetPos_enemy.y = offsetPos_enemy.y + 1;
                     Vector3 direction = offsetPos_enemy - offsetPos;
 
-                    rangeAttack(offsetPos, direction, gameController.projectileType.fireball);
+                    rangeAttack(offsetPos, direction);
                 }
 
                 
@@ -374,6 +519,128 @@ public class infernoPlayerController : CharacterBase
 
     }
 
+    void ultimateSpell()
+    {
+        if (canMove == true && isJumping == false && playBlockAnimation == false
+            && isCrouch == false && isStun == false)
+        {
+            if (canCastUltimate == true)
+            {
+                Debug.Log("enter ulti");
+                canCastUltimate = false;
+                canMove = false;
+                myAnimator.SetTrigger("castUltimate");
+                StartCoroutine(WaitForAnimation("cast ultimate", 0));
+                ultimateObj.SetActive(true);
+                ultimateObj.GetComponent<Transform>().position = new Vector3(enemyTrans.position.x, 0, enemyTrans.position.z);
+                //prepare for ultimate to see if ultimate move hit enemy
+            }
+        }
+    }
+    public override void ultimateMove()
+    {
+        //this mean that player successfully use ultimate on enemy
+        Debug.Log("fire att");
+        chargingBar.fillAmount = 0;
+        myAnimator.SetTrigger("ultimate");
+        myUltimatePS.gameObject.transform.position = new Vector3(enemyTrans.position.x, enemyTrans.position.y + 8, enemyTrans.position.z);
+        myUltimatePS.Play();
+        myUltiCamera.setDetail(transform, enemy.transform, isBlockLeft,2.0f);
+
+        isInUltimate = true;
+        enemy.GetComponent<CharacterBase>().setisInUltimate(true);
+        StartCoroutine(spellDurationTimer(spellType.ultimate_spell, 8.0f));
+    }
+
+    void armorSpell()
+    {
+        if (canCastSpell[0] == true)//armor spell
+        {
+            isKnockBack = false;
+            canCastSpell[0] = false;
+            myArmorPS.Play();
+
+            spellCastCoolDown[0] = spellCastCoolDown[0] * spellCoolDownRate;
+            UIarmorCD.startCoolDown(spellCastCoolDown[0], canCastSpell, 0);
+            StartCoroutine(spellDurationTimer(spellType.armor_spell, spellDuration[0]));
+
+        }
+    }
+    void activeSpell()
+    {
+        if (canCastSpell[1] == true)//speed spell
+        {
+
+            canCastSpell[1] = false;
+            myActivePS.enableEmission = true;
+            normalSpeed = normalSpeed * 2;
+
+            spellCastCoolDown[1] = spellCastCoolDown[1] * spellCoolDownRate;
+            UIActiveCD.startCoolDown(spellCastCoolDown[1], canCastSpell, 1);
+            StartCoroutine(spellDurationTimer(spellType.active_spell, spellDuration[1]));
+            
+        }
+    }
+    void passiveSpell()
+    {
+        if (canCastSpell[2] == true)//instant cooldown spell
+        {
+
+            canCastSpell[0] = true;
+            canCastSpell[1] = true;
+            canCastSpell[2] = false;
+            myPassivePS.Play();
+        }
+    }
+    void spellCombo(float[] cdrate,float timeNeeded,spellDelegate myspellDelegate, KeyCode kc1, KeyCode kc2, KeyCode kc3 = KeyCode.None)
+    {
+
+        if (kc3 != KeyCode.None)
+        {
+            if (Input.GetKeyDown(kc1))
+            {
+                cdrate[0] = timeNeeded;
+
+            }
+            if (Input.GetKeyDown(kc2))
+            {
+                if (cdrate[0] > 0)
+                {
+                    cdrate[1] = timeNeeded;
+                }
+
+            }
+            if (Input.GetKeyDown(kc3))
+            {
+                if (cdrate[1] > 0)
+                {
+                    //do stuff
+                    myspellDelegate();
+                    Debug.Log("yea");
+                }
+            }
+        }
+        else
+        {
+           // Debug.Log("here");
+            if (Input.GetKeyDown(kc1))
+            { 
+                cdrate[0] = timeNeeded;
+
+            }
+            if (Input.GetKeyDown(kc2))
+            {
+                if (cdrate[0] > 0)
+                    myspellDelegate();
+            }
+
+        }
+        if (cdrate[0] > 0)
+            cdrate[0] -= Time.deltaTime;
+        if (cdrate[1] > 0)
+            cdrate[1] -= Time.deltaTime;
+
+    }
    
     IEnumerator spellDurationTimer(spellType _spell, float timeTaken)
     {
@@ -388,14 +655,25 @@ public class infernoPlayerController : CharacterBase
         else if (_spell == spellType.active_spell)
         {
             normalSpeed = normalSpeed / 2;
-            mySpeedPS.enableEmission = false;
+            myActivePS.enableEmission = false;
         }
         else if (_spell == spellType.passive_spell)
         {
            
         }
-        
-       
+        else if(_spell == spellType.ultimate_spell)
+        {
+            Debug.Log("end");
+            myUltiCamera.removeUltimate();
+            isInUltimate = false;
+            enemy.GetComponent<CharacterBase>().setisInUltimate(false);
+            myUltimatePS.Stop();
+            enemy.GetComponent<CharacterBase>().TakesDamage(ultimateDamage);
+
+
+        }
+
+
     }
     //[Client]
     //protected void setNetworkIdentify()

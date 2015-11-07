@@ -10,10 +10,14 @@ public class gameTime : MonoBehaviour {
 	void Start () {
 	
 		mytext = GetComponent<Text> ();
-		StartCoroutine (countDownTimer (1.0f));
+		
 		mytext.text = "Time: " + totalTime.ToString ();
 	}
-
+    public void startTimer()
+    {
+        if(launchScene.isPractice == false)
+           StartCoroutine(countDownTimer(1.0f));
+    }
 	IEnumerator countDownTimer(float interval)
 	{
 		while(totalTime > 0 && gameController.isFinish == false)

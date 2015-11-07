@@ -13,8 +13,8 @@ public class melee : weaponBase {
 
 	void OnEnable()
 	{
-		//	rb.velocity = Vector3.zero;
-		totalTime = Time.time + deSpawn_Time;
+     
+        totalTime = deSpawn_Time;
 		myBC.enabled = true;
 
 		
@@ -25,14 +25,15 @@ public class melee : weaponBase {
 	}
 
 	// Update is called once per frame
-	void Update () {
+	protected override void Update () {
 	
 		if (deSpawn_Time == 0)//unlimited
 			return;
-		if(Time.time > totalTime)
-		{
-			//Debug.Log("false");
-		
+        totalTime -= Time.deltaTime;
+
+        if (totalTime <= 0)
+        {
+			
 			gameObject.GetComponent<melee>().enabled = false;
 		}
 	}
@@ -57,7 +58,7 @@ public class melee : weaponBase {
 
             if (other.GetComponent<CharacterBase>().getIsBlocking() == false)
             {
-                other.GetComponent<CharacterBase>().setStunRate(5);
+                //other.GetComponent<CharacterBase>().setStunRate(5);
             }
             else
             {

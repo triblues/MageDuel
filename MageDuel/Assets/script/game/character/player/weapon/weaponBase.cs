@@ -20,6 +20,18 @@ public class weaponBase : MonoBehaviour {
 
     }
 
+    protected virtual void Update()
+    {
+        if (deSpawn_Time == 0)//unlimited
+            return;
+
+        totalTime -= Time.deltaTime;
+
+        if (totalTime <= 0)
+        {
+            gameObject.SetActive(false);
+        }
+    }
 	public float getDeSpawnTime()
 	{
 		return deSpawn_Time;
@@ -62,7 +74,7 @@ public class weaponBase : MonoBehaviour {
             {
                 if (other.GetComponent<CharacterBase>().getIsBlocking() == false)
                 {
-                   other.GetComponent<CharacterBase>().TakesDamage(damage);
+                    other.GetComponent<CharacterBase>().TakesDamage(damage);
                     other.GetComponent<CharacterBase>().getEnemy().GetComponent<CharacterBase>().setComboCount(comboCount);
 
                     if (other.GetComponent<CharacterBase>().getisKnockBack() == true)
@@ -71,19 +83,22 @@ public class weaponBase : MonoBehaviour {
                                                              ForceMode.Impulse);
                     }
 
-                    
+
                     other.GetComponent<CharacterBase>().getEnemy().GetComponent<CharacterBase>().
                   addCurrentChargingBar(chargeAmount);
 
 
                 }
-           
+
             }
         }
         else
         {
             if (other.GetComponent<weaponBase>() == null)//don have this script (mean hit a wall)
+            {
                 gameObject.SetActive(false);
+                Debug.Log("here 0");
+            }
         }
 
 

@@ -53,8 +53,15 @@
      <Compile Include="Assets\script\game\ItemShop\Inventory.cs" />
      <Compile Include="Assets\script\game\ItemShop\ItemDatabase.cs" />
      <Compile Include="Assets\script\game\ItemShop\Items.cs" />
+     <Compile Include="Assets\script\game\ItemShop\coinText.cs" />
+     <Compile Include="Assets\script\game\ItemShop\itemShopController.cs" />
+     <Compile Include="Assets\script\game\ItemShop\itemText.cs" />
+     <Compile Include="Assets\script\game\ItemShop\itemToolTips.cs" />
+     <Compile Include="Assets\script\game\UI\cinematicText.cs" />
+     <Compile Include="Assets\script\game\UI\comboText.cs" />
      <Compile Include="Assets\script\game\UI\gameTime.cs" />
      <Compile Include="Assets\script\game\camera\CameraController.cs" />
+     <Compile Include="Assets\script\game\camera\cinematicCameraController.cs" />
      <Compile Include="Assets\script\game\camera\ultimateCameraController.cs" />
      <Compile Include="Assets\script\game\character\CharacterBase.cs" />
      <Compile Include="Assets\script\game\character\UI\UICoolDown.cs" />
@@ -66,8 +73,13 @@
      <Compile Include="Assets\script\game\character\player\infernoPlayerController.cs" />
      <Compile Include="Assets\script\game\character\player\mainPlayer.cs" />
      <Compile Include="Assets\script\game\character\player\pristinePlayerController.cs" />
+     <Compile Include="Assets\script\game\character\player\radiancePlayerController.cs" />
+     <Compile Include="Assets\script\game\character\player\weapon\fireUltimate.cs" />
      <Compile Include="Assets\script\game\character\player\weapon\fireball.cs" />
+     <Compile Include="Assets\script\game\character\player\weapon\iceUltimate.cs" />
      <Compile Include="Assets\script\game\character\player\weapon\iceball.cs" />
+     <Compile Include="Assets\script\game\character\player\weapon\lightUltimate.cs" />
+     <Compile Include="Assets\script\game\character\player\weapon\lightball.cs" />
      <Compile Include="Assets\script\game\character\player\weapon\melee.cs" />
      <Compile Include="Assets\script\game\character\player\weapon\weaponBase.cs" />
      <Compile Include="Assets\script\game\drawShape.cs" />
@@ -75,6 +87,7 @@
      <Compile Include="Assets\script\game\network\networkManagerController.cs" />
      <Compile Include="Assets\script\gameSettings.cs" />
      <Compile Include="Assets\script\level select\levelSelectController.cs" />
+     <Compile Include="Assets\script\level select\starController.cs" />
      <Compile Include="Assets\script\menu\DisplayCredits.cs" />
      <Compile Include="Assets\script\menu\MainMenuButton.cs" />
      <Compile Include="Assets\script\menu\MainMenuGUI.cs" />
@@ -84,6 +97,8 @@
      <Compile Include="Assets\script\menu\settingsGUI.cs" />
      <Compile Include="Assets\script\networking\customNetworkBluePrint.cs" />
      <Compile Include="Assets\script\networking\customNetworkManager.cs" />
+     <Compile Include="Assets\script\networking\networkGameManager.cs" />
+     <Compile Include="Assets\script\networking\playerSyncTransform.cs" />
      <None Include="Assets\Standard Assets\Characters\PhysicsMaterials\test.txt" />
      <None Include="Assets\Standard Assets\ParticleSystems\Shaders\PriorityParticleAlpha.shader" />
      <None Include="Assets\Standard Assets\ParticleSystems\ParticleSystemsGuidelines.txt" />

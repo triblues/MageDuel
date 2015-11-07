@@ -15,18 +15,6 @@ public class poolObject : MonoBehaviour
 
     void Start()
     {
-
-
-
-
-        //		
-        //		for(int i =0;i<poolAmount;i++)
-        //		{
-        //			GameObject temp = (GameObject) Instantiate(myobject);
-        //			temp.SetActive(false);
-        //			poolObject_list.Add(temp);
-        //		}
-
     }
     public void setPoolObject(int amount, bool isGrow, GameObject obj, Transform myparent)
     {

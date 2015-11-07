@@ -9,6 +9,7 @@ public class ultimateCameraController : MonoBehaviour {
     Camera mycam;
     bool isFaceRight;
     Transform characterTrans;
+    Transform enemyTrans;
 	// Use this for initialization
 	void Awake () {
 
@@ -37,31 +38,50 @@ public class ultimateCameraController : MonoBehaviour {
         //{
         //    Debug.Log("2 characterTag: " + characterTag.ToString());
         //}
-        if (isFaceRight == true)
-        {
-            transform.rotation = Quaternion.Euler(0, 270, 0);
-        }
-        else
-        {
-            transform.rotation = Quaternion.Euler(0, 90, 0);
-        }
+        //if (isFaceRight == true)
+        //{
+        //    transform.rotation = Quaternion.Euler(0, 270, 0);
+        //}
+        //else
+        //{
+        //    transform.rotation = Quaternion.Euler(0, 90, 0);
+        //}
+        //if(isFaceRight)
+        //    transform.position = new Vector3(characterTrans.position.x + 3, transform.position.y, transform.position.z);
+        //else
+        //    transform.position = new Vector3(characterTrans.position.x - 3, transform.position.y, transform.position.z);
 
         //transform.LookAt(characterTrans);
-        mycam.enabled = true;
+        // mycam.enabled = true;
     }
     void OnDisable()
     {
-        mymainCam.enabled = true;
+        if(mymainCam != null)
+            mymainCam.enabled = true;
         mycam.enabled = false;
         Debug.Log("disable ucam");
     }
-    public void setCharacterDetail(Transform charTrans,Vector3 mypos,bool isRight)
+    public void removeUltimate()
     {
-        characterTrans = charTrans;
-        transform.position = mypos;
-      
+        mymainCam.enabled = true;
+        mycam.enabled = false;
+    }
+    public void setDetail(Transform _charTrans, Transform _enemyTrans,bool isRight,float waitTime)
+    {
+        characterTrans = _charTrans;
+        enemyTrans = _enemyTrans;
         isFaceRight = isRight;
-    
+
+        if (isFaceRight)
+            transform.position = new Vector3(characterTrans.position.x + 3, transform.position.y, transform.position.z);
+        else
+            transform.position = new Vector3(characterTrans.position.x - 3, transform.position.y, transform.position.z);
+
+        transform.LookAt(characterTrans);
+        mycam.enabled = true;
+
+        StartCoroutine(delay(waitTime));
+
     }
     void shake()
     {
@@ -76,5 +96,17 @@ public class ultimateCameraController : MonoBehaviour {
             waitTime -= Time.deltaTime;
             yield return new WaitForSeconds(Time.deltaTime);
         }
+    }
+
+    IEnumerator delay(float waitTime)
+    {
+        yield return new WaitForSeconds(waitTime);
+
+        if (isFaceRight)
+            transform.position = new Vector3(enemyTrans.position.x - 10, transform.position.y, transform.position.z);
+        else
+            transform.position = new Vector3(enemyTrans.position.x + 10, transform.position.y, transform.position.z);
+        transform.LookAt(enemyTrans);
+        shake();
     }
 }

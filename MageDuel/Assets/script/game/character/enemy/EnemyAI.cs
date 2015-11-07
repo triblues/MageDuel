@@ -15,12 +15,14 @@ public class EnemyAI : CharacterBase
 
 	//AI state stuff
 	[SerializeField] public float idleTime = 1.0f;//the value mean how long the character will be in this state
-	[SerializeField] public float attackTime = 2.0f;
+	[SerializeField] public float attackRangeTime = 2.0f;
+    [SerializeField] public float attackMeleeTime = 2.0f;
 	[SerializeField] public float blockTime = 1.0f;
 	[SerializeField] public float randAttributeTime = 1.5f;
 	float idleTimer;
-	float attackTimer;
-	float blockTimer;
+	float attackRangeTimer;
+    float attackMeleeTimer;
+    float blockTimer;
 	float randomAttTimer;
 
 	bool changeState;
@@ -88,15 +90,20 @@ public class EnemyAI : CharacterBase
         //}
 
         enemy = GameObject.FindGameObjectWithTag("Main Player");
+
+      //  if (launchScene.isPractice == true)
+        //    testMode = true;
+        
     }
 
     // Update is called once per frame
     protected override void Update()
     {
-
+       
         if (gameController.isFinish == true)
             return;
-       
+
+        
 
         if (shouldTurn(transform.position,enemy.transform.position) == true)
 		{
@@ -109,17 +116,19 @@ public class EnemyAI : CharacterBase
 
 		}
 
+        if (isInUltimate == true)
+            return;
 
         base.Update();//move and jump
-
+      //  Debug.Log(jumping.ToString());
         if (testMode)
         {
             horizontal = 0;
-            jumping = 0;
+            jumping = 1;
         }
         else
         {
-            action();
+           action();
 
         }
         AI_Agent();
@@ -128,11 +137,7 @@ public class EnemyAI : CharacterBase
 
 	void AI_Agent()
 	{
-        if (isCastModeAnimation == true)
-        {
-            Debug.Log("i am false");
-            return;
-        }
+      
         switch (myAIState)
 		{
 			case AIState.idle:
@@ -141,18 +146,25 @@ public class EnemyAI : CharacterBase
 			case AIState.attack:
 			{
 				
-				attackState();
-				
 				switch(myAIStateAttack)
 				{
 					case AIAttack.melee:
-						meleeCombat();
+                            {
+                                meleeAttackState();
+                                meleeCombat();
+                            }
 						break;
 					case AIAttack.rangeSingle:
-						rangeCombat();
+                            {
+                                rangeAttackState();
+                                rangeCombat();
+                            }
 						break;
 					case AIAttack.rangeMultiple:
-						rangeCombat();
+                            {
+                                rangeAttackState();
+                                rangeCombat();
+                            }
 						break;
 					default:
 						break;
@@ -172,11 +184,12 @@ public class EnemyAI : CharacterBase
 	{
 		if(changeState == true)
 		{
+            Debug.Log("change");
 			randomNum = getRandomNum(randMin,randMax);
 			if(randomNum >= randMax-(aggressiveLevel * 15))//the lower aggreesive level the lower chance to attack
 			{
 				int offset;
-               myAIState = AIState.attack;
+                myAIState = AIState.attack;
                 randomNum = getRandomNum(randMin, randMax);
 
                 if (currentMana <= startingMana / 5)//left 20%
@@ -194,7 +207,8 @@ public class EnemyAI : CharacterBase
                 }
                 else
                     myAIStateAttack = AIAttack.melee;
-             //   myAIStateAttack = AIAttack.melee;
+
+                //myAIStateAttack = AIAttack.melee;
 
 
             }
@@ -207,7 +221,11 @@ public class EnemyAI : CharacterBase
 			changeState = false;
 		}
 
-		randomAttribute();//random move and jump
+        if (myAIState != AIState.idle)
+        {
+          //  Debug.Log("in not idle");
+            randomAttribute();//random move and jump
+        }
 
 
 
@@ -215,7 +233,8 @@ public class EnemyAI : CharacterBase
 	}
 	void idleState()
 	{
-		idleTimer += Time.deltaTime;
+    
+        idleTimer += Time.deltaTime;
 		horizontal = 0;
 		jumping = 0;
 		isReverseDirection = false;
@@ -223,26 +242,45 @@ public class EnemyAI : CharacterBase
 		{
 			changeState = true;
 			idleTimer = 0;//reset
+            //Debug.Log("end idle");
 		}
 	}
-	void attackState()
+	void rangeAttackState()
 	{
 
-		attackTimer += Time.deltaTime;
+        attackRangeTimer += Time.deltaTime;
 		
-		if(attackTimer >= attackTime)
+		if(attackRangeTimer >= attackRangeTime)
 		{
 			changeState = true;
-			attackTimer = 0;//reset
+            attackRangeTimer = 0;//reset
 		}
 	}
-	void blockState()
+    void meleeAttackState()
+    {
+        if (inMeleeCombo == false)
+        {
+            attackMeleeTimer += Time.deltaTime;
+
+            if (attackMeleeTimer >= attackMeleeTime)
+            {
+              //  Debug.Log("in here melee");
+                changeState = true;
+                attackMeleeTimer = 0;//reset
+            }
+        }
+    }
+    void blockState()
 	{
+        if(blockCount <= 0)
+        {
+            blockTimer = blockTime;
+        }
 		blockTimer += Time.deltaTime;
 
         if (blockTimer >= blockTime)
         {
-            changeState = true;
+            //changeState = true;
             blockTimer = 0;
             isBlocking = false;
         }
@@ -253,12 +291,12 @@ public class EnemyAI : CharacterBase
 			return;
 		if (canRangeAttack == false)
 			return;
-        //Debug.Log("here");
+      
         Vector3 direction;
 
         if (myAIStateAttack == AIAttack.rangeSingle)
         {
-           
+
 
             Vector3 offsetPos = transform.position;
             Vector3 offsetPos_enemy = enemy.transform.position;
@@ -266,7 +304,9 @@ public class EnemyAI : CharacterBase
             offsetPos_enemy.y = offsetPos_enemy.y + 1;
             direction = offsetPos_enemy - offsetPos;
 
-            rangeAttack(offsetPos, direction, gameController.projectileType.fireball);
+            rangeAttack(offsetPos, direction);
+            if (isNotEnoughMana == false)
+                rangeAttackAnimation();
         }
         else //multiple attack
         {
@@ -277,12 +317,17 @@ public class EnemyAI : CharacterBase
                 newPos.y = newPos.y + i * 1.5f;
                 direction = newPos - transform.position;
 
-                rangeAttack(transform.position, direction, gameController.projectileType.fireball);
-
+                rangeAttack(transform.position, direction);
+                if (isNotEnoughMana == true)
+                {
+                    break;
+                }
             }
+            if (isNotEnoughMana == false)
+                rangeAttackAnimation();
         }
 
-		if(Vector3.Distance(transform.position,enemy.transform.position) <= rangeDistance)
+        if (Vector3.Distance(transform.position,enemy.transform.position) <= rangeDistance)
 		{
 			if(isReverseDirection == false)
 			{
@@ -298,16 +343,20 @@ public class EnemyAI : CharacterBase
        
         if (Vector3.Distance(transform.position,enemy.transform.position) <= meleeDistance)
 		{
-           // Debug.Log("in melee dist");
+          
             horizontal = 0;
             jumping = 0;
             if (inMeleeCombo == false)
             {
                 inMeleeCombo = true;
+                myAnimator.SetTrigger("TmeleeAttack1");
+                myAnimator.SetTrigger("TmeleeAttack2");
+                myAnimator.SetTrigger("TmeleeAttack3");
+                myAnimator.SetTrigger("finishCombo");
                 StartCoroutine(meleeComboSequence(0.2f));
             }
 
-            //meleeAttack();
+          
         }
         else//AI is far away from player 
 		{
@@ -336,12 +385,12 @@ public class EnemyAI : CharacterBase
 		{
 			if(myAIStateAttack != AIAttack.melee)//enemy will go directly to the player
 			{
-				randomNum = getRandomNum (randMin, randMax);
-				if (randomNum >= randMax / 2)
-					horizontal = -1;
-				else
-					horizontal = 1;
-			}
+                randomNum = getRandomNum(randMin, randMax);
+                if (randomNum >= randMax / 2)
+                    horizontal = -1;
+                else
+                    horizontal = 1;
+            }
 
 
             randomNum = getRandomNum(randMin, randMax);
@@ -350,36 +399,49 @@ public class EnemyAI : CharacterBase
             else
                 jumping = 0;
 
-          
-			if(isJumping == true)
-				jumping = 0;//prevent keep jumping
 
-            randomNum = getRandomNum(randMin, randMax);
-            if(currentHealth > startingHealth/2)//more then half health
+            if (isJumping == true)
+                jumping = 0;//prevent keep jumping
+
+
+            if (isBlocking == false)
             {
-                if (randomNum >= randMax / 2)
+                if (blockCount <= 0)
                 {
-                    isBlocking = true;
+                    isBlocking = false;
                 }
                 else
-                    isBlocking = false;
-            }
-            else//lower then half health
-            {
-                if (randomNum >= randMax / 2 - 30)//higher chance to block
                 {
-                    isBlocking = true;
+                    randomNum = getRandomNum(randMin, randMax);
+                    if (currentHealth > startingHealth / 2)//more then half health
+                    {
+                        if (randomNum >= randMax / 2)
+                        {
+                            isBlocking = true;
+                        }
+                        else
+                            isBlocking = false;
+                    }
+                    else//lower then half health
+                    {
+                        if (randomNum >= randMax / 2 - 30)//higher chance to block
+                        {
+                            isBlocking = true;
+                        }
+                        else
+                            isBlocking = false;
+                    }
                 }
-                else
-                    isBlocking = false;
+               
             }
 
 
             randomAttTimer = 0;
+            Debug.Log("in rand");
 		}
 
-
-	}
+        isBlocking = true;
+    }
 
     IEnumerator meleeComboSequence(float wait)
     {
@@ -397,12 +459,12 @@ public class EnemyAI : CharacterBase
                    
                 }
                 meleeComboCount = 0;
-                changeState = true;
-                attackTimer = 0;//reset
+
+                attackMeleeTimer = 0;//reset
                 inMeleeCombo = false;
                 myAIState = AIState.idle;
                 idleTimer = 0;
-                //isAttack = false;
+              
                 canMove = true;
                 break;
             }

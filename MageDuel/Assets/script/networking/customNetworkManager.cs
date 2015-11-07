@@ -35,7 +35,7 @@ public class customNetworkManager : NetworkManager
     //}
     public void spawnPlayer()
     {
-        GameObject obj = GameObject.Instantiate(allchar[characterSelectManager.selectedCharacter]);
+        GameObject obj = GameObject.Instantiate(allchar[0]);
         NetworkServer.Spawn(obj);
     }
 
@@ -69,8 +69,9 @@ public class customNetworkManager : NetworkManager
 
             NetworkManager.singleton.StartHost(hostInfo);
 
-            NetworkManager.singleton.playerPrefab = allchar[characterSelectManager.selectedCharacter];
-            isMultiplayer = true;
+            NetworkManager.singleton.playerPrefab = allchar[0];
+            //NetworkManager.singleton.playerPrefab = allchar[characterSelectManager.selectedCharacter];
+
         }
         else
         {
@@ -96,6 +97,7 @@ public class customNetworkManager : NetworkManager
                 NetworkManager.singleton.playerPrefab = allchar[characterSelectManager.selectedCharacter];
                 //join the last server (just in case there are two...)
                 NetworkManager.singleton.matchMaker.JoinMatch(matchListResponse.matches[matchListResponse.matches.Count - 1].networkId, "", OnJoinInternetMatch);
+                NetworkManager.singleton.playerPrefab = allchar[0];
             }
             else
             {

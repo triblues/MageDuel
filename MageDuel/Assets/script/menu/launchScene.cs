@@ -6,48 +6,62 @@ using System.Collections;
 
 public class launchScene : MonoBehaviour {
 
+
+    public static bool isPractice;
     RawImage myfadeImage;
     float myalpha;
     Coroutine co;
     // Use this for initialization
     void Awake () {
 
+        
+
         myalpha = 1;
         myfadeImage = GameObject.Find("fade image").GetComponent<RawImage>();
-        myfadeImage.color = new Color(0, 0, 0, myalpha);
-       
+
+        if (Application.loadedLevel != 4)
+        {
+            myfadeImage.color = new Color(0, 0, 0, myalpha);
+            co = StartCoroutine(waitForFade(name, 1.0f, false));
+        }
+
     }
 	void Start()
     {
-       
-        co = StartCoroutine(waitForFade(name, 1.0f, false));
+      
     }
 	// Update is called once per frame
 	void Update () {
 	
 	}
+    public void setPractice(bool _ispractice)
+    {
+        isPractice = _ispractice;
+    }
+    public void resetPlayerPrefs()
+    {
+        PlayerPrefs.DeleteAll();
+    }
 
     // Goes to the game scene
 	public void gotoScene(string name)
 	{
-        // Fade out game and load level
-        // float fadeTime = GameObject.Find("FadeController").GetComponent<Fading>().BeginFading(1);
-        // yield return new WaitForSeconds(fadeTime);
-
-        // Application.LoadLevel (name);
+        
        
         if (co != null)
             StopCoroutine(co);
-        StartCoroutine(goScene(name));
-	}
+     
+       
+        goScene(name);
+    }
 
    
     
 
-    IEnumerator goScene(string name)
+    void goScene(string name)
     {
-        yield return StartCoroutine(waitForFade(name, 1.0f,true));
-        Application.LoadLevel(name);
+         StartCoroutine(waitForFade(name, 1.0f,true));
+       
     }
     IEnumerator waitForFade(string name,float fadeTime,bool isFadeOut)
     {
@@ -67,13 +81,17 @@ public class launchScene : MonoBehaviour {
                 myfadeImage.color = new Color(0, 0, 0, myalpha);
 
                 if (myalpha >= 1)
+                {
+                    Application.LoadLevel(name);
                     break;
+                }
             }
             
 
            
             yield return new WaitForSeconds(fadeTime/10);
         }
+       // Application.LoadLevel(name);
     }
     //void OnLevelWasLoaded(int level)
     //{

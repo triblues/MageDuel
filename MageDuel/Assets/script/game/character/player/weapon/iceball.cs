@@ -3,45 +3,76 @@ using System.Collections;
 
 public class iceball : weaponBase {
 
-	// Use this for initialization
-	void Start () {
-	
-	}
+    protected float ownKnowckBack;
+    protected float ownDamage;
+    // Use this for initialization
+    void Awake () {
+
+        ownDamage = damage;
+        ownKnowckBack = knockBack;
+    }
 	
 
 	void OnEnable()
 	{
-		
-		totalTime = Time.time + deSpawn_Time;
-		
-	}
-	// Update is called once per frame
-	void Update () {
 
+        totalTime = deSpawn_Time;
+
+    }
+    // Update is called once per frame
+    protected override void Update () {
+
+        base.Update();
 		transform.Translate (movement.normalized * speed * Time.deltaTime);
 		
-		if (deSpawn_Time == 0)//unlimited
-			return;
-		if(Time.time > totalTime)
-		{
-			gameObject.SetActive(false);
-		}
+		
 	}
 	override protected void OnTriggerEnter(Collider other)
 	{
-		base.OnTriggerEnter (other);
-//		if(other.GetComponent<CharacterBase>() != null)//has a body
-//		{
-//			if(other.GetComponent<CharacterBase>().getCharacterTag() != numTag)//prevent own attack to hit ownself
-//			{
-//				other.GetComponent<CharacterBase>().TakesDamage(damage);
-//				other.GetComponent<Rigidbody>().AddForce(-other.GetComponent<Transform>().forward * knockBack,
-//				                                         ForceMode.VelocityChange);
-//				other.GetComponent<CharacterBase>().checkDead();
-//
-//				gameObject.SetActive(false);
-//			}
-//		}
-		
-	}
+
+        if (other.GetComponent<weaponBase>() != null)//has this script
+        {
+            if (other.GetComponent<weaponBase>().getTag() != numTag)//prevent own attack from cancel own attack
+            {
+
+                gameObject.SetActive(false);//player and enemy projectile cancel out
+                return;
+            }
+
+
+
+        }
+        if (other.GetComponent<CharacterBase>() != null)//has this script
+        {
+            if (other.GetComponent<CharacterBase>().getCharacterTag() != numTag)//prevent hit ownself
+            {
+                if (other.GetComponent<CharacterBase>().getIsBlocking() == false)//player get hit
+                {
+                    if (other.GetComponent<CharacterBase>().getisDoubleTap() == true)
+                    {
+                        damage = 0;
+                        comboCount = 0;
+                        knockBack = 0;
+                    }
+                    else
+                    {
+                        damage = ownDamage;
+                        comboCount = 1;
+                        knockBack = ownKnowckBack;
+                    }
+                    other.GetComponent<CharacterBase>().setStunRate(1);
+                }
+                else
+                {
+
+                    other.GetComponent<CharacterBase>().setBlockAnimation();
+                }
+
+                gameObject.SetActive(false);
+            }
+        }
+
+        base.OnTriggerEnter(other);
+
+    }
 }
