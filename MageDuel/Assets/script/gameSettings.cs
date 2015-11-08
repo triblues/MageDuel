@@ -26,12 +26,12 @@ public class gameSettings : MonoBehaviour {
     // Changes the game to full screen
     public void changeToFullScreen (int width, int height)
     {
-        Screen.SetResolution(width, height, true);
+        Screen.fullScreen = true;
     }
 
     // Changes the game to windowed screen
     public void changeToWindowedScreen (int width, int height, bool fullscreen)
     {
-        Screen.SetResolution(width, height, false);
+        Screen.fullScreen = false;
     }
 }
