@@ -69,7 +69,7 @@ public class launchScene : MonoBehaviour {
         {
             if (isFadeOut == false)//black to transparent
             {
-                myalpha -= 0.1f;
+                myalpha -= 0.5f;
                 myfadeImage.color = new Color(0, 0, 0, myalpha);
 
                 if (myalpha <= 0)
@@ -77,7 +77,7 @@ public class launchScene : MonoBehaviour {
             }
             else//transparent to black
             {
-                myalpha += 0.1f;
+                myalpha += 0.5f;
                 myfadeImage.color = new Color(0, 0, 0, myalpha);
 
                 if (myalpha >= 1)
