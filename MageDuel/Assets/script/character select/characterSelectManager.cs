@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Networking;
 using System.Collections;
 using UnityEngine.UI;
 
@@ -17,14 +18,21 @@ public class characterSelectManager : MonoBehaviour {
     public RectTransform target;
     public GameObject charInfo;
     public launchScene mylaunchScene;
+    public GameObject mainmenuBtn;
     public Text detailText;
     mage mymage;
     bool isSelect;
     bool isMoving;
     Vector3[] startingPos;
+
+    networktest mytest;
+
+    customNetworkManager mycustomNetworkManager;
     // Use this for initialization
     void Start () {
 
+        mytest = GameObject.Find("networkController").GetComponent<networktest>();
+        mycustomNetworkManager = GameObject.Find("networkController").GetComponent<customNetworkManager>();
         mymage = mage.no_one;
         isSelect = false;
         isMoving = false;
@@ -52,6 +60,7 @@ public class characterSelectManager : MonoBehaviour {
         if (isSelect == true)
             return;
 
+        mainmenuBtn.SetActive(false);
         isSelect = true;
 
         if (name == "Inferno")
@@ -190,6 +199,7 @@ public class characterSelectManager : MonoBehaviour {
 
                     isSelect = false;
                     mymage = mage.no_one;
+                    mainmenuBtn.SetActive(true);
                     break;
                 }
             }
@@ -208,7 +218,13 @@ public class characterSelectManager : MonoBehaviour {
     public void saveCharacter()
     {
         selectedCharacter = (int)mymage;
+        mycustomNetworkManager.playerPrefabIndex = (short)selectedCharacter;
         Debug.Log(selectedCharacter.ToString());
         //PlayerPrefs.SetString("character", mymage.ToString());
+    }
+    public void findMyMatch()
+    {
+        //mytest.findmymatch();
+        mycustomNetworkManager.FindInternetMatch();
     }
 }

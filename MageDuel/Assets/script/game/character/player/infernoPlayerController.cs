@@ -22,7 +22,7 @@ public class infernoPlayerController : CharacterBase
     int[] spellCastCoolDown;
     [SerializeField]
     int[] spellDuration;
-    bool isInResult;
+    
 
     public delegate void spellDelegate();
     //public static bool canUlti;
@@ -75,15 +75,13 @@ public class infernoPlayerController : CharacterBase
         //      new Vector3(transform.position.x - transform.forward.x * 2, transform.position.y + 3, transform.position.z), !isBlockLeft);
 
        
-    
 
     }
 
 
     protected override void Update()
     {
-       
-        
+
 
         setAnimation();
         showResult();
@@ -95,7 +93,6 @@ public class infernoPlayerController : CharacterBase
         base.Update();
         checkBlocking();
         
-        Debug.Log(isDoubleTap.ToString());
         if (shouldTurn(transform.position, enemy.transform.position) == true)//facing left
         {
             isBlockLeft = false;
@@ -128,39 +125,41 @@ public class infernoPlayerController : CharacterBase
             attack();
     }
 
-   protected void showResult()
-    {
-        if(isInResult == false)
-        {
-            if(gameController.isFinish == true)
-            {
-                if (currentHealth <= 0)
-                {
-                    myGameController.showGameOver(currentHealth, startingHealth, highestComboAchieve, false);
+   //protected void showResult()
+   // {
+   //     if(isInResult == false)
+   //     {
+   //         if(gameController.isFinish == true)
+   //         {
+   //             if (currentHealth <= 0)
+   //             {
+   //                 myGameController.showGameOver(currentHealth, startingHealth, highestComboAchieve, false);
                   
-                }
-                if (enemy.GetComponent<CharacterBase>().getCurrentHealth() <= 0)
-                {
-                    myGameController.showGameOver(currentHealth, startingHealth, highestComboAchieve, true);
+   //             }
+   //             if (enemy.GetComponent<CharacterBase>().getCurrentHealth() <= 0)
+   //             {
+   //                 myGameController.showGameOver(currentHealth, startingHealth, highestComboAchieve, true);
                    
-                }
-                if(currentHealth >= enemy.GetComponent<CharacterBase>().getCurrentHealth())
-                {
-                    myGameController.showGameOver(currentHealth, startingHealth, highestComboAchieve, true);
+   //             }
+   //             if(currentHealth >= enemy.GetComponent<CharacterBase>().getCurrentHealth())
+   //             {
+   //                 myGameController.showGameOver(currentHealth, startingHealth, highestComboAchieve, true);
                  
-                }
-                else
-                {
-                    myGameController.showGameOver(currentHealth, startingHealth, highestComboAchieve, false);
+   //             }
+   //             else
+   //             {
+   //                 myGameController.showGameOver(currentHealth, startingHealth, highestComboAchieve, false);
                    
-                }
-                isInResult = true;
-            }
+   //             }
+   //             isInResult = true;
+   //         }
           
-        }
-    }
+   //     }
+   // }
     protected override void attack()
     {
+        if (isStun == true)
+            return;
         if (currentMana <= 0)
             return;
         if (canRangeAttack == true)
@@ -176,7 +175,7 @@ public class infernoPlayerController : CharacterBase
                 offsetPos_enemy.y = offsetPos_enemy.y + 1;
                 Vector3 direction = offsetPos_enemy - offsetPos;
 
-                rangeAttack(offsetPos, direction);
+                rangeAttack(offsetPos, direction,0, myDamageMultipler);
                 if (isNotEnoughMana == false)
                     rangeAttackAnimation();
             }
@@ -194,7 +193,7 @@ public class infernoPlayerController : CharacterBase
                     offsetPos.y = offsetPos.y + 1;
                     Vector3 direction = newPos - offsetPos;
 
-                    rangeAttack(offsetPos, direction);
+                    rangeAttack(offsetPos, direction,0, myDamageMultipler);
                     if (isNotEnoughMana == true)
                     {
                         break;
@@ -354,7 +353,7 @@ public class infernoPlayerController : CharacterBase
                         offsetPos.y = offsetPos.y + 1;
                         Vector3 direction = newPos - offsetPos;
 
-                        rangeAttack(offsetPos, direction);
+                        rangeAttack(offsetPos, direction,0, myDamageMultipler);
 
                         
 
@@ -486,7 +485,7 @@ public class infernoPlayerController : CharacterBase
                     offsetPos_enemy.y = offsetPos_enemy.y + 1;
                     Vector3 direction = offsetPos_enemy - offsetPos;
 
-                    rangeAttack(offsetPos, direction);
+                    rangeAttack(offsetPos, direction,0, myDamageMultipler);
                 }
 
                 
@@ -526,8 +525,8 @@ public class infernoPlayerController : CharacterBase
         {
             if (canCastUltimate == true)
             {
-                Debug.Log("enter ulti");
-                canCastUltimate = false;
+                if (isUnlimitedSpell == false)
+                    canCastUltimate = false;
                 canMove = false;
                 myAnimator.SetTrigger("castUltimate");
                 StartCoroutine(WaitForAnimation("cast ultimate", 0));
@@ -557,7 +556,8 @@ public class infernoPlayerController : CharacterBase
         if (canCastSpell[0] == true)//armor spell
         {
             isKnockBack = false;
-            canCastSpell[0] = false;
+            if(isUnlimitedSpell == false)
+                canCastSpell[0] = false;
             myArmorPS.Play();
 
             spellCastCoolDown[0] = spellCastCoolDown[0] * spellCoolDownRate;
@@ -570,8 +570,8 @@ public class infernoPlayerController : CharacterBase
     {
         if (canCastSpell[1] == true)//speed spell
         {
-
-            canCastSpell[1] = false;
+            if (isUnlimitedSpell == false)
+                canCastSpell[1] = false;
             myActivePS.enableEmission = true;
             normalSpeed = normalSpeed * 2;
 
@@ -589,6 +589,9 @@ public class infernoPlayerController : CharacterBase
             canCastSpell[0] = true;
             canCastSpell[1] = true;
             canCastSpell[2] = false;
+
+            UIarmorCD.resetCoolDown();
+            UIActiveCD.resetCoolDown();//reset the visual
             myPassivePS.Play();
         }
     }

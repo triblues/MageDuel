@@ -24,7 +24,7 @@ public class radiancePlayerController : CharacterBase
     [SerializeField]
     int[] spellDuration;
     int spellPowerRate;
-    bool isInResult;
+    
 
     protected float[] teleportSpellComboActiveLeft;
     protected float[] teleportSpellComboActiveRight;
@@ -43,7 +43,6 @@ public class radiancePlayerController : CharacterBase
 
     protected override void Awake()
     {
-
         healthBar = GameObject.Find("Canvas").transform.Find("player/health/outer/inner").GetComponent<Image>();
         manaBar = GameObject.Find("Canvas").transform.Find("player/mana/outer/inner").GetComponent<Image>();
 
@@ -74,6 +73,7 @@ public class radiancePlayerController : CharacterBase
 
         isInResult = false;
         base.Awake();
+        //currentHealth = 50;
     }
     protected override void Start()
     {
@@ -98,9 +98,9 @@ public class radiancePlayerController : CharacterBase
 
     protected override void Update()
     {
+
         
 
-   
         setAnimation();
         showResult();
         if (gameController.isFinish == true)
@@ -117,26 +117,28 @@ public class radiancePlayerController : CharacterBase
             isBlockLeft = false;
             rb.rotation = Quaternion.Euler(0, 270, 0);
             spellCombo(spellComboArmor, 0.5f, armorSpell, KeyCode.S, KeyCode.D, KeyCode.K);//down right attack
-            //spellCombo(spellComboActive, 0.5f, activeSpell, KeyCode.W, KeyCode.D, KeyCode.K);
+           
         }
         else//facing right
         {
             isBlockLeft = true;
             rb.rotation = Quaternion.Euler(0, 90, 0);
             spellCombo(spellComboArmor, 0.5f, armorSpell, KeyCode.S, KeyCode.A, KeyCode.K);//down left attack
-            //spellCombo(spellComboActive, 0.5f, activeSpell, KeyCode.A, KeyCode.A, KeyCode.K);
+         
 
         }
-        //teleportSpellCombo(teleportSpellComboActiveLeft, 0.5f, activeSpell, KeyCode.A, KeyCode.A, KeyCode.K);
-        //teleportSpellCombo(teleportSpellComboActiveRight, 0.5f, activeSpell, KeyCode.D, KeyCode.D, KeyCode.K);
+        teleportSpellCombo(teleportSpellComboActiveLeft, 0.5f, activeSpell, KeyCode.A, KeyCode.A, KeyCode.K);
+        teleportSpellCombo(teleportSpellComboActiveRight, 0.5f, activeSpell, KeyCode.D, KeyCode.D, KeyCode.K);
 
-        //spellCombo(spellComboPassive, 0.2f, passiveSpell, KeyCode.K, KeyCode.L);
+        spellCombo(spellComboPassive, 0.2f, passiveSpell, KeyCode.K, KeyCode.L);
 
+        
         if (Input.GetKeyDown(KeyCode.Space))
         {
+           
             if (chargingBar.fillAmount >= 1)
             {
-              //  ultimateMove();
+             
                 ultimateSpell();
             }
         }
@@ -145,39 +147,11 @@ public class radiancePlayerController : CharacterBase
         if (isInUltimate == false)
             attack();
     }
-    protected void showResult()
-    {
-        if (isInResult == false)
-        {
-            if (gameController.isFinish == true)
-            {
-                if (currentHealth <= 0)
-                {
-                    myGameController.showGameOver(currentHealth, startingHealth, highestComboAchieve, false);
-
-                }
-                if (enemy.GetComponent<CharacterBase>().getCurrentHealth() <= 0)
-                {
-                    myGameController.showGameOver(currentHealth, startingHealth, highestComboAchieve, true);
-
-                }
-                if (currentHealth >= enemy.GetComponent<CharacterBase>().getCurrentHealth())
-                {
-                    myGameController.showGameOver(currentHealth, startingHealth, highestComboAchieve, true);
-
-                }
-                else
-                {
-                    myGameController.showGameOver(currentHealth, startingHealth, highestComboAchieve, false);
-
-                }
-                isInResult = true;
-            }
-
-        }
-    }
+   
     protected override void attack()
     {
+        if (isStun == true)
+            return;
         if (currentMana <= 0)
             return;
         if (canRangeAttack == true)
@@ -193,9 +167,15 @@ public class radiancePlayerController : CharacterBase
                 offsetPos_enemy.y = offsetPos_enemy.y + 1;
                 Vector3 direction = offsetPos_enemy - offsetPos;
 
-                rangeAttack(offsetPos, direction);
+                rangeAttack(offsetPos, direction,0, myDamageMultipler);
+
+
                 if (isNotEnoughMana == false)
+                {
+                    if (myDamageMultipler != 1.0f)
+                        myDamageMultipler = 1.0f;
                     rangeAttackAnimation();
+                }
             }
             if (Input.GetKeyDown("l")) //multiple fireball
             {
@@ -211,7 +191,7 @@ public class radiancePlayerController : CharacterBase
                     offsetPos.y = offsetPos.y + 1;
                     Vector3 direction = newPos - offsetPos;
 
-                    rangeAttack(offsetPos, direction);
+                    rangeAttack(offsetPos, direction,0, myDamageMultipler);
                     if (isNotEnoughMana == true)
                     {
                         break;
@@ -220,6 +200,8 @@ public class radiancePlayerController : CharacterBase
                 }
                 if (isNotEnoughMana == false)
                 {
+                    if (myDamageMultipler != 1.0f)
+                        myDamageMultipler = 1.0f;
                     rangeAttackAnimation();
                 }
 
@@ -232,7 +214,7 @@ public class radiancePlayerController : CharacterBase
         comboAttack();
 
     }
-    
+  
     void checkBlocking()
     {
         if (blockCount <= 0)
@@ -263,6 +245,8 @@ public class radiancePlayerController : CharacterBase
         {
             if (canCastUltimate == true)
             {
+                if (isUnlimitedSpell == false)
+                    canCastUltimate = false;
                 canMove = false;
                 myAnimator.SetTrigger("castUltimate");
                 StartCoroutine(WaitForAnimation("cast ultimate", 0));
@@ -291,8 +275,8 @@ public class radiancePlayerController : CharacterBase
     {
         if (canCastSpell[0] == true)//heal spell
         {
-           
-            canCastSpell[0] = false;
+            if (isUnlimitedSpell == false)
+                canCastSpell[0] = false;
             healObj.SetActive(true);
 
             Debug.Log("in heal");
@@ -329,8 +313,8 @@ public class radiancePlayerController : CharacterBase
                 
             }
 
-
-            canCastSpell[1] = false;
+            if (isUnlimitedSpell == false)
+                canCastSpell[1] = false;
             myActivePS.Play();
          
 
@@ -344,6 +328,9 @@ public class radiancePlayerController : CharacterBase
     {
         if (canCastSpell[2] == true)//increase spell power
         {
+           
+            canCastSpell[2] = false;
+            myDamageMultipler = 2.0f;
 
             spellPowerRate = spellPowerRate * 2;
             myPassivePS.Play();

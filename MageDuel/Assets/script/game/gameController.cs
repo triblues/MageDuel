@@ -23,7 +23,9 @@ public class gameController : MonoBehaviour
 
     public Transform myParent;
     public GameObject[] myProjectile;
+    public GameObject[] myEnemyProjectile;
     public int[] amount;
+    public int[] amountEnemy;
     public bool isTest = false;
     public bool donSpawn = true;
     public int testchar;
@@ -32,6 +34,7 @@ public class gameController : MonoBehaviour
     public GameObject winPanel;
     public Text healthText;
     public Text comboText;
+    public Text CoinEarnText;
     public gameTime mygameTime;
     public GameObject myPausePanel;
     List<poolObject> myPoolObj;
@@ -40,9 +43,9 @@ public class gameController : MonoBehaviour
     GameObject enemy;
     GameObject myStarting;
     GameObject mygameover;
-    
+    GameObject myTimeOut;
   
-
+    
     // Use this for initialization
     void Awake()
     {
@@ -50,17 +53,23 @@ public class gameController : MonoBehaviour
 
         mygameover = GameObject.Find("gameover");
         myStarting = GameObject.Find("starting");
+        myTimeOut = GameObject.Find("timeout");
         myPoolObj = new List<poolObject>();
-        if(isTest == true)
-             characterSelectManager.selectedCharacter = testchar;
-        //for (int i = 0; i < myProjectile.Length; i++)
-       // {
+        if (isTest == true)
+        {
+            characterSelectManager.selectedCharacter = testchar;
+            levelSelectController.selectedLevel = 1;
+        }
 
-         
-            poolObject temp = gameObject.AddComponent<poolObject>();
-            temp.setPoolObject(amount[characterSelectManager.selectedCharacter], true, myProjectile[characterSelectManager.selectedCharacter], myParent);
-            myPoolObj.Add(temp);
-       // }
+        
+        poolObject temp = gameObject.AddComponent<poolObject>();
+        temp.setPoolObject(amount[characterSelectManager.selectedCharacter], true, myProjectile[characterSelectManager.selectedCharacter], myParent);
+        myPoolObj.Add(temp);//player attack
+
+        temp = gameObject.AddComponent<poolObject>();
+        temp.setPoolObject(amountEnemy[levelSelectController.selectedLevel-1], true, myEnemyProjectile[levelSelectController.selectedLevel-1], myParent);
+        myPoolObj.Add(temp);//enemy attack
+
         if (donSpawn == false)
         {
             if (isTest == true)
@@ -113,76 +122,168 @@ public class gameController : MonoBehaviour
     {
         myPausePanel.SetActive(show);
     }
-    IEnumerator showWinPanel(float currentHealth, float maxHealth,int highestCombo,bool isWin)
+    IEnumerator showWinPanel(float currentHealth, float enemyHealth,float maxHealth,int highestCombo,bool isWin)
     {
         yield return new WaitForSeconds(2.0f);
+
+        if (gameTime.isTimeOut == true)
+        {
+            if (currentHealth > enemyHealth)
+                isWin = true;
+            else
+                isWin = false;
+            Debug.Log("timeout: " + isWin.ToString());
+        }
+
         winPanel.SetActive(true);
         healthText.text = "Health left: " + currentHealth.ToString();
         comboText.text = "HighestCombo: " + highestCombo.ToString();
         if (isWin == true)
         {
-            PlayerPrefs.SetInt("coin", PlayerPrefs.GetInt("coin") + 10);
-            PlayerPrefs.SetInt("level" + levelSelectController.selectedLevel.ToString()
-                + "character" + characterSelectManager.selectedCharacter.ToString(), 1);
+           
 
-            mystar[0].SetActive(true);//1st star
-                                      
-            if(PlayerPrefs.HasKey("level" + levelSelectController.selectedLevel.ToString() + "star" + 1.ToString() + "character" + 
-                characterSelectManager.selectedCharacter.ToString()) == false)
+            PlayerPrefs.SetInt("coin", PlayerPrefs.GetInt("coin") + 10);
+            CoinEarnText.text = "Coin earn: " + 10.ToString();
+
+            if (levelSelectController.selectedLevel != 5)
             {
-                PlayerPrefs.SetInt("level" + levelSelectController.selectedLevel.ToString() + "star" + 1.ToString() + "character" +
-                characterSelectManager.selectedCharacter.ToString(), 1);
+                PlayerPrefs.SetInt("level" + levelSelectController.selectedLevel.ToString()
+                    + "character" + characterSelectManager.selectedCharacter.ToString(), 1);//this mean the player clear this stage
+            }
+            mystar[0].SetActive(true);//1st star
+
+            if (levelSelectController.selectedLevel == 5)//boss level
+            {
+                if (PlayerPrefs.HasKey("boss" + "star" +  1.ToString()
+               + "character" + characterSelectManager.selectedCharacter.ToString()) == false)
+                {
+                    PlayerPrefs.SetInt("boss" + "star" + 1.ToString()
+                + "character" + characterSelectManager.selectedCharacter.ToString(), 1);
+                }
+            }
+            else
+            {
+                if (PlayerPrefs.HasKey("level" + levelSelectController.selectedLevel.ToString() + "star" + 1.ToString() + "character" +
+                    characterSelectManager.selectedCharacter.ToString()) == false)
+                {
+                    PlayerPrefs.SetInt("level" + levelSelectController.selectedLevel.ToString() + "star" + 1.ToString() + "character" +
+                    characterSelectManager.selectedCharacter.ToString(), 1);
+                }
             }
             if (currentHealth >= maxHealth / 2)//more then half
             {
                 PlayerPrefs.SetInt("coin", PlayerPrefs.GetInt("coin") + 10);
+                CoinEarnText.text = "Coin earn: " + 20.ToString();
                 mystar[1].SetActive(true);//2nd star
 
-                if (PlayerPrefs.HasKey("level" + levelSelectController.selectedLevel.ToString() + "star" + 2.ToString() + "character" +
-               characterSelectManager.selectedCharacter.ToString()) == false)
+                if (levelSelectController.selectedLevel == 5)//boss level
                 {
-                    PlayerPrefs.SetInt("level" + levelSelectController.selectedLevel.ToString() + "star" + 2.ToString() + "character" +
-                    characterSelectManager.selectedCharacter.ToString(), 1);
+                    if (PlayerPrefs.HasKey("boss" + "star" + 2.ToString()
+               + "character" + characterSelectManager.selectedCharacter.ToString()) == false)
+                    {
+                        PlayerPrefs.SetInt("boss" + "star" + 2.ToString()
+                    + "character" + characterSelectManager.selectedCharacter.ToString(), 1);
+                    }
+                }
+                else
+                {
+                    if (PlayerPrefs.HasKey("level" + levelSelectController.selectedLevel.ToString() + "star" + 2.ToString() + "character" +
+                    characterSelectManager.selectedCharacter.ToString()) == false)
+                    {
+                        PlayerPrefs.SetInt("level" + levelSelectController.selectedLevel.ToString() + "star" + 2.ToString() + "character" +
+                        characterSelectManager.selectedCharacter.ToString(), 1);
+                    }
                 }
 
                 if (highestCombo >= 5)
                 {
                     PlayerPrefs.SetInt("coin", PlayerPrefs.GetInt("coin") + 10);
+                    CoinEarnText.text = "Coin earn: " + 30.ToString();
                     mystar[2].SetActive(true);//3rd star
 
-                    if (PlayerPrefs.HasKey("level" + levelSelectController.selectedLevel.ToString() + "star" + 3.ToString() + "character" +
-               characterSelectManager.selectedCharacter.ToString()) == false)
+                    if (levelSelectController.selectedLevel == 5)//boss level
                     {
-                        PlayerPrefs.SetInt("level" + levelSelectController.selectedLevel.ToString() + "star" + 3.ToString() + "character" +
-                        characterSelectManager.selectedCharacter.ToString(), 1);
+                        if (PlayerPrefs.HasKey("boss" + "star" + 3.ToString()
+                         + "character" + characterSelectManager.selectedCharacter.ToString()) == false)
+                        {
+                            PlayerPrefs.SetInt("boss" + "star" + 3.ToString()
+                        + "character" + characterSelectManager.selectedCharacter.ToString(), 1);
+                        }
                     }
-                    yield return null;
+                    else
+                    {
+
+
+                        if (PlayerPrefs.HasKey("level" + levelSelectController.selectedLevel.ToString() + "star" + 3.ToString() + "character" +
+                    characterSelectManager.selectedCharacter.ToString()) == false)
+                        {
+                            PlayerPrefs.SetInt("level" + levelSelectController.selectedLevel.ToString() + "star" + 3.ToString() + "character" +
+                            characterSelectManager.selectedCharacter.ToString(), 1);
+                        }
+                       
+                    }
+                   
                 }
+                yield return null;
             }
             if (highestCombo >= 5)
             {
                 PlayerPrefs.SetInt("coin", PlayerPrefs.GetInt("coin") + 10);
+                CoinEarnText.text = "Coin earn: " + 20.ToString();
                 mystar[1].SetActive(true);//2nd star
-                if (PlayerPrefs.HasKey("level" + levelSelectController.selectedLevel.ToString() + "star" + 2.ToString() + "character" +
-               characterSelectManager.selectedCharacter.ToString()) == false)
+
+                if (levelSelectController.selectedLevel == 5)//boss level
                 {
-                    PlayerPrefs.SetInt("level" + levelSelectController.selectedLevel.ToString() + "star" + 2.ToString() + "character" +
-                    characterSelectManager.selectedCharacter.ToString(), 1);
+                    if (PlayerPrefs.HasKey("boss" + "star" + 2.ToString()
+                        + "character" + characterSelectManager.selectedCharacter.ToString()) == false)
+                    {
+                        PlayerPrefs.SetInt("boss" + "star" + 2.ToString()
+                    + "character" + characterSelectManager.selectedCharacter.ToString(), 1);
+                    }
+                }
+                else
+                {
+                    if (PlayerPrefs.HasKey("level" + levelSelectController.selectedLevel.ToString() + "star" + 2.ToString() + "character" +
+                    characterSelectManager.selectedCharacter.ToString()) == false)
+                    {
+                        PlayerPrefs.SetInt("level" + levelSelectController.selectedLevel.ToString() + "star" + 2.ToString() + "character" +
+                        characterSelectManager.selectedCharacter.ToString(), 1);
+                    }
                 }
 
                 if (currentHealth >= maxHealth / 2)//more then half
                 {
                     PlayerPrefs.SetInt("coin", PlayerPrefs.GetInt("coin") + 10);
+                    CoinEarnText.text = "Coin earn: " + 30.ToString();
                     mystar[2].SetActive(true);//3rd star
-                    if (PlayerPrefs.HasKey("level" + levelSelectController.selectedLevel.ToString() + "star" + 3.ToString() + "character" +
-               characterSelectManager.selectedCharacter.ToString()) == false)
+
+                    if (levelSelectController.selectedLevel == 5)//boss level
                     {
-                        PlayerPrefs.SetInt("level" + levelSelectController.selectedLevel.ToString() + "star" + 3.ToString() + "character" +
-                        characterSelectManager.selectedCharacter.ToString(), 1);
+                        if (PlayerPrefs.HasKey("boss" + "star" + 3.ToString()
+                        + "character" + characterSelectManager.selectedCharacter.ToString()) == false)
+                        {
+                            PlayerPrefs.SetInt("boss" + "star" + 3.ToString()
+                        + "character" + characterSelectManager.selectedCharacter.ToString(), 1);
+                        }
                     }
-                    yield return null;
+                    else
+                    {
+                        if (PlayerPrefs.HasKey("level" + levelSelectController.selectedLevel.ToString() + "star" + 3.ToString() + "character" +
+                    characterSelectManager.selectedCharacter.ToString()) == false)
+                        {
+                            PlayerPrefs.SetInt("level" + levelSelectController.selectedLevel.ToString() + "star" + 3.ToString() + "character" +
+                            characterSelectManager.selectedCharacter.ToString(), 1);
+                        }
+                    }
+                    
                 }
+                yield return null;
             }
+            
+        }
+        else
+        {
+            CoinEarnText.text = "Coin earn: 0";
         }
     }
     public void activateMovement()
@@ -192,7 +293,8 @@ public class gameController : MonoBehaviour
             player.transform.Find("controller").GetComponent<CharacterBase>().enabled = true;
             enemy.transform.Find("controller").GetComponent<CharacterBase>().enabled = true;
         }
-        mygameTime.startTimer();
+        if (launchScene.isPractice == false)
+            mygameTime.startTimer();
     }
     // Update is called once per frame
     void Update()
@@ -206,13 +308,28 @@ public class gameController : MonoBehaviour
             myStarting.transform.GetChild(i).GetComponent<Animator>().enabled = true;
         }
     }
-    public void showGameOver(float currentHealth, float maxHealth, int highestCombo, bool isWin)
+    public void showGameOver(float currentHealth, float enemyHealth, float maxHealth, int highestCombo, bool isWin)
     {
-        for(int i=0;i< mygameover.transform.childCount;i++)
+        if (gameTime.isTimeOut == true)
         {
-            mygameover.transform.GetChild(i).GetComponent<Animator>().enabled = true;
+            for (int i = 0; i < myTimeOut.transform.childCount; i++)
+            {
+                myTimeOut.transform.GetChild(i).GetComponent<Animator>().enabled = true;
+            }
         }
-        StartCoroutine(showWinPanel(currentHealth, maxHealth, highestCombo, isWin));
+        else
+        {
+            for (int i = 0; i < mygameover.transform.childCount; i++)
+            {
+                mygameover.transform.GetChild(i).GetComponent<Animator>().enabled = true;
+            }
+        }
+        //if(levelSelectController.selectedLevel == 5)//boss level
+        //{
+
+        //}
+        //else
+            StartCoroutine(showWinPanel(currentHealth, enemyHealth,maxHealth, highestCombo, isWin));
     }
 
     public poolObject getPoolObjectInstancebyType(projectileType myType)
@@ -222,11 +339,11 @@ public class gameController : MonoBehaviour
           return myPoolObj[(int)myType];
 
     }
-    public poolObject getPoolObjectInstance()
+    public poolObject getPoolObjectInstance(int num)
     {
 
     
-        return myPoolObj[0];
+        return myPoolObj[num];
 
     }
 

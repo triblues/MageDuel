@@ -158,7 +158,7 @@ public class mainPlayer : CharacterBase {
                 offsetPos.y = offsetPos.y + 1;
                 Vector3 direction = enemy.transform.position - offsetPos;
 
-                rangeAttack(offsetPos, direction);
+                rangeAttack(offsetPos, direction,0, myDamageMultipler);
             }
             if (Input.GetKeyDown("l")) //multiple fireball
             {
@@ -174,7 +174,7 @@ public class mainPlayer : CharacterBase {
                     offsetPos.y = offsetPos.y + 1;
                     Vector3 direction = newPos - offsetPos;
 
-                    rangeAttack(offsetPos, direction);
+                    rangeAttack(offsetPos, direction,0, myDamageMultipler);
 
                 }
             }
@@ -274,7 +274,7 @@ public class mainPlayer : CharacterBase {
                     offsetPos.y = offsetPos.y + 1;
                     Vector3 direction = newPos - offsetPos;
 
-                    rangeAttack(offsetPos, direction);
+                    rangeAttack(offsetPos, direction,0, myDamageMultipler);
                     lastDrawShape = drawShape.shape.no_shape;//reset
 
                 }
@@ -348,7 +348,7 @@ public class mainPlayer : CharacterBase {
                 offsetPos.y = offsetPos.y + 1;
                 Vector3 direction = enemy.transform.position - offsetPos;
 
-                rangeAttack(offsetPos, direction);
+                rangeAttack(offsetPos, direction,0, myDamageMultipler);
                 lastDrawShape = drawShape.shape.no_shape;//reset
                 Debug.Log("in vert");
             }
@@ -487,7 +487,7 @@ public class mainPlayer : CharacterBase {
                 offsetPos.y = offsetPos.y + 1;
                 Vector3 direction = enemy.transform.position - offsetPos;
 
-                rangeAttack(offsetPos, direction);
+                rangeAttack(offsetPos, direction,0,myDamageMultipler);
             }
             if (Input.GetKeyDown("l")) //multiple fireball
             {
@@ -503,7 +503,7 @@ public class mainPlayer : CharacterBase {
                     offsetPos.y = offsetPos.y + 1;
                     Vector3 direction = newPos - offsetPos;
 
-                    rangeAttack(offsetPos, direction);
+                    rangeAttack(offsetPos, direction,0, myDamageMultipler);
 
                 }
             }
@@ -531,7 +531,7 @@ public class mainPlayer : CharacterBase {
                     offsetPos.y = offsetPos.y + 1;
                     Vector3 direction = newPos - offsetPos;
 
-                    rangeAttack(offsetPos, direction);
+                    rangeAttack(offsetPos, direction,0, myDamageMultipler);
                     lastDrawShape = drawShape.shape.no_shape;//reset
 
                 }
@@ -612,7 +612,7 @@ public class mainPlayer : CharacterBase {
                 offsetPos.y = offsetPos.y + 1;
                 Vector3 direction = enemy.transform.position - offsetPos;
 
-                rangeAttack(offsetPos, direction);
+                rangeAttack(offsetPos, direction,0, myDamageMultipler);
                 lastDrawShape = drawShape.shape.no_shape;//reset
              
             }
@@ -660,7 +660,7 @@ public class mainPlayer : CharacterBase {
                     offsetPos.y = offsetPos.y + 1;
                     Vector3 direction = newPos - offsetPos;
 
-                    rangeAttack(offsetPos, direction);
+                    rangeAttack(offsetPos, direction,0, myDamageMultipler);
                     lastDrawShape = drawShape.shape.no_shape;//reset
 
                 }
@@ -743,7 +743,7 @@ public class mainPlayer : CharacterBase {
                 offsetPos.y = offsetPos.y + 1;
                 Vector3 direction = enemy.transform.position - offsetPos;
 
-                rangeAttack(offsetPos, direction);
+                rangeAttack(offsetPos, direction,0, myDamageMultipler);
                 lastDrawShape = drawShape.shape.no_shape;//reset
 
             }

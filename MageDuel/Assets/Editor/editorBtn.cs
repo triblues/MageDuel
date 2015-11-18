@@ -15,5 +15,10 @@ public class editorBtn : Editor {
         {
             myScript.resetPlayerPrefs();
         }
+
+        if (GUILayout.Button("add 100 coins"))
+        {
+            PlayerPrefs.SetInt("coin", PlayerPrefs.GetInt("coin") + 100);
+        }
     }
 }

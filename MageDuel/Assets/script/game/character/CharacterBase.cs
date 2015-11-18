@@ -53,6 +53,7 @@ public class CharacterBase : MonoBehaviour {
     protected float currentHealth;
     protected int highestComboAchieve;
     protected float currentMana;
+    protected float myDamageMultipler;
     protected int spellCoolDownRate;
 	protected Vector3 movement;                   // The vector to store the direction of the player's movement.
 	protected Vector3 jumpingMovement;
@@ -63,6 +64,8 @@ public class CharacterBase : MonoBehaviour {
 	protected bool canRangeAttack;
 	protected bool canMeleeAttack;
 	protected bool isLose;
+    protected bool isGodMode;
+    protected bool isUnlimitedSpell;
     protected bool canMove;
     protected bool canCastUltimate;
     protected bool isStun;
@@ -73,7 +76,10 @@ public class CharacterBase : MonoBehaviour {
     protected bool isWalking;
     protected bool isCrouch;
     protected bool isNotEnoughMana;
-   
+    protected bool isInResult;
+    protected bool isUseHealthItem;
+    protected bool isUseManaItem;
+
     protected bool isBlockLeft;//this determine the direction the character should be going to activate block
 	protected bool isBlocking;
     protected bool isCastMode;
@@ -155,13 +161,16 @@ public class CharacterBase : MonoBehaviour {
         isWalking = false;
         isPause = false;
         canCastUltimate = true;
+        isGodMode = false;
+        isUnlimitedSpell = false;
 
         isNotEnoughMana = false;
         isKnockBack = true;
         isEndOfRangeAttack = true;
 
         isFinishCombo = true;
-        
+        isUseHealthItem = false;
+        isUseManaItem = false;
         isStun = false;
         isCrouch = false;
         canCombo = false;
@@ -174,6 +183,7 @@ public class CharacterBase : MonoBehaviour {
         speed = normalSpeed;
         jumpSpeed = lowJumpSpeed;
         comboCount = 0;
+        myDamageMultipler = 1.0f;//default
         highestComboAchieve = 0;
         blockCount = maxBlockCount;
         stunRate = 1;//default
@@ -212,7 +222,7 @@ public class CharacterBase : MonoBehaviour {
             canCastSpell[i] = true;
 
         StartCoroutine (regenMana (0.5f));
-        StartCoroutine(regenBlockCount(2.0f));
+        StartCoroutine(regenBlockCount(5.0f));
     }
 
 	protected virtual void Start()
@@ -221,7 +231,8 @@ public class CharacterBase : MonoBehaviour {
         healthBar.fillAmount = currentHealth / 100;
         manaBar.fillAmount = currentMana / 100;
         comboText.text = "Combo: " + comboCount.ToString();
-        chargingBar.fillAmount = CurrentChargingBar ;
+        if(isAI == false)
+            chargingBar.fillAmount = CurrentChargingBar ;
       
         myAnimator = transform.Find("model").GetComponent<Animator>();
     }
@@ -259,12 +270,14 @@ public class CharacterBase : MonoBehaviour {
           //  return;
 
         checkCoolDown ();
+        cheatCode();
 
-        
         Move ();
 		jump ();
 		crouch ();
-       
+        useItem();
+
+
 
         if (currentMana <= 0)
 			currentMana = 0;
@@ -287,10 +300,15 @@ public class CharacterBase : MonoBehaviour {
         //        = 10 * (1.25) 
         //        = 12.5
         // The player will take more damage (12.5) because of its low defensive factor
-
+        
         if (launchScene.isPractice == true)
+        {
             damage = 0;
-
+        }
+        if(isGodMode == true)
+        {
+            damage = 0;
+        }
         if (damage < 0)//mean heal
         {
             currentHealth -= damage;
@@ -302,9 +320,12 @@ public class CharacterBase : MonoBehaviour {
           
             myaudio.PlayOneShot(gotHitSound);
 
-            damage = damage * (1 + (1 - defFactor));
+            damage = Mathf.Abs(damage * (1 + (1 - defFactor)));
             // Reduce health
             currentHealth -= damage;
+
+          
+
 
             stunTimer = coolDownStunRate * stunRate;
 
@@ -320,6 +341,43 @@ public class CharacterBase : MonoBehaviour {
             
         }
         healthBar.fillAmount = currentHealth / 100;
+    }
+    protected void useItem()
+    {
+        if (isAI == true)
+            return;
+
+        if(Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            if (isUseHealthItem == false)
+            {
+                if (PlayerPrefs.GetInt("Health Potion") > 0)
+                {
+                    isUseHealthItem = true;
+                    TakesDamage(-20.0f);
+                    PlayerPrefs.SetInt("Health Potion", PlayerPrefs.GetInt("Health Potion") - 1);
+                }
+            }
+            Debug.Log("press 1");
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            if(isUseManaItem == false)
+            {
+                if (PlayerPrefs.GetInt("Mana Potion") > 0)
+                {
+                    isUseManaItem = true;
+                    setMana(20.0f);
+
+                    PlayerPrefs.SetInt("Mana Potion", PlayerPrefs.GetInt("Mana Potion") - 1);
+                }
+            }
+            Debug.Log("press 1");
+        }
+    }
+    public virtual void showHitEffect()
+    {
+        //use to show some particle effect when get hit
     }
     public void setSpeed(float rate)
     {
@@ -347,6 +405,10 @@ public class CharacterBase : MonoBehaviour {
     public float GetDefFactor()
     {
         return defFactor;
+    }
+    public void setDefFactor(float amount)
+    {
+        defFactor = amount;
     }
     public bool getisKnockBack()
     {
@@ -383,7 +445,7 @@ public class CharacterBase : MonoBehaviour {
         blockCount--;
         if (blockCount <= 0)
         {
-           
+            isBlocking = false;
             playBlockAnimation = false;
             myAnimator.SetBool("defend", false);
             return;
@@ -447,11 +509,12 @@ public class CharacterBase : MonoBehaviour {
 	}
 	public void addCurrentChargingBar(float amount)
 	{
-        if (isCastMode == false)
-        {
-            CurrentChargingBar += amount;
-            chargingBar.fillAmount = CurrentChargingBar;
-        }
+        if (isAI == true)
+            return;
+        
+        CurrentChargingBar += amount;
+        chargingBar.fillAmount = CurrentChargingBar;
+        
     }
     public void stopMoving()
     {
@@ -644,7 +707,43 @@ public class CharacterBase : MonoBehaviour {
     {
      //   Debug.Log("wtf ulti");
     }
+    protected void showResult()
+    {
+        if (isAI == true)
+            return;
+        if (isInResult == false)
+        {
+            if (gameController.isFinish == true)
+            {
+                if (currentHealth <= 0)
+                {
+                    myGameController.showGameOver(currentHealth, enemy.GetComponent<CharacterBase>().getCurrentHealth(),
+                        startingHealth, highestComboAchieve, false);
 
+                }
+                if (enemy.GetComponent<CharacterBase>().getCurrentHealth() <= 0)
+                {
+                    myGameController.showGameOver(currentHealth, enemy.GetComponent<CharacterBase>().getCurrentHealth(),
+                        startingHealth, highestComboAchieve, true);
+
+                }
+                if (currentHealth >= enemy.GetComponent<CharacterBase>().getCurrentHealth())
+                {
+                    myGameController.showGameOver(currentHealth, enemy.GetComponent<CharacterBase>().getCurrentHealth(),
+                        startingHealth, highestComboAchieve, true);
+
+                }
+                else
+                {
+                    myGameController.showGameOver(currentHealth, enemy.GetComponent<CharacterBase>().getCurrentHealth(),
+                        startingHealth, highestComboAchieve, false);
+
+                }
+                isInResult = true;
+            }
+
+        }
+    }
     protected void pause()
     {
         if (isAI == false)
@@ -741,6 +840,8 @@ public class CharacterBase : MonoBehaviour {
 	}
 	protected virtual void crouch()
 	{
+        if (isAI == true)
+            return;
         if (isStun == false)
         {
             if (Input.GetKeyDown("s"))
@@ -803,12 +904,12 @@ public class CharacterBase : MonoBehaviour {
             {
                 jumpingMovement.y = -fallSpeed * Time.deltaTime;
                 rb.AddForce(jumpingMovement, ForceMode.Impulse);
-              
-                if (transform.position.y <= 0.3)
-                {
                 
-                 //   transform.position = new Vector3(transform.position.x, 0.0f, transform.position.z);
-                }
+                //if (transform.position.y <= 0.3)
+                //{
+                //    Debug.Log("in end jump");
+                //    transform.position = new Vector3(transform.position.x, 0.0f, transform.position.z);
+                //}
             }
 
 		}
@@ -816,7 +917,6 @@ public class CharacterBase : MonoBehaviour {
 		{
             if (check_touchGround(groundMask, distanceToGround) == true)
             {
-               
                 jumpingMovement.y = 0;
                 isJumping = false;
                 jumpSpeed = lowJumpSpeed;
@@ -826,11 +926,8 @@ public class CharacterBase : MonoBehaviour {
                 jumpingMovement.y = -fallSpeed * Time.deltaTime;
                 rb.AddForce(jumpingMovement, ForceMode.Impulse);
 
-                if (transform.position.y <= 0.3)
-                {
-                
-                  //  transform.position = new Vector3(transform.position.x, 0.0f, transform.position.z);
-                }
+
+
             }
 
         }
@@ -855,10 +952,32 @@ public class CharacterBase : MonoBehaviour {
 		
 
 	}
-	protected void rangeAttack(Vector3 position, Vector3 direction)//gameController.projectileType myType
+    protected void cheatCode()
     {
-   
-        GameObject temp = myGameController.getPoolObjectInstance().getPoolObject ();
+        if (isAI == true)
+            return;
+
+        if(Input.GetKeyDown(KeyCode.Alpha9))
+        {
+            isGodMode = !isGodMode;
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha0))
+        {
+            isUnlimitedSpell = !isUnlimitedSpell;
+            if(isUnlimitedSpell == true)
+            {
+                for(int i=0;i< canCastSpell.Length;i++)
+                {
+                    canCastSpell[i] = true;
+                }
+                canCastUltimate = true;
+            }
+        }
+    }
+	protected void rangeAttack(Vector3 position, Vector3 direction,int num,float damageMultipler)//gameController.projectileType myType
+    {
+        //the value num mean 0 for player, 1 for enemy
+        GameObject temp = myGameController.getPoolObjectInstance(num).getPoolObject ();
 		
 		if (temp == null)
 			return;
@@ -874,6 +993,7 @@ public class CharacterBase : MonoBehaviour {
             temp.SetActive(true);
             projectile.launch(direction);
             projectile.setTag(characterTag);
+            projectile.setMultipler(damageMultipler);
             setMana(-projectile.getConsumeMana());
             coolDownRangeTimer = coolDownRangeAttackRate;
             isEndOfRangeAttack = false;
@@ -924,11 +1044,18 @@ public class CharacterBase : MonoBehaviour {
         myAnimator.SetBool("defend", false);
         myAnimator.SetBool("stun", false);
        
+        if (check_touchGround(groundMask, distanceToGround) == false)
+        {
+            jumpingMovement.y = -fallSpeed * Time.deltaTime;
+            rb.AddForce(jumpingMovement, ForceMode.Impulse);
+
+
+        }
 
         //myAnimator.SetBool("meleeAttack1", false);
         //myAnimator.SetBool("meleeAttack2", false);
         //myAnimator.SetBool("meleeAttack3", false);
-        
+
     }
     protected void setAnimation()
     {

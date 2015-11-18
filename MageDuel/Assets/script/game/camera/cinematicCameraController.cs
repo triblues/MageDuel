@@ -98,7 +98,7 @@ public class cinematicCameraController : MonoBehaviour {
                 {
                     isSkip[0] = true;
                         
-                    Debug.Log("one");
+                   
                     StopAllCoroutines();
                     StartCoroutine(goNextCinematic(1));
 
@@ -110,7 +110,7 @@ public class cinematicCameraController : MonoBehaviour {
 
                     StopAllCoroutines();
                     StartCoroutine(goNextCinematic(-1));
-                    Debug.Log("end");
+                   
                 }
             }
 
@@ -136,16 +136,16 @@ public class cinematicCameraController : MonoBehaviour {
         }
 
     }
-    void startMovement()
-    {
-        StartCoroutine(delay());
-    }
-    IEnumerator delay()
-    {
-        yield return new WaitForSeconds(3.0f);
-        myGC.activateMovement();
-        Debug.Log("can move");
-    }
+    //void startMovement()
+    //{
+    //    StartCoroutine(delay());
+    //}
+    //IEnumerator delay()
+    //{
+    //    yield return new WaitForSeconds(3.0f);
+    //    myGC.activateMovement();
+    //    Debug.Log("can move");
+    //}
     IEnumerator goNextCinematic(int index)
     {
 

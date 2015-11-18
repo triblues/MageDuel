@@ -22,9 +22,5 @@ public class customNetworkBluePrint : NetworkBehaviour {
     {
         return isTwoPlayerJoin;
     }
-    [Command]//a command to send to the server
-    public void CmdSendPositionToServer(bool check)//must have Cmd as the start of the name, this function only run in the server
-    {
-        isTwoPlayerJoin = check;
-    }
+   
 }

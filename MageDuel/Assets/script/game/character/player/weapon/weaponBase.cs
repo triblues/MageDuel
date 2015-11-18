@@ -9,6 +9,7 @@ public class weaponBase : MonoBehaviour {
 	[SerializeField] protected float consumeMana;
 	[SerializeField] protected float chargeAmount;//the amount increase to charging bar
 	[SerializeField] protected float knockBack;
+    protected float damageMultipler;
 	protected Vector3 movement;
 	protected int numTag;//store the number that the character fire this attack
     protected int comboCount;
@@ -17,7 +18,7 @@ public class weaponBase : MonoBehaviour {
 	void Start () {
 
         comboCount = 1;//default
-
+        damageMultipler = 1.0f;//default
     }
 
     protected virtual void Update()
@@ -31,6 +32,14 @@ public class weaponBase : MonoBehaviour {
         {
             gameObject.SetActive(false);
         }
+    }
+    public void setMultipler(float amount)
+    {
+        damageMultipler = amount;
+    }
+    public float getMultipler()
+    {
+        return damageMultipler;
     }
 	public float getDeSpawnTime()
 	{
@@ -74,7 +83,7 @@ public class weaponBase : MonoBehaviour {
             {
                 if (other.GetComponent<CharacterBase>().getIsBlocking() == false)
                 {
-                    other.GetComponent<CharacterBase>().TakesDamage(damage);
+                    other.GetComponent<CharacterBase>().TakesDamage(damage * damageMultipler);
                     other.GetComponent<CharacterBase>().getEnemy().GetComponent<CharacterBase>().setComboCount(comboCount);
 
                     if (other.GetComponent<CharacterBase>().getisKnockBack() == true)
@@ -97,7 +106,7 @@ public class weaponBase : MonoBehaviour {
             if (other.GetComponent<weaponBase>() == null)//don have this script (mean hit a wall)
             {
                 gameObject.SetActive(false);
-                Debug.Log("here 0");
+               // Debug.Log("here 0");
             }
         }
 

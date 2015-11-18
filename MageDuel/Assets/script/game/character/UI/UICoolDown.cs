@@ -16,6 +16,10 @@ public class UICoolDown : MonoBehaviour {
 	void Update () {
 	
 	}
+    public void resetCoolDown()
+    {
+        myimage.fillAmount = 1.0f;
+    }
     public void startCoolDown(float cdTime, bool[] cd, int num)
     {
         if (co != null)

@@ -12,7 +12,11 @@ public class launchScene : MonoBehaviour {
     float myalpha;
     Coroutine co;
     // Use this for initialization
-    void Awake () {
+    void Awake()
+    {
+        isPractice = false;//default
+    }
+    void Start () {
 
         
 
@@ -22,14 +26,13 @@ public class launchScene : MonoBehaviour {
         if (Application.loadedLevel != 4)
         {
             myfadeImage.color = new Color(0, 0, 0, myalpha);
-            co = StartCoroutine(waitForFade(name, 1.0f, false));
+            co = StartCoroutine(waitForFade("", 1.0f, false));
+          
         }
+       
 
     }
-	void Start()
-    {
-      
-    }
+
 	// Update is called once per frame
 	void Update () {
 	
@@ -44,16 +47,23 @@ public class launchScene : MonoBehaviour {
     }
 
     // Goes to the game scene
-	public void gotoScene(string name)
-	{
-        
-       
+    public void gotoScene(string name)
+    {
+
+
         if (co != null)
-            StopCoroutine(co);
-     
-       
+        {
+             StopCoroutine(co);
+         }
+
+        if (Application.loadedLevel == 4)//in game
+        {
+            Time.timeScale = 1.0f;//unpause
+        }
+
         goScene(name);
     }
+   
 
    
     
@@ -72,8 +82,12 @@ public class launchScene : MonoBehaviour {
                 myalpha -= 0.1f;
                 myfadeImage.color = new Color(0, 0, 0, myalpha);
 
+             
                 if (myalpha <= 0)
+                {
+                 
                     break;
+                }
             }
             else//transparent to black
             {
@@ -91,7 +105,7 @@ public class launchScene : MonoBehaviour {
            
             yield return new WaitForSeconds(fadeTime/10);
         }
-       // Application.LoadLevel(name);
+       
     }
     //void OnLevelWasLoaded(int level)
     //{

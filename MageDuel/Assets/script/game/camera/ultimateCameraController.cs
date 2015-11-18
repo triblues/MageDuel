@@ -59,7 +59,7 @@ public class ultimateCameraController : MonoBehaviour {
         if(mymainCam != null)
             mymainCam.enabled = true;
         mycam.enabled = false;
-        Debug.Log("disable ucam");
+       
     }
     public void removeUltimate()
     {

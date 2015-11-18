@@ -57,8 +57,8 @@ public class EnemyAI : CharacterBase
         manaBar = GameObject.Find("Canvas").transform.Find("enemy/mana/outer/inner").GetComponent<Image>();
 
         combo = GameObject.Find("Canvas").transform.Find("enemy/combo text").gameObject;
-        chargingBar = GameObject.Find("Canvas").transform.Find("enemy/charging bar outer/charging bar inner").
-            GetComponent<Image>();
+        //chargingBar = GameObject.Find("Canvas").transform.Find("enemy/charging bar outer/charging bar inner").
+         //   GetComponent<Image>();
 
        
         base.Awake();
@@ -90,7 +90,7 @@ public class EnemyAI : CharacterBase
         //}
 
         enemy = GameObject.FindGameObjectWithTag("Main Player");
-
+     
       //  if (launchScene.isPractice == true)
         //    testMode = true;
         
@@ -99,22 +99,22 @@ public class EnemyAI : CharacterBase
     // Update is called once per frame
     protected override void Update()
     {
-       
+        
         if (gameController.isFinish == true)
             return;
 
         
+        checkTurn();
+  //      if (shouldTurn(transform.position,enemy.transform.position) == true)
+  //{
+  //	rb.rotation = Quaternion.Euler (0, 270, 0);
 
-        if (shouldTurn(transform.position,enemy.transform.position) == true)
-		{
-			rb.rotation = Quaternion.Euler (0, 270, 0);
+        //}
+        //else
+        //{
+        //	rb.rotation = Quaternion.Euler (0, 90, 0);
 
-		}
-		else
-		{
-			rb.rotation = Quaternion.Euler (0, 90, 0);
-
-		}
+        //}
 
         if (isInUltimate == true)
             return;
@@ -124,7 +124,7 @@ public class EnemyAI : CharacterBase
         if (testMode)
         {
             horizontal = 0;
-            jumping = 1;
+            jumping = 0;
         }
         else
         {
@@ -134,7 +134,19 @@ public class EnemyAI : CharacterBase
         AI_Agent();
 
     }
+    protected virtual void checkTurn()
+    {
+        if (shouldTurn(transform.position, enemy.transform.position) == true)
+        {
+            rb.rotation = Quaternion.Euler(0, 270, 0);
 
+        }
+        else
+        {
+            rb.rotation = Quaternion.Euler(0, 90, 0);
+
+        }
+    }
 	void AI_Agent()
 	{
       
@@ -304,7 +316,7 @@ public class EnemyAI : CharacterBase
             offsetPos_enemy.y = offsetPos_enemy.y + 1;
             direction = offsetPos_enemy - offsetPos;
 
-            rangeAttack(offsetPos, direction);
+            rangeAttack(offsetPos, direction,1,myDamageMultipler);
             if (isNotEnoughMana == false)
                 rangeAttackAnimation();
         }
@@ -312,16 +324,20 @@ public class EnemyAI : CharacterBase
         {
             for (int i = 1; i <= 3; i++)//3
             {
-                Vector3 newPos = new Vector3(enemy.transform.position.x,
-                                             enemy.transform.position.y, enemy.transform.position.z);
-                newPos.y = newPos.y + i * 1.5f;
-                direction = newPos - transform.position;
+                Vector3 offsetPos = transform.position;
+                Vector3 offsetPos_enemy = enemy.transform.position;
+                offsetPos.y = offsetPos.y + 1;
+                offsetPos_enemy.y = offsetPos_enemy.y + 1 * i;
+                direction = offsetPos_enemy - offsetPos;
 
-                rangeAttack(transform.position, direction);
+                
+
+                rangeAttack(offsetPos, direction,1, myDamageMultipler);
                 if (isNotEnoughMana == true)
                 {
                     break;
                 }
+                
             }
             if (isNotEnoughMana == false)
                 rangeAttackAnimation();
@@ -440,7 +456,7 @@ public class EnemyAI : CharacterBase
             Debug.Log("in rand");
 		}
 
-        isBlocking = true;
+      //  isBlocking = true;
     }
 
     IEnumerator meleeComboSequence(float wait)

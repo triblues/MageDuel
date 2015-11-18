@@ -20,14 +20,14 @@ public class pristinePlayerController : CharacterBase
     int[] spellCastCoolDown;
     [SerializeField]
     int[] spellDuration;
-    bool isInResult;
-
+   
+    
 
     protected drawShape myDrawShape;
     drawShape.shape lastDrawShape;
     GameObject iceArmorObj;
-    
-
+    GameObject myactiveSpellObj;
+    GameObject freezeEffect;
 
     protected override void Awake()
     {
@@ -43,8 +43,8 @@ public class pristinePlayerController : CharacterBase
         UIActiveCD = GameObject.Find("Canvas").transform.Find("player/active image outer/active image inner").GetComponent<UICoolDown>();
 
         iceArmorObj = transform.Find("ice armor").gameObject;//armor
-        //need active
-        //myActivePS
+        myactiveSpellObj = transform.parent.Find("Ice Ball slow").gameObject;
+        freezeEffect = transform.parent.Find("Enemy Freeze Effect").gameObject;
         myPassivePS = transform.Find("OTUSpell").GetComponent<ParticleSystem>();//passive
 
         myUltimatePS = transform.parent.Find("ice ultimate").GetComponent<ParticleSystem>();//the particle when player has successfully landed the ultimate
@@ -71,37 +71,7 @@ public class pristinePlayerController : CharacterBase
 
     }
 
-    protected void showResult()
-    {
-        if (isInResult == false)
-        {
-            if (gameController.isFinish == true)
-            {
-                if (currentHealth <= 0)
-                {
-                    myGameController.showGameOver(currentHealth, startingHealth, highestComboAchieve, false);
-
-                }
-                if (enemy.GetComponent<CharacterBase>().getCurrentHealth() <= 0)
-                {
-                    myGameController.showGameOver(currentHealth, startingHealth, highestComboAchieve, true);
-
-                }
-                if (currentHealth >= enemy.GetComponent<CharacterBase>().getCurrentHealth())
-                {
-                    myGameController.showGameOver(currentHealth, startingHealth, highestComboAchieve, true);
-
-                }
-                else
-                {
-                    myGameController.showGameOver(currentHealth, startingHealth, highestComboAchieve, false);
-
-                }
-                isInResult = true;
-            }
-
-        }
-    }
+  
     protected override void Update()
     {
        
@@ -138,9 +108,10 @@ public class pristinePlayerController : CharacterBase
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
+           
             if (chargingBar.fillAmount >= 1)
             {
-                //ultimateMove();
+                //activeSpell();
                 ultimateSpell();
             }
         }
@@ -172,184 +143,12 @@ public class pristinePlayerController : CharacterBase
         }
     }
 
-    protected void castModeMeleeCombo()
-    {
-        meleeAttack();//2nd attack
-
-        myAnimator.SetBool("meleeAttack2", true);
-        myAnimator.SetBool("meleeAttack3", true);
-        myAnimator.SetTrigger("finishCombo");
-
-        StartCoroutine(main_WaitForAnimationStart("melee 3", 0));
-    }
-
-
-    protected IEnumerator main_WaitForAnimationStart(string name, int count)
-    {
-        while (myAnimator.GetCurrentAnimatorStateInfo(count).IsName(name) == false)//the animation has not run yet
-        {
-
-            yield return new WaitForSeconds(0.05f);
-
-        }
-        if (name == "melee 3")
-        {
-            isMeleeComboCount[1] = false;
-            isMeleeComboCount[2] = true;
-            myAnimator.SetBool("meleeAttack1", false);
-            myAnimator.SetBool("meleeAttack2", false);
-            StartCoroutine(WaitForAnimation("melee 3", 0));
-        }
-    }
-
-    public override void ShapeDraw(drawShape.shape myshape)
-    {
-
-
-        if (lastDrawShape == drawShape.shape.horizontal_line)
-        {
-            if (myshape == drawShape.shape.vertical_line)
-            {
-                if (isAttack == true)
-                    return;
-
-                //multiple attack
-                rangeAttackAnimation();
-                for (int i = 0; i < 3; i++)//3
-                {
-                    Vector3 newPos = new Vector3(enemy.transform.position.x,
-                                                 enemy.transform.position.y, enemy.transform.position.z);
-                    newPos.y = newPos.y + i * 1.5f;
-                    Vector3 offsetPos = transform.position;
-                    offsetPos.y = offsetPos.y + 1;
-                    Vector3 direction = newPos - offsetPos;
-
-                    rangeAttack(offsetPos, direction);
-                    lastDrawShape = drawShape.shape.no_shape;//reset
-
-                }
-            }
-            else
-            {
-                lastDrawShape = drawShape.shape.no_shape;
-                ShapeDraw(myshape);//call ownself again
-            }
-        }
-        else if (lastDrawShape == drawShape.shape.diagonal_BLTR)//positive
-        {
-            //in combo
-
-            if (myshape == drawShape.shape.diagonal_TLBR)//negative
-            {
-                //   Debug.Log("can combo: " + canCombo.ToString());
-                if (canCombo == true)
-                {
-
-                    castModeMeleeCombo();
-                }
-
-
-                lastDrawShape = drawShape.shape.no_shape;
-            }
-            else
-            {
-                lastDrawShape = drawShape.shape.no_shape;
-                ShapeDraw(myshape);//call ownself again
-            }
-        }
-        else if (lastDrawShape == drawShape.shape.triangle)
-        {
-            if (myshape == drawShape.shape.square)
-            {
-                if (canCastSpell[0] == false)//armor spell
-                    return;//in cooldown
-
-                
-
-                lastDrawShape = drawShape.shape.no_shape;
-            }
-            else
-            {
-                lastDrawShape = drawShape.shape.no_shape;
-                ShapeDraw(myshape);//call ownself again
-            }
-        }
-        else if (lastDrawShape == drawShape.shape.square)
-        {
-            if (myshape == drawShape.shape.diamond)
-            {
-                if (canCastSpell[2] == false)//instant cooldown spell
-                    return;//in cooldown
-
-              
-            }
-            else
-            {
-                lastDrawShape = drawShape.shape.no_shape;
-                ShapeDraw(myshape);//call ownself again
-            }
-        }
-        else if (lastDrawShape == drawShape.shape.diamond)
-        {
-            if (myshape == drawShape.shape.triangle)//speed boost
-            {
-                if (canCastSpell[1] == false)//speed spell
-                    return;//in cooldown
-
-             
-            }
-            else
-            {
-                lastDrawShape = drawShape.shape.no_shape;
-                ShapeDraw(myshape);//call ownself again
-            }
-        }
-        else if (lastDrawShape == drawShape.shape.no_shape)
-        {
-            if (myshape == drawShape.shape.vertical_line)
-            {
-                if (isAttack == true)
-                {
-                    Debug.Log("in here att");
-                    return;
-                }
-
-                //single attack
-                rangeAttackAnimation();
-                Vector3 offsetPos = transform.position;
-                offsetPos.y = offsetPos.y + 1;
-                Vector3 direction = enemy.transform.position - offsetPos;
-
-                rangeAttack(offsetPos, direction);
-                lastDrawShape = drawShape.shape.no_shape;//reset
-
-            }
-            else if (myshape == drawShape.shape.diagonal_BLTR)//positive
-            {
-                if (canRangeAttack == false)//prevent use of melee
-                    return;
-                Debug.Log("melee att 1");
-                meleeAttack();
-                isMeleeComboCount[0] = true;
-                myAnimator.SetBool("meleeAttack1", true);
-                coolDownMeleeTimer[0] = coolDownMeleeAttackRate;
-                StartCoroutine(WaitForAnimation("melee 1", 0));
-
-                lastDrawShape = drawShape.shape.diagonal_BLTR;
-
-            }
-            else
-            {
-                lastDrawShape = myshape;
-            }
-        }
-
-
-    }
-
+  
 
     protected override void attack()
     {
+        if (isStun == true)
+            return;
         if (currentMana <= 0)
             return;
         if (canRangeAttack == true)
@@ -365,7 +164,7 @@ public class pristinePlayerController : CharacterBase
                 offsetPos_enemy.y = offsetPos_enemy.y + 1;
                 Vector3 direction = offsetPos_enemy - offsetPos;
 
-                rangeAttack(offsetPos, direction);
+                rangeAttack(offsetPos, direction,0, myDamageMultipler);
                 if (isNotEnoughMana == false)
                     rangeAttackAnimation();
             }
@@ -383,7 +182,7 @@ public class pristinePlayerController : CharacterBase
                     offsetPos.y = offsetPos.y + 1;
                     Vector3 direction = newPos - offsetPos;
 
-                    rangeAttack(offsetPos, direction);
+                    rangeAttack(offsetPos, direction,0, myDamageMultipler);
                     if (isNotEnoughMana == true)
                     {
                         break;
@@ -459,8 +258,8 @@ public class pristinePlayerController : CharacterBase
     {
         if (canCastSpell[0] == true)//armor spell
         {
-            
-            canCastSpell[0] = false;
+            if (isUnlimitedSpell == false)
+                canCastSpell[0] = false;
             defFactor = 1.5f;//increase defense
             iceArmorObj.SetActive(true);
             
@@ -475,17 +274,33 @@ public class pristinePlayerController : CharacterBase
     {
         if (canCastSpell[1] == true)//slow enemy spell
         {
-
-            canCastSpell[1] = false;
-            enemy.GetComponent<CharacterBase>().setSpeed(0.5f);//enemy speed become half
-            
-            //need put shoot ice particle
-
+            if (isUnlimitedSpell == false)
+                canCastSpell[1] = false;
+          
+            shootActive();
             spellCastCoolDown[1] = spellCastCoolDown[1] * spellCoolDownRate;
             UIActiveCD.startCoolDown(spellCastCoolDown[1], canCastSpell, 1);
-            StartCoroutine(spellDurationTimer(spellType.active_spell, spellDuration[1]));
+            //StartCoroutine(spellDurationTimer(spellType.active_spell, spellDuration[1]));
 
         }
+    }
+    public override void showHitEffect()
+    {
+        
+        freezeEffect.SetActive(true);
+        freezeEffect.transform.SetParent(enemyTrans);
+        freezeEffect.transform.position = new Vector3(enemyTrans.position.x, enemyTrans.position.y + 1, enemyTrans.position.z);
+        StartCoroutine(spellDurationTimer(spellType.active_spell, spellDuration[1]));
+    }
+    void shootActive()
+    {
+        
+        Vector3 direction = enemyTrans.position - transform.position;
+        myactiveSpellObj.SetActive(true);
+
+        myactiveSpellObj.transform.position = new Vector3(transform.position.x, transform.position.y + 1, transform.position.z);
+        myactiveSpellObj.GetComponent<weaponBase>().launch(direction);
+        myactiveSpellObj.GetComponent<weaponBase>().setTag(characterTag);
     }
     void passiveSpell()
     {
@@ -504,7 +319,8 @@ public class pristinePlayerController : CharacterBase
         {
             if (canCastUltimate == true)
             {
-                canCastUltimate = false;
+                if (isUnlimitedSpell == false)
+                    canCastUltimate = false;
                 canMove = false;
                 myAnimator.SetTrigger("castUltimate");
                 StartCoroutine(WaitForAnimation("cast ultimate", 0));
@@ -544,7 +360,9 @@ public class pristinePlayerController : CharacterBase
         else if (_spell == spellType.active_spell)
         {
             //return enemy speed to normal speed
-            enemy.GetComponent<CharacterBase>().setSpeed(1.0f);
+            enemy.GetComponent<CharacterBase>().setSpeed(2.0f);
+            freezeEffect.SetActive(false);
+          
         }
         else if (_spell == spellType.passive_spell)
         {
