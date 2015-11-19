@@ -4,7 +4,6 @@ using System.Collections;
 public class CameraController : MonoBehaviour {
 
     public float zAmout;
-    public float distanceApart;
 	public float lerpRate = 15.0f;
     public float margin = 1.5f;
     private float z0 = 0; // coord z of the fighters plane
@@ -36,10 +35,7 @@ public class CameraController : MonoBehaviour {
         CalcScreen(p1, p2);
         float width = xR - xL;
 
-        //if(Vector3.Distance(p1.transform,p2.transform) >= distanceApart)
-        //{
-        //    Camera.main.fieldOfView = 
-        //}
+      
 
         if (width > wScene)
         { // if fighters too far adjust camera distance

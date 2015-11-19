@@ -9,6 +9,7 @@ public class CameraControllerNetwork : NetworkBehaviour
     float distanceOffset = 0.2f;
     [SerializeField]
     float maxDist = 0.2f;
+    public float zAmout;
     public float networklerpRate = 25.0f;
     public float lerpRate = 15.0f;
     public float margin = 1.5f;
@@ -77,7 +78,7 @@ public class CameraControllerNetwork : NetworkBehaviour
             if (width > wScene)
             { // if fighters too far adjust camera distance
               // transform.position = new Vector3(transform.position.x, transform.position.y, zCam * width / wScene + z0);
-                depthMovement = new Vector3(transform.position.x, transform.position.y, zCam * width / wScene + z0);
+                depthMovement = new Vector3(transform.position.x, transform.position.y, (zCam * width / wScene + z0) * zAmout);
                 transform.position = Vector3.Lerp(transform.position, depthMovement, Time.deltaTime * lerpRate);
             }
 

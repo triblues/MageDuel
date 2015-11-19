@@ -310,7 +310,7 @@ public class CharacterBase : MonoBehaviour {
             damage = 0;
         }
         Debug.Log(damage.ToString());
-        if (damage <= 0)//mean heal
+        if (damage < 0)//mean heal
         {
             currentHealth -= damage;
             if (currentHealth >= startingHealth)
@@ -389,6 +389,10 @@ public class CharacterBase : MonoBehaviour {
     }
 	public void setMana(float amount)
 	{
+        if(isGodMode == true)
+        {
+            amount = 0;
+        }
 		currentMana += amount;
         manaBar.fillAmount = currentMana / 100;
     }
@@ -835,6 +839,7 @@ public class CharacterBase : MonoBehaviour {
       
         if (isStun == false && playBlockAnimation == false)
         {
+         
             movement.x = horizontal * speed;
             rb.velocity = new Vector3(movement.x, rb.velocity.y, rb.velocity.z);
            

@@ -50,6 +50,7 @@
      <Compile Include="Assets\PauseGameControl.cs" />
      <Compile Include="Assets\script\KeyboardInput.cs" />
      <Compile Include="Assets\script\SceneFade.cs" />
+     <Compile Include="Assets\script\backgroundMusic.cs" />
      <Compile Include="Assets\script\character select\characterSelectManager.cs" />
      <Compile Include="Assets\script\drawGizmo.cs" />
      <Compile Include="Assets\script\game\ItemShop\Inventory.cs" />

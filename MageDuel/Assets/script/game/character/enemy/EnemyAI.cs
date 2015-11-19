@@ -101,7 +101,13 @@ public class EnemyAI : CharacterBase
     {
         
         if (gameController.isFinish == true)
+        {
+            Debug.Log("here");
+            resetAnimation();
             return;
+        }
+
+           
 
         
         checkTurn();
