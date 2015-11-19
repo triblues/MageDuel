@@ -44,15 +44,15 @@ public class customNetworkManager : NetworkManager
 
     public void stopMyHost()
     {
-        //if (NetworkServer.active && NetworkClient.active)
-        //{
-        //    myNetworkManager.StopHost();
-        //    count = 0;
-        //    Debug.Log("here");
-        //    //myNetworkManager.StopServer();
-        //    //NetworkServer.Shutdown();
-            
-        //}
+        if (NetworkServer.active && NetworkClient.active)
+        {
+            myNetworkManager.StopHost();
+            count = 0;
+            Debug.Log("here");
+            //myNetworkManager.StopServer();
+            //NetworkServer.Shutdown();
+
+        }
     }
    
     public List<GameObject> getmyobj()

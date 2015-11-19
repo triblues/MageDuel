@@ -29,6 +29,7 @@ public class gameController : MonoBehaviour
     public bool isTest = false;
     public bool donSpawn = true;
     public int testchar;
+    public int testEenemy;
 
     public GameObject[] mystar;
     public GameObject winPanel;
@@ -58,7 +59,7 @@ public class gameController : MonoBehaviour
         if (isTest == true)
         {
             characterSelectManager.selectedCharacter = testchar;
-            levelSelectController.selectedLevel = 1;
+            levelSelectController.selectedLevel = testEenemy;
         }
 
         if (launchScene.isPractice == false)

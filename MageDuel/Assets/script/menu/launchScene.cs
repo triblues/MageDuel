@@ -6,10 +6,11 @@ using System.Collections;
 
 public class launchScene : MonoBehaviour {
 
-
+    public AudioClip myclickSound;
     public static bool isPractice = false;
     RawImage myfadeImage;
     float myalpha;
+    AudioSource myAudioSource;
     Coroutine co;
     // Use this for initialization
     void Awake()
@@ -18,7 +19,7 @@ public class launchScene : MonoBehaviour {
     }
     void Start () {
 
-        
+        myAudioSource = GetComponent<AudioSource>();
 
         myalpha = 1;
         myfadeImage = GameObject.Find("fade image").GetComponent<RawImage>();
@@ -51,7 +52,7 @@ public class launchScene : MonoBehaviour {
     public void gotoScene(string name)
     {
 
-
+        myAudioSource.PlayOneShot(myclickSound);
         if (co != null)
         {
              StopCoroutine(co);

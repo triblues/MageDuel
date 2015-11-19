@@ -14,7 +14,7 @@ public class gameSettings : MonoBehaviour {
     // Changes the screen resolution to 800 x 600 pixels
     public void changeTo800by600pixels ()
     {
-        Screen.SetResolution(800, 600, false);
+        Screen.SetResolution(Screen.width, 600, false);
     }
 
     // Changes the screen resolution to 1024 x 768 pixels
@@ -34,4 +34,9 @@ public class gameSettings : MonoBehaviour {
     {
         Screen.fullScreen = false;
     }
+    public void changeWindowMode(bool isFullScreen)
+    {
+        Screen.SetResolution(Screen.width, Screen.height, isFullScreen);
+    }
+   
 }

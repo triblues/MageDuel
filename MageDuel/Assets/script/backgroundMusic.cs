@@ -26,11 +26,31 @@ public class backgroundMusic : MonoBehaviour {
     {
         if(level == 4)//battle scene
         {
-            if (myAudioSource.clip != myaudioclip[1])
+            if (launchScene.isPractice == true)
             {
+               
                 myAudioSource.clip = myaudioclip[1];
                 myAudioSource.Play();
+ 
             }
+            else
+            {
+                if(levelSelectController.selectedLevel == 5)//boss level
+                {
+                    myAudioSource.clip = myaudioclip[2];
+                    myAudioSource.Play();
+                }
+                else
+                {
+                    myAudioSource.clip = myaudioclip[1];
+                    myAudioSource.Play();
+                }
+            }
+        }
+        else if(level == 8)//multiplayer scene
+        {
+            myAudioSource.clip = myaudioclip[1];
+            myAudioSource.Play();
         }
         else
         {
