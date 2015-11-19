@@ -90,10 +90,10 @@ public class EnemyAI : CharacterBase
         //}
 
         enemy = GameObject.FindGameObjectWithTag("Main Player");
-     
-      //  if (launchScene.isPractice == true)
-        //    testMode = true;
-        
+
+        if (launchScene.isPractice == true)
+            testMode = true;
+
     }
 
     // Update is called once per frame
@@ -120,7 +120,7 @@ public class EnemyAI : CharacterBase
             return;
 
         base.Update();//move and jump
-      //  Debug.Log(jumping.ToString());
+      
         if (testMode)
         {
             horizontal = 0;

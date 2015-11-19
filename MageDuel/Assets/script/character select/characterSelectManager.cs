@@ -71,19 +71,20 @@ public class characterSelectManager : MonoBehaviour {
             mymage = mage.Radiance;
         else
             mymage = mage.no_one;
-
+        Debug.Log("ispractice: " + launchScene.isPractice.ToString());
         if (launchScene.isPractice == true)
         {
-            Debug.Log(mymage.ToString());
+            Debug.Log("here prac");
             selectedCharacter = (int)mymage;
             mylaunchScene.gotoScene("game");
+            
         }
         else
         {
-            
 
-           
-          
+
+            Debug.Log("here");
+
             //if (name == "Inferno")
             //    mymage = mage.Inferno;
             //else if (name == "Pristine")

@@ -13,7 +13,7 @@ public class treeController : EnemyAI {
     {
 
         base.Start();
-        StartCoroutine(regenHealth(1.0f));
+        StartCoroutine(regenHealth(5.0f));//every 5 sec heal 1 health
        
     }
 

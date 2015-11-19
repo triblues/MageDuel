@@ -7,14 +7,14 @@ using System.Collections;
 public class launchScene : MonoBehaviour {
 
 
-    public static bool isPractice;
+    public static bool isPractice = false;
     RawImage myfadeImage;
     float myalpha;
     Coroutine co;
     // Use this for initialization
     void Awake()
     {
-        isPractice = false;//default
+        //isPractice = false;//default
     }
     void Start () {
 
@@ -40,6 +40,7 @@ public class launchScene : MonoBehaviour {
     public void setPractice(bool _ispractice)
     {
         isPractice = _ispractice;
+        Debug.Log("ispractice: " + isPractice.ToString());
     }
     public void resetPlayerPrefs()
     {

@@ -309,7 +309,8 @@ public class CharacterBase : MonoBehaviour {
         {
             damage = 0;
         }
-        if (damage < 0)//mean heal
+        Debug.Log(damage.ToString());
+        if (damage <= 0)//mean heal
         {
             currentHealth -= damage;
             if (currentHealth >= startingHealth)
@@ -345,6 +346,8 @@ public class CharacterBase : MonoBehaviour {
     protected void useItem()
     {
         if (isAI == true)
+            return;
+        if (launchScene.isPractice == true)
             return;
 
         if(Input.GetKeyDown(KeyCode.Alpha1))

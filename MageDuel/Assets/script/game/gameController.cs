@@ -61,14 +61,26 @@ public class gameController : MonoBehaviour
             levelSelectController.selectedLevel = 1;
         }
 
-        
-        poolObject temp = gameObject.AddComponent<poolObject>();
-        temp.setPoolObject(amount[characterSelectManager.selectedCharacter], true, myProjectile[characterSelectManager.selectedCharacter], myParent);
-        myPoolObj.Add(temp);//player attack
+        if (launchScene.isPractice == false)
+        {
+            poolObject temp = gameObject.AddComponent<poolObject>();
+            temp.setPoolObject(amount[characterSelectManager.selectedCharacter], true, myProjectile[characterSelectManager.selectedCharacter], myParent);
+            myPoolObj.Add(temp);//player attack
 
-        temp = gameObject.AddComponent<poolObject>();
-        temp.setPoolObject(amountEnemy[levelSelectController.selectedLevel-1], true, myEnemyProjectile[levelSelectController.selectedLevel-1], myParent);
-        myPoolObj.Add(temp);//enemy attack
+            temp = gameObject.AddComponent<poolObject>();
+            temp.setPoolObject(amountEnemy[levelSelectController.selectedLevel - 1], true, myEnemyProjectile[levelSelectController.selectedLevel - 1], myParent);
+            myPoolObj.Add(temp);//enemy attack
+        }
+        else
+        {
+            poolObject temp = gameObject.AddComponent<poolObject>();
+            temp.setPoolObject(amount[characterSelectManager.selectedCharacter], true, myProjectile[characterSelectManager.selectedCharacter], myParent);
+            myPoolObj.Add(temp);//player attack
+
+            temp = gameObject.AddComponent<poolObject>();
+            temp.setPoolObject(amountEnemy[0], true, myEnemyProjectile[0], myParent);
+            myPoolObj.Add(temp);//enemy attack
+        }
 
         if (donSpawn == false)
         {

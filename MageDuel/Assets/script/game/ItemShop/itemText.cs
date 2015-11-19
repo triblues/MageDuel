@@ -12,12 +12,12 @@ public class itemText : MonoBehaviour {
 
         mytext = GetComponent<Text>();
 
-        mytext.text = infrontText + PlayerPrefs.GetInt(type).ToString();
+        mytext.text = infrontText + PlayerPrefs.GetInt( (type).ToString());
     }
 	
 	// Update is called once per frame
 	void Update () {
 
-        mytext.text = infrontText + PlayerPrefs.GetInt(type).ToString();
+        mytext.text = infrontText + PlayerPrefs.GetInt((type).ToString());
     }
 }

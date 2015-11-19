@@ -3,7 +3,8 @@ using System.Collections;
 
 public class CameraController : MonoBehaviour {
 
-    
+    public float zAmout;
+    public float distanceApart;
 	public float lerpRate = 15.0f;
     public float margin = 1.5f;
     private float z0 = 0; // coord z of the fighters plane
@@ -15,6 +16,7 @@ public class CameraController : MonoBehaviour {
     private float xR; // right screen X coordinate
 	Vector3 depthMovement;
 	Vector3 rightMovement;
+    
 	// Use this for initialization
 	void Start () {
        
@@ -25,8 +27,8 @@ public class CameraController : MonoBehaviour {
         CalcScreen(p1, p2);
         wScene = xR - xL;
         zCam = transform.position.z - z0;
-     
-        
+      
+
     }
 	
 	// Update is called once per frame
@@ -34,11 +36,15 @@ public class CameraController : MonoBehaviour {
         CalcScreen(p1, p2);
         float width = xR - xL;
 
-        
+        //if(Vector3.Distance(p1.transform,p2.transform) >= distanceApart)
+        //{
+        //    Camera.main.fieldOfView = 
+        //}
+
         if (width > wScene)
         { // if fighters too far adjust camera distance
            // transform.position = new Vector3(transform.position.x, transform.position.y, zCam * width / wScene + z0);
-			depthMovement = new Vector3(transform.position.x, transform.position.y, zCam * width / wScene + z0);
+			depthMovement = new Vector3(transform.position.x, transform.position.y, (zCam * width / wScene + z0) * zAmout);
 			transform.position = Vector3.Lerp(transform.position,depthMovement,Time.deltaTime * lerpRate);
         }
 
