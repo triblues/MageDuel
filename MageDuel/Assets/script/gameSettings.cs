@@ -2,14 +2,23 @@
 // Created : 6 October 2015
 // Author : Shaun Kong
 using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class gameSettings : MonoBehaviour {
 
+    public static float myVolume = 1.0f;
+    public static int myDifficulty = 1;
+    public Slider myslider;
     int width;
     int height;
 
     bool fullscreen = false;
+
+    void Start()
+    {
+        myslider.value = myVolume;
+    }
 
     // Changes the screen resolution to 800 x 600 pixels
     public void changeTo800by600pixels ()
@@ -37,6 +46,14 @@ public class gameSettings : MonoBehaviour {
     public void changeWindowMode(bool isFullScreen)
     {
         Screen.SetResolution(Screen.width, Screen.height, isFullScreen);
+    }
+    public void setVolume()
+    {
+        myVolume = myslider.value;
+    }
+    public void setDifficulty(int num)
+    {
+        myDifficulty = num;
     }
    
 }

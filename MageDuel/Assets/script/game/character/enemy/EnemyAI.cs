@@ -94,6 +94,8 @@ public class EnemyAI : CharacterBase
         if (launchScene.isPractice == true)
             testMode = true;
 
+        idleTime = idleTime / gameSettings.myDifficulty;
+
     }
 
     // Update is called once per frame

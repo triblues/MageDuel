@@ -10,13 +10,14 @@ public class backgroundMusic : MonoBehaviour {
         DontDestroyOnLoad(this.gameObject);
         myAudioSource = GetComponent<AudioSource>();
         myAudioSource.clip = myaudioclip[0];//default background music
-        myAudioSource.Play();
-       
+        myAudioSource.Play(); 
+
     }
 	// Use this for initialization
 	void Start () {
-	
-	}
+
+        
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -24,7 +25,8 @@ public class backgroundMusic : MonoBehaviour {
 	}
     void OnLevelWasLoaded(int level)
     {
-        if(level == 4)//battle scene
+        myAudioSource.volume = gameSettings.myVolume;
+        if (level == 4)//battle scene
         {
             if (launchScene.isPractice == true)
             {
