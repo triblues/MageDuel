@@ -13,8 +13,8 @@ public class gameTime : MonoBehaviour {
 
         isTimeOut = false;
         mytext = GetComponent<Text> ();
-		
-		mytext.text = "Time: " + totalTime.ToString ();
+        mytext.fontSize = Screen.width / 30;
+        mytext.text = "Time: " + totalTime.ToString ();
 	}
     public void startTimer()
     {

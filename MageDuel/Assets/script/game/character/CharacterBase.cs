@@ -52,6 +52,7 @@ public class CharacterBase : MonoBehaviour {
 	protected float[] coolDownMeleeTimer;
     protected float currentHealth;
     protected int highestComboAchieve;
+    
     protected float currentMana;
     protected float myDamageMultipler;
     protected int spellCoolDownRate;
@@ -133,6 +134,7 @@ public class CharacterBase : MonoBehaviour {
     protected float[] spellComboActive;
     protected float[] spellComboPassive;
     protected bool[] canCastSpell;
+    
 
     //networking stuff
     //  protected NetworkInstanceId mynetworkID;
@@ -183,6 +185,7 @@ public class CharacterBase : MonoBehaviour {
         speed = normalSpeed;
         jumpSpeed = lowJumpSpeed;
         comboCount = 0;
+       
         myDamageMultipler = 1.0f;//default
         highestComboAchieve = 0;
         blockCount = maxBlockCount;

@@ -5,6 +5,7 @@ using UnityEngine.EventSystems;
 
 public class itemToolTips : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
+    public int maxCount = 0;
     public string description;
     public int cost;
     Text mytext;
@@ -22,6 +23,14 @@ public class itemToolTips : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     }
 	void buyitem()
     {
+        if(maxCount != 0)
+        {
+            if (PlayerPrefs.GetInt(name) >= maxCount)
+            {
+                mytext.text = "Upgrade Maxed!!!";
+                return;
+            }
+        }
         if (PlayerPrefs.GetInt("coin") >= cost)
         {
             PlayerPrefs.SetInt("coin", PlayerPrefs.GetInt("coin") - cost);

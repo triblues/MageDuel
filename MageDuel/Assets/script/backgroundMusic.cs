@@ -10,7 +10,12 @@ public class backgroundMusic : MonoBehaviour {
         DontDestroyOnLoad(this.gameObject);
         myAudioSource = GetComponent<AudioSource>();
         myAudioSource.clip = myaudioclip[0];//default background music
-        myAudioSource.Play(); 
+        myAudioSource.Play();
+
+        if (PlayerPrefs.HasKey("Power Level") == false)
+        {
+            PlayerPrefs.SetInt("Power Level", 1);
+        }
 
     }
 	// Use this for initialization

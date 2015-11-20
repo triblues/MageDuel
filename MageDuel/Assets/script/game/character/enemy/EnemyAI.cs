@@ -437,10 +437,10 @@ public class EnemyAI : CharacterBase
                 }
                 else
                 {
-                    randomNum = getRandomNum(randMin, randMax);
+                    randomNum = getRandomNum(randMin, randMax);//0 100
                     if (currentHealth > startingHealth / 2)//more then half health
                     {
-                        if (randomNum >= randMax / 2)
+                        if (randomNum >= randMax / 2  + ((3/gameSettings.myDifficulty) * 10))//80 65 60
                         {
                             isBlocking = true;
                         }
@@ -449,7 +449,8 @@ public class EnemyAI : CharacterBase
                     }
                     else//lower then half health
                     {
-                        if (randomNum >= randMax / 2 - 30)//higher chance to block
+                        //50-10 50-20 50-30
+                        if (randomNum >= randMax / 2 - ((gameSettings.myDifficulty/3) * 30))//higher chance to block, 30
                         {
                             isBlocking = true;
                         }

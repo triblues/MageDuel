@@ -11,9 +11,14 @@ public class iceball : weaponBase {
         ownDamage = damage;
         ownKnowckBack = knockBack;
     }
-	
+    protected override void Start()
+    {
+        base.Start();
+        powerLevel = PlayerPrefs.GetInt("Power Level");
 
-	void OnEnable()
+    }
+
+    void OnEnable()
 	{
 
         totalTime = deSpawn_Time;

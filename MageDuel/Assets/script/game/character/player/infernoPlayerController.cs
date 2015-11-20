@@ -58,6 +58,8 @@ public class infernoPlayerController : CharacterBase
 
         isInResult = false;
         base.Awake();
+
+        
     }
     protected override void Start()
     {

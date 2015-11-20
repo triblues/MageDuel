@@ -11,8 +11,13 @@ public class fireball : weaponBase {
         ownDamage = damage;
         ownKnowckBack = knockBack;
     }
-
-	void OnEnable()
+    protected override void Start()
+    {
+        base.Start();
+        powerLevel = PlayerPrefs.GetInt("Power Level");
+       
+    }
+    void OnEnable()
 	{
         totalTime = deSpawn_Time;
         //totalTime = Time.time + deSpawn_Time;

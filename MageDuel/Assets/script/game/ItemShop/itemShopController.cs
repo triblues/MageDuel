@@ -3,6 +3,10 @@ using System.Collections;
 
 public class itemShopController : MonoBehaviour {
 
+    void Awake()
+    {
+        
+    }
 	// Use this for initialization
 	void Start () {
 	
@@ -14,12 +18,12 @@ public class itemShopController : MonoBehaviour {
 
     }
 
-    public void buyItem(string name,int amount)
-    {
-        if(PlayerPrefs.GetInt("coin") >= amount)
-        {
-            PlayerPrefs.SetInt("coin", PlayerPrefs.GetInt("coin") - amount);
-            PlayerPrefs.SetInt(name, PlayerPrefs.GetInt(name) + 1);
-        }
-    }
+    //public void buyItem(string name,int amount)
+    //{
+    //    if(PlayerPrefs.GetInt("coin") >= amount)
+    //    {
+    //        PlayerPrefs.SetInt("coin", PlayerPrefs.GetInt("coin") - amount);
+    //        PlayerPrefs.SetInt(name, PlayerPrefs.GetInt(name) + 1);
+    //    }
+    //}
 }

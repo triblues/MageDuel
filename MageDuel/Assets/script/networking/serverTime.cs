@@ -10,6 +10,7 @@ public class serverTime : MonoBehaviour {
 	void Start () {
 
         mytext = GetComponent<Text>();
+        mytext.fontSize = Screen.width / 30;
     }
 	
 	// Update is called once per frame

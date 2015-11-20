@@ -14,9 +14,11 @@ public class weaponBase : MonoBehaviour {
 	protected int numTag;//store the number that the character fire this attack
     protected int comboCount;
 	protected float totalTime;
+    protected float powerLevel;
 	// Use this for initialization
-	void Start () {
+	protected virtual void Start () {
 
+        powerLevel = 1.0f;//default
         comboCount = 1;//default
         damageMultipler = 1.0f;//default
     }
@@ -83,7 +85,7 @@ public class weaponBase : MonoBehaviour {
             {
                 if (other.GetComponent<CharacterBase>().getIsBlocking() == false)
                 {
-                    other.GetComponent<CharacterBase>().TakesDamage(damage * damageMultipler);
+                    other.GetComponent<CharacterBase>().TakesDamage((damage * damageMultipler) * powerLevel);
                     other.GetComponent<CharacterBase>().getEnemy().GetComponent<CharacterBase>().setComboCount(comboCount);
 
                     if (other.GetComponent<CharacterBase>().getisKnockBack() == true)

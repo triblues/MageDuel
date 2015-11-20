@@ -204,7 +204,7 @@ public class radiancePlayerController : CharacterBase
                         myDamageMultipler = 1.0f;
                     rangeAttackAnimation();
                 }
-
+                
             }
         }
 
