@@ -104,7 +104,6 @@ public class EnemyAI : CharacterBase
         
         if (gameController.isFinish == true)
         {
-            Debug.Log("here");
             resetAnimation();
             return;
         }
@@ -204,7 +203,6 @@ public class EnemyAI : CharacterBase
 	{
 		if(changeState == true)
 		{
-            Debug.Log("change");
 			randomNum = getRandomNum(randMin,randMax);
 			if(randomNum >= randMax-(aggressiveLevel * 15))//the lower aggreesive level the lower chance to attack
 			{
@@ -307,7 +305,9 @@ public class EnemyAI : CharacterBase
     }
 	void rangeCombat()
 	{
-		if (currentMana <= 0)
+        if (isStun == true)
+            return;
+        if (currentMana <= 0)
 			return;
 		if (canRangeAttack == false)
 			return;
@@ -364,7 +364,8 @@ public class EnemyAI : CharacterBase
 	}
 	void meleeCombat()
 	{
-       
+        if (isStun == true)
+            return;
         if (Vector3.Distance(transform.position,enemy.transform.position) <= meleeDistance)
 		{
           
@@ -461,7 +462,7 @@ public class EnemyAI : CharacterBase
 
 
             randomAttTimer = 0;
-            Debug.Log("in rand");
+      
 		}
 
       //  isBlocking = true;
@@ -478,7 +479,7 @@ public class EnemyAI : CharacterBase
             {
                 if (enemy.GetComponent<CharacterBase>().getIsBlocking() == false)
                 {
-                    Debug.Log("last hit");
+                    
                     enemy.GetComponent<Rigidbody>().AddForce(transform.forward * 15, ForceMode.Impulse);
                    
                 }

@@ -273,6 +273,8 @@ public class radiancePlayerController : CharacterBase
 
     void armorSpell()
     {
+        if (isInUltimate == true)
+            return;
         if (canCastSpell[0] == true)//heal spell
         {
             if (isUnlimitedSpell == false)
@@ -292,6 +294,8 @@ public class radiancePlayerController : CharacterBase
     }
     void activeSpell(bool isLeft)
     {
+        if (isInUltimate == true)
+            return;
         if (canCastSpell[1] == true)//teleport spell
         {
            
@@ -326,6 +330,8 @@ public class radiancePlayerController : CharacterBase
     }
     void passiveSpell()
     {
+        if (isInUltimate == true)
+            return;
         if (canCastSpell[2] == true)//increase spell power
         {
            

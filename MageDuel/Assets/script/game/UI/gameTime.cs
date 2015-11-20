@@ -22,7 +22,6 @@ public class gameTime : MonoBehaviour {
         {
             if(co == null)
                 co = StartCoroutine(countDownTimer(1.0f));
-            Debug.Log("here timer");
         }
     }
 	IEnumerator countDownTimer(float interval)

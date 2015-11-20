@@ -41,7 +41,6 @@ public class launchScene : MonoBehaviour {
     public void setPractice(bool _ispractice)
     {
         isPractice = _ispractice;
-        Debug.Log("ispractice: " + isPractice.ToString());
     }
     public void resetPlayerPrefs()
     {

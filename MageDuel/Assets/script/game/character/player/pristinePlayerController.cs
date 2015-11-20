@@ -256,6 +256,8 @@ public class pristinePlayerController : CharacterBase
 
     void armorSpell()
     {
+        if (isInUltimate == true)
+            return;
         if (canCastSpell[0] == true)//armor spell
         {
             if (isUnlimitedSpell == false)
@@ -272,6 +274,8 @@ public class pristinePlayerController : CharacterBase
     }
     void activeSpell()
     {
+        if (isInUltimate == true)
+            return;
         if (canCastSpell[1] == true)//slow enemy spell
         {
             if (isUnlimitedSpell == false)
@@ -304,6 +308,8 @@ public class pristinePlayerController : CharacterBase
     }
     void passiveSpell()
     {
+        if (isInUltimate == true)
+            return;
         if (canCastSpell[2] == true)//increase enemy cooldown spell
         {
             enemy.GetComponent<CharacterBase>().setSpellCoolDownRate(2);

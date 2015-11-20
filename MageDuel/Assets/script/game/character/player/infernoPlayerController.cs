@@ -97,6 +97,7 @@ public class infernoPlayerController : CharacterBase
         {
             isBlockLeft = false;
             rb.rotation = Quaternion.Euler(0, 270, 0);
+           
             spellCombo(spellComboArmor, 0.5f, armorSpell, KeyCode.S, KeyCode.D, KeyCode.K);//down right attack
             spellCombo(spellComboActive, 0.5f, activeSpell, KeyCode.W, KeyCode.D, KeyCode.K);
         }
@@ -553,6 +554,8 @@ public class infernoPlayerController : CharacterBase
 
     void armorSpell()
     {
+        if (isInUltimate == true)
+            return;
         if (canCastSpell[0] == true)//armor spell
         {
             isKnockBack = false;
@@ -568,6 +571,8 @@ public class infernoPlayerController : CharacterBase
     }
     void activeSpell()
     {
+        if (isInUltimate == true)
+            return;
         if (canCastSpell[1] == true)//speed spell
         {
             if (isUnlimitedSpell == false)
@@ -583,6 +588,8 @@ public class infernoPlayerController : CharacterBase
     }
     void passiveSpell()
     {
+        if (isInUltimate == true)
+            return;
         if (canCastSpell[2] == true)//instant cooldown spell
         {
 
@@ -619,7 +626,6 @@ public class infernoPlayerController : CharacterBase
                 {
                     //do stuff
                     myspellDelegate();
-                    Debug.Log("yea");
                 }
             }
         }

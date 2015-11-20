@@ -45,11 +45,13 @@ public class gameController : MonoBehaviour
     GameObject myStarting;
     GameObject mygameover;
     GameObject myTimeOut;
-  
-    
+    int tempRandomPractice;
+
     // Use this for initialization
     void Awake()
     {
+        
+
         isFinish = false;
 
         mygameover = GameObject.Find("gameover");
@@ -60,10 +62,7 @@ public class gameController : MonoBehaviour
         {
             characterSelectManager.selectedCharacter = testchar;
             levelSelectController.selectedLevel = testEenemy;
-        }
 
-        if (launchScene.isPractice == false)
-        {
             poolObject temp = gameObject.AddComponent<poolObject>();
             temp.setPoolObject(amount[characterSelectManager.selectedCharacter], true, myProjectile[characterSelectManager.selectedCharacter], myParent);
             myPoolObj.Add(temp);//player attack
@@ -71,18 +70,32 @@ public class gameController : MonoBehaviour
             temp = gameObject.AddComponent<poolObject>();
             temp.setPoolObject(amountEnemy[levelSelectController.selectedLevel - 1], true, myEnemyProjectile[levelSelectController.selectedLevel - 1], myParent);
             myPoolObj.Add(temp);//enemy attack
+
         }
         else
         {
-            poolObject temp = gameObject.AddComponent<poolObject>();
-            temp.setPoolObject(amount[characterSelectManager.selectedCharacter], true, myProjectile[characterSelectManager.selectedCharacter], myParent);
-            myPoolObj.Add(temp);//player attack
+            if (launchScene.isPractice == false)
+            {
+                poolObject temp = gameObject.AddComponent<poolObject>();
+                temp.setPoolObject(amount[characterSelectManager.selectedCharacter], true, myProjectile[characterSelectManager.selectedCharacter], myParent);
+                myPoolObj.Add(temp);//player attack
 
-            temp = gameObject.AddComponent<poolObject>();
-            temp.setPoolObject(amountEnemy[0], true, myEnemyProjectile[0], myParent);
-            myPoolObj.Add(temp);//enemy attack
+                temp = gameObject.AddComponent<poolObject>();
+                temp.setPoolObject(amountEnemy[levelSelectController.selectedLevel - 1], true, myEnemyProjectile[levelSelectController.selectedLevel - 1], myParent);
+                myPoolObj.Add(temp);//enemy attack
+            }
+            else
+            {
+                tempRandomPractice = Random.Range(0, allEnemy.Length);
+                poolObject temp = gameObject.AddComponent<poolObject>();
+                temp.setPoolObject(amount[characterSelectManager.selectedCharacter], true, myProjectile[characterSelectManager.selectedCharacter], myParent);
+                myPoolObj.Add(temp);//player attack
+
+                temp = gameObject.AddComponent<poolObject>();
+                temp.setPoolObject(amountEnemy[tempRandomPractice], true, myEnemyProjectile[tempRandomPractice], myParent);
+                myPoolObj.Add(temp);//enemy attack
+            }
         }
-
         if (donSpawn == false)
         {
             if (isTest == true)
@@ -96,7 +109,7 @@ public class gameController : MonoBehaviour
                 Instantiate(allEnvironment[0], Vector3.zero,
                  Quaternion.identity);//spawn environment
 
-               // Instantiate(allUltimate[0], Vector3.zero, Quaternion.identity);
+              
             }
             else
             {
@@ -114,7 +127,8 @@ public class gameController : MonoBehaviour
                 }
                 else
                 {
-                    enemy = Instantiate(allEnemy[0], spawnPos[1],
+                    
+                    enemy = Instantiate(allEnemy[tempRandomPractice], spawnPos[1],
                       Quaternion.identity) as GameObject;//spawn enemy
 
                     Instantiate(allEnvironment[0], Vector3.zero,
@@ -145,7 +159,7 @@ public class gameController : MonoBehaviour
                 isWin = true;
             else
                 isWin = false;
-            Debug.Log("timeout: " + isWin.ToString());
+
         }
 
         winPanel.SetActive(true);

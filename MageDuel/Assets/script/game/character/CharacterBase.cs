@@ -708,6 +708,7 @@ public class CharacterBase : MonoBehaviour {
         myAnimator.SetTrigger("rangeAttack");
         //myAnimator.SetBool("rangeAttack", true);
         StartCoroutine(WaitForAnimation("range attack",0));
+        Debug.Log("in range att");
         
     }
     public virtual void ultimateMove()
@@ -952,10 +953,10 @@ public class CharacterBase : MonoBehaviour {
 
   //      }
 
-		if (check_touchGround (targetMask,0.3f) == true)//prevent player from standing on top
+		if (check_touchGround (targetMask,0.6f) == true)//prevent player from standing on top
 		{
 			Debug.Log("touch");
-			rb.AddForce (transform.forward * -speed * 5,ForceMode.Impulse);
+			rb.AddForce (transform.forward * -speed * 10,ForceMode.Impulse);
 		}
 		
 
