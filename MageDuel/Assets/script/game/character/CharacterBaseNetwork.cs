@@ -64,6 +64,7 @@ public class CharacterBaseNetwork : NetworkBehaviour
     protected Transform enemyTrans;
     protected Text comboText;
     protected Animation comboAnimation;//this is the combo text animation,fade in/out
+    [SyncVar(hook ="setComboCountNetwork")]
     protected int comboCount;
     protected int blockCount;//for blocking
     protected float jumpSpeed;
@@ -577,7 +578,8 @@ public class CharacterBaseNetwork : NetworkBehaviour
         healthBar.fillAmount = currentHealth / 100;
         manaBar.fillAmount = currentMana / 100;
         chargingBar.fillAmount = CurrentChargingBar;
-        
+      //  comboText.text = "Combo: " + comboCount.ToString();
+
     }
     protected void checkfreeze()
     {
@@ -741,10 +743,11 @@ public class CharacterBaseNetwork : NetworkBehaviour
         if (amount <= 0)
             return;
         comboCount += amount;
-        comboText.text = "Combo: " + comboCount.ToString();
+        transmitComboCount(comboCount);
+        //comboText.text = "Combo: " + comboCount.ToString();
 
-        comboAnimation.Play("fade");
-        comboAnimation["fade"].time = 0;
+        //comboAnimation.Play("fade");
+        //comboAnimation["fade"].time = 0;
     }
     public int getComboCount()
     {
@@ -1552,6 +1555,16 @@ public class CharacterBaseNetwork : NetworkBehaviour
         }
     }
     [ClientCallback]
+    protected void setComboCountNetwork(int _comboCount)
+    {
+        comboCount = _comboCount;
+        comboText.text = "Combo: " + comboCount.ToString();
+
+        comboAnimation.Play("fade");
+        comboAnimation["fade"].time = 0;
+
+    }
+    [ClientCallback]
     void setarmorUICD(bool _armor)
     {
         if(_armor == true)
@@ -1669,6 +1682,14 @@ public class CharacterBaseNetwork : NetworkBehaviour
         if(isLocalPlayer == true)
         {
             CmdSendManaToServer(_num);
+        }
+    }
+    [ClientCallback]
+    protected void transmitComboCount(int _num)
+    {
+        if(isLocalPlayer == true)
+        {
+            CmdSendComboCountToServer(_num);
         }
     }
     [ClientCallback]
@@ -1814,6 +1835,11 @@ public class CharacterBaseNetwork : NetworkBehaviour
     void CmdSendHealthToServer(float _health)//must have Cmd as the start of the name, this function only run in the server
     {
         currentHealth = _health;
+    }
+    [Command]
+    void CmdSendComboCountToServer(int _comboCount)
+    {
+        comboCount = _comboCount;
     }
     [Command]//a command to send to the server
     void CmdSendManaToServer(float _mana)//must have Cmd as the start of the name, this function only run in the server
