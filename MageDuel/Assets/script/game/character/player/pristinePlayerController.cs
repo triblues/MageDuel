@@ -262,7 +262,7 @@ public class pristinePlayerController : CharacterBase
         {
             if (isUnlimitedSpell == false)
                 canCastSpell[0] = false;
-            defFactor = 1.5f;//increase defense
+            defFactor = defFactor + 1.0f;//increase defense
             iceArmorObj.SetActive(true);
             
             
@@ -360,7 +360,7 @@ public class pristinePlayerController : CharacterBase
         if (_spell == spellType.armor_spell)
         {
             canCastSpell[0] = true;
-            defFactor = 1.0f;
+            defFactor = defFactor - 1.0f;
             iceArmorObj.SetActive(false);
         }
         else if (_spell == spellType.active_spell)

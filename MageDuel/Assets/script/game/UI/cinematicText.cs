@@ -16,20 +16,20 @@ public class cinematicText : MonoBehaviour {
 
         if(characterSelectManager.selectedCharacter == 0)//fire
         {
-            dialog[0] = "You will burn!!!";
+            dialog[0] = "I am gonna burn you to ashes!!!";
         }
         else if (characterSelectManager.selectedCharacter == 1)//ice
         {
-            dialog[0] = "You will freeze!!!";
+            dialog[0] = "Get ready, the winter is coming early this year!";
         }
         else if (characterSelectManager.selectedCharacter == 2)//light
         {
-            dialog[0] = "Justice demand retribution!!!";
+            dialog[0] = "Let my light glow within the darkest part of your soul!";
         }
 
         if(levelSelectController.selectedLevel == 1)
         {
-            dialog[1] = "i am bat";
+            dialog[1] = "Once you are inside, there is no way out";
         }
         else if (levelSelectController.selectedLevel == 2)
         {
@@ -37,7 +37,7 @@ public class cinematicText : MonoBehaviour {
         }
         else if (levelSelectController.selectedLevel == 3)
         {
-            dialog[1] = "i am rock";
+            dialog[1] = "I am gonna crush you!";
         }
         else if (levelSelectController.selectedLevel == 4)
         {
@@ -45,7 +45,7 @@ public class cinematicText : MonoBehaviour {
         }
         else if (levelSelectController.selectedLevel == 5)
         {
-            dialog[1] = "i am boss";
+            dialog[1] = "Welcome to the darkness, child";
         }
 
     }

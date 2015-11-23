@@ -105,31 +105,31 @@ public class pristinePlayerControllerNetwork : CharacterBaseNetwork
 
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                ultimateSpell();
+              
                 if (chargingBar.fillAmount >= 1)
                 {
 
                     ultimateSpell();
                 }
             }
-            if (Input.GetKeyDown(KeyCode.B))
-            {
+            //if (Input.GetKeyDown(KeyCode.B))
+            //{
 
-                armorSpell();
+            //    armorSpell();
 
-            }
-            if (Input.GetKeyDown(KeyCode.N))
-            {
+            //}
+            //if (Input.GetKeyDown(KeyCode.N))
+            //{
 
-                activeSpell();//shoot iceball slow
+            //    activeSpell();//shoot iceball slow
 
-            }
-            if (Input.GetKeyDown(KeyCode.M))
-            {
+            //}
+            //if (Input.GetKeyDown(KeyCode.M))
+            //{
 
-                passiveSpell();
+            //    passiveSpell();
 
-            }
+            //}
 
             if (isInUltimate == false)
                 attack();

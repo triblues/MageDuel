@@ -14,7 +14,7 @@ public class baneBossController : EnemyAI
     {
 
         base.Start();
-        StartCoroutine(regenHealth(1.0f));
+        StartCoroutine(regenHealth(3.0f));
 
     }
 

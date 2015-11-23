@@ -39,6 +39,7 @@ public class networkGameManager : NetworkBehaviour {
         
 
         base.OnStartServer();
+      //  StartCoroutine(myserverLogic.countDown(7));
     }
     public override void OnStartClient()
     {

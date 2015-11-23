@@ -8,9 +8,9 @@ public class iceballNetwork : weaponBaseNetwork
     protected float ownKnowckBack;
     protected float ownDamage;
     // Use this for initialization
-    void Awake()
+   void Awake()
     {
-
+    //    mySC = GetComponent<SphereCollider>();
         ownDamage = damage;
         ownKnowckBack = knockBack;
     }

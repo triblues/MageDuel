@@ -65,6 +65,8 @@
      <Compile Include="Assets\script\game\UI\gameTime.cs" />
      <Compile Include="Assets\script\game\camera\CameraController.cs" />
      <Compile Include="Assets\script\game\camera\CameraControllerNetwork.cs" />
+     <Compile Include="Assets\script\game\camera\CameraControllerNetworkTest.cs" />
+     <Compile Include="Assets\script\game\camera\CameraSyncTransform.cs" />
      <Compile Include="Assets\script\game\camera\cinematicCameraController.cs" />
      <Compile Include="Assets\script\game\camera\ultimateCameraController.cs" />
      <Compile Include="Assets\script\game\camera\ultimateCameraControllerNetwork.cs" />

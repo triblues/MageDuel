@@ -14,7 +14,7 @@ public class fireball : weaponBase {
     protected override void Start()
     {
         base.Start();
-        powerLevel = PlayerPrefs.GetInt("Power Level");
+        powerLevel = PlayerPrefs.GetInt("Power Level fire");
        
     }
     void OnEnable()

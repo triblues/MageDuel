@@ -287,8 +287,8 @@ public class CharacterBase : MonoBehaviour {
 
         if (comboAnimation.IsPlaying("fade") == false)
         {
-            if(comboCount > highestComboAchieve)
-                highestComboAchieve = comboCount;
+            //if(comboCount > highestComboAchieve)
+            //    highestComboAchieve = comboCount;
 
             comboCount = 0;
         }
@@ -475,6 +475,9 @@ public class CharacterBase : MonoBehaviour {
         if (amount <= 0)
             return;
         comboCount += amount;
+        if(comboCount > highestComboAchieve)
+            highestComboAchieve = comboCount;
+
         comboText.text = "Combo: " + comboCount.ToString();
 
         comboAnimation.Play("fade");

@@ -7,30 +7,28 @@ public class fireballNetwork : weaponBaseNetwork
 
     protected float ownKnowckBack;
     protected float ownDamage;
+    protected SphereCollider mySC;
     // Use this for initialization
-    void Awake()
+     void Awake()
     {
-
+        mySC = GetComponent<SphereCollider>();
         ownDamage = damage;
         ownKnowckBack = knockBack;
     }
-    
-    //protected override void OnEnable()
-    //{
-    //    Debug.Log("enable");
-    //    base.OnEnable();
 
-    //    trasmitActive(true);
-    //    totalTime = deSpawn_Time;
-    //    //totalTime = Time.time + deSpawn_Time;
+    protected override void OnEnable()
+    {
+        StartCoroutine(delayCollider(0.35f));
+        base.OnEnable();
 
-    //}
+       
+    }
 
-    //void OnDisable()
-    //{
-
-    //    trasmitActive(false);
-    //}
+    protected override void OnDisable()
+    {
+        mySC.enabled = false;
+        base.OnDisable();
+    }
     //[ClientCallback]//command can only be send from local player
     //void trasmitActive(bool _active)
     //{
@@ -46,6 +44,12 @@ public class fireballNetwork : weaponBaseNetwork
     //    isActive = _isActive;
     //    transform.position = new Vector3(0, 100, 4);
     //}
+
+    protected IEnumerator delayCollider(float _time)
+    {
+        yield return new WaitForSeconds(_time);
+        mySC.enabled = true;
+    }
 
     // Update is called once per frame
     protected override void Update()

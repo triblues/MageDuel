@@ -103,9 +103,19 @@ public class ultimateCameraController : MonoBehaviour {
         yield return new WaitForSeconds(waitTime);
 
         if (isFaceRight)
-            transform.position = new Vector3(enemyTrans.position.x - 10, transform.position.y, transform.position.z);
+        {
+            if (enemyTrans.position.x <= -20)
+                transform.position = new Vector3(enemyTrans.position.x + 10, transform.position.y, transform.position.z);
+            else
+                transform.position = new Vector3(enemyTrans.position.x - 10, transform.position.y, transform.position.z);
+        }
         else
-            transform.position = new Vector3(enemyTrans.position.x + 10, transform.position.y, transform.position.z);
+        {
+            if (enemyTrans.position.x >= 20)
+                transform.position = new Vector3(enemyTrans.position.x - 10, transform.position.y, transform.position.z);
+            else
+                transform.position = new Vector3(enemyTrans.position.x + 10, transform.position.y, transform.position.z);
+        }
         transform.LookAt(enemyTrans);
         shake();
     }

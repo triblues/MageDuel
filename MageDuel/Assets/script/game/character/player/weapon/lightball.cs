@@ -15,7 +15,7 @@ public class lightball : weaponBase {
     protected override void Start()
     {
         base.Start();
-        powerLevel = PlayerPrefs.GetInt("Power Level");
+        powerLevel = PlayerPrefs.GetInt("Power Level light");
 
     }
 

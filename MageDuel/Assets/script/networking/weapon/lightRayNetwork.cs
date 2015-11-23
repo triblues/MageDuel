@@ -10,7 +10,7 @@ public class lightRayNetwork : weaponBaseNetwork
     // Use this for initialization
     void Awake()
     {
-
+       // mySC = GetComponent<SphereCollider>();
         ownDamage = damage;
         ownKnowckBack = knockBack;
     }

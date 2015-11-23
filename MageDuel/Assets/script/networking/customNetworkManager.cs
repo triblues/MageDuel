@@ -24,6 +24,7 @@ public class customNetworkManager : NetworkManager
     public GameObject[] allchar;
     public GameObject[] allProjectile;
     public GameObject iceSlowProjectile;
+    Button multiplayerBtn;
     List<GameObject> myobject;
     NetworkManager myNetworkManager;
  
@@ -31,6 +32,7 @@ public class customNetworkManager : NetworkManager
     // Use this for initialization
     void Start () {
 
+      //  multiplayerBtn = GameObject.Find("Canvas").transform.Find("character info/multiplayer").GetComponent<Button>();
         myobject = new List<GameObject>();
         myNetworkManager = GetComponent<NetworkManager>();
     }
@@ -48,6 +50,10 @@ public class customNetworkManager : NetworkManager
         {
             myNetworkManager.StopHost();
             count = 0;
+            if (myobject.Count > 0)
+            {
+                myobject.RemoveRange(0, myobject.Count);
+            }
             Debug.Log("here");
             //myNetworkManager.StopServer();
             //NetworkServer.Shutdown();
@@ -136,7 +142,7 @@ public class customNetworkManager : NetworkManager
         create.password = "";
 
         //NetworkManager.singleton.matchMaker.CreateMatch(create, OnInternetMatchCreate);
-        NetworkManager.singleton.matchMaker.CreateMatch(create, OnInternetMatchCreate);
+        NetworkManager.singleton.matchMaker.CreateMatch(create, NetworkManager.singleton.OnMatchCreate);
     }
   //  this method is called when your request for creating a match is returned
     private void OnInternetMatchCreate(CreateMatchResponse matchResponse)
@@ -162,6 +168,7 @@ public class customNetworkManager : NetworkManager
    // call this method to find a match through the matchmaker
     public void FindInternetMatch()
     {
+      //  multiplayerBtn.interactable = false;
         startMatchMaking();
         NetworkManager.singleton.matchMaker.ListMatches(0, 20, "", OnInternetMatchList);
     
@@ -215,8 +222,15 @@ public class customNetworkManager : NetworkManager
 
         }
     }
+    public override void OnClientError(NetworkConnection conn, int errorCode)
+    {
+        base.OnClientError(conn, errorCode);
+        GameObject.Find("multiplayer").GetComponent<Button>().interactable = true;
+        Debug.Log("my error: " + errorCode.ToString());
+    }
     void spawnProjectile(short num,NetworkConnection mync)
     {
+        
         for (int i = 0; i < 4; i++)
         {
             GameObject go = Instantiate(allProjectile[num], new Vector3(0, 100, 4), Quaternion.identity) as GameObject;

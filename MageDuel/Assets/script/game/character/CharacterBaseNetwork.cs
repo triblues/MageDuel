@@ -219,13 +219,18 @@ public class CharacterBaseNetwork : NetworkBehaviour
         base.OnStartLocalPlayer();
         getIdentity();
         setCharacterTag();
-       
-        //CmdSpawnProjectile();
-        Debug.Log("end local player");
 
+        if (isLocalPlayer)
+        {
+            Debug.Log("wtf");
+            Debug.Log("the amount: " + mycustomNetworkManager.getmyobj().Count.ToString());
+        }
+        else
+            Debug.Log("false local");
     }
-
     
+   
+
     //[Client]
     [ClientCallback]
     void getIdentity()
@@ -335,7 +340,7 @@ public class CharacterBaseNetwork : NetworkBehaviour
     protected virtual void Awake()
     {
         mycustomNetworkManager = GameObject.Find("networkController").GetComponent<customNetworkManager>();
-        Debug.Log("the amount: " + mycustomNetworkManager.getmyobj().Count.ToString());
+       
         currentHealth = startingHealth;
         currentMana = startingMana;
 
@@ -380,7 +385,7 @@ public class CharacterBaseNetwork : NetworkBehaviour
 
         speed = normalSpeed;
         jumpSpeed = lowJumpSpeed;
-        comboCount = 0;
+       // comboCount = 0;
         highestComboAchieve = 0;
         blockCount = maxBlockCount;
         stunRate = 1;//default
@@ -428,7 +433,7 @@ public class CharacterBaseNetwork : NetworkBehaviour
     protected virtual void Start()
     {
 
-
+     
         //if (characterTag % 2 != 0)//player 1
         //{
         //    healthBar = GameObject.Find("Canvas").transform.Find("player 1/health/outer/inner").GetComponent<Image>();
@@ -556,7 +561,14 @@ public class CharacterBaseNetwork : NetworkBehaviour
                 if (hasEnterGameOver == false)
                 {
                     if (currentHealth <= 0)
+                    {
+                        isLose = true;
                         myAnimator.SetBool("die", true);
+                    }
+                    else
+                    {
+                        isLose = false;
+                    }
                     myserverLogic.showGameOver(currentHealth, enemy.GetComponent<CharacterBaseNetwork>().getCurrentHealth(),
                         startingHealth, highestComboAchieve, isLose);
                     hasEnterGameOver = true;
@@ -568,13 +580,13 @@ public class CharacterBaseNetwork : NetworkBehaviour
         if (currentMana <= 0)
             currentMana = 0;
 
-        if (comboAnimation.IsPlaying("fade") == false)
-        {
-            if (comboCount > highestComboAchieve)
-                highestComboAchieve = comboCount;
+        //if (comboAnimation.IsPlaying("fade") == false)
+        //{
+        //    if (comboCount > highestComboAchieve)
+        //        highestComboAchieve = comboCount;
 
-            comboCount = 0;
-        }
+        //    comboCount = 0;
+        //}
         healthBar.fillAmount = currentHealth / 100;
         manaBar.fillAmount = currentMana / 100;
         chargingBar.fillAmount = CurrentChargingBar;
@@ -729,9 +741,9 @@ public class CharacterBaseNetwork : NetworkBehaviour
         trasmitAnimation(true, false, false);
         transmitDoubleTap(true);
 
-        myblockController.animateBlock(blockCount, maxBlockCount);
-        myblockTimer = coolDownBlockTimer;
-        playBlockAnimation = true;
+        //myblockController.animateBlock(blockCount, maxBlockCount);
+        //myblockTimer = coolDownBlockTimer;
+        //playBlockAnimation = true;
 
         isDefend = true;
         transmitOtherAnimation(false, true, false);
@@ -742,6 +754,14 @@ public class CharacterBaseNetwork : NetworkBehaviour
     {
         if (amount <= 0)
             return;
+
+        if (comboAnimation.IsPlaying("fade") == false)
+        {
+           // if (comboCount > highestComboAchieve)
+             //   highestComboAchieve = comboCount;
+
+            comboCount = 0;
+        }
         comboCount += amount;
         transmitComboCount(comboCount);
         //comboText.text = "Combo: " + comboCount.ToString();
@@ -1193,7 +1213,8 @@ public class CharacterBaseNetwork : NetworkBehaviour
         }
         else
         {
-            temp.transform.position = position + direction.normalized;
+            //  temp.transform.position = position + direction.normalized;
+            temp.transform.position = position;
             projectile.launch(direction);
             projectile.setTag(myCharTag);
             projectile.setMultipler(damageMultipler);
@@ -1558,10 +1579,15 @@ public class CharacterBaseNetwork : NetworkBehaviour
     protected void setComboCountNetwork(int _comboCount)
     {
         comboCount = _comboCount;
-        comboText.text = "Combo: " + comboCount.ToString();
+        if (comboCount > highestComboAchieve)
+            highestComboAchieve = comboCount;
+        if (comboCount > 0)
+        {
+            comboText.text = "Combo: " + comboCount.ToString();
 
-        comboAnimation.Play("fade");
-        comboAnimation["fade"].time = 0;
+            comboAnimation.Play("fade");
+            comboAnimation["fade"].time = 0;
+        }
 
     }
     [ClientCallback]
@@ -1608,6 +1634,9 @@ public class CharacterBaseNetwork : NetworkBehaviour
         if(_isdefend == true)
         {
             myAnimator.SetBool("defend", true);
+            myblockController.animateBlock(blockCount, maxBlockCount);
+            myblockTimer = coolDownBlockTimer;
+            playBlockAnimation = true;
         }
         else
         {

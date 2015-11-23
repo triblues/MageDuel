@@ -139,8 +139,8 @@ public class gameController : MonoBehaviour
             }
         }
 
-        healthText.fontSize = Screen.width / 30;
-        comboText.fontSize = Screen.width / 30;
+      //  healthText.fontSize = Screen.width / 30;
+       // comboText.fontSize = Screen.width / 30;
 
 
 

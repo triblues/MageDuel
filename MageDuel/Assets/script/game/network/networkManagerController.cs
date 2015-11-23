@@ -122,7 +122,7 @@ public class networkManagerController : NetworkManager
     {
         if (matchJoin.success)
         {
-            //Debug.Log("Able to join a match");
+            Debug.Log("Able to join a match");
 
             if (Utility.GetAccessTokenForNetwork(matchJoin.networkId) == null)
                 Utility.SetAccessTokenForNetwork(matchJoin.networkId, new NetworkAccessToken(matchJoin.accessTokenString));

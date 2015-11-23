@@ -9,7 +9,7 @@ public class iceballSlowNetwork : weaponBaseNetwork
     // Use this for initialization
     void Awake()
     {
-
+     
         ownDamage = damage;
         ownKnowckBack = knockBack;
     }

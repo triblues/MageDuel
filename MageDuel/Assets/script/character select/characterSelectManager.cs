@@ -20,10 +20,12 @@ public class characterSelectManager : MonoBehaviour {
     public launchScene mylaunchScene;
     public GameObject mainmenuBtn;
     public Text detailText;
+    public Button multiplayerBtn;
     mage mymage;
     bool isSelect;
     bool isMoving;
     Vector3[] startingPos;
+   
 
     networktest mytest;
 
@@ -225,7 +227,7 @@ public class characterSelectManager : MonoBehaviour {
     }
     public void findMyMatch()
     {
-        //mytest.findmymatch();
+        multiplayerBtn.interactable = false;
         mycustomNetworkManager.FindInternetMatch();
     }
 }

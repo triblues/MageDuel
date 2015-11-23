@@ -46,6 +46,10 @@ public class launchScene : MonoBehaviour {
     {
         PlayerPrefs.DeleteAll();
     }
+    public void addCoins(int amount)
+    {
+        PlayerPrefs.SetInt("coin", PlayerPrefs.GetInt("coin") + amount);
+    }
 
     // Goes to the game scene
     public void gotoScene(string name)

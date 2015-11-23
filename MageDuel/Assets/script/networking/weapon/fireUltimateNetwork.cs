@@ -7,7 +7,7 @@ public class fireUltimateNetwork : weaponBaseNetwork
 
     bool canIncrease;
     BoxCollider myBC;
-    
+
     // Use this for initialization
     void Awake()
     {
@@ -17,7 +17,6 @@ public class fireUltimateNetwork : weaponBaseNetwork
     }
     protected override void Start()
     {
-        Debug.Log("go ulti false");
         //if (isLocalPlayer == true)
         //{
         //    myID = GetComponent<NetworkIdentity>();

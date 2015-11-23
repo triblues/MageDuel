@@ -8,9 +8,11 @@ public class itemToolTips : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     public int maxCount = 0;
     public string description;
     public int cost;
+  
     Text mytext;
     Text mytextCost;
     Button mybtn;
+    itemShopController myISC;
    
     // Use this for initialization
     void Start () {
@@ -18,12 +20,14 @@ public class itemToolTips : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         mytext = GameObject.Find("body description").GetComponent<Text>();
         mytextCost = GameObject.Find("cost").GetComponent<Text>();
         mybtn = gameObject.GetComponent<Button>();
-     
+        myISC = GameObject.Find("itemShopController").GetComponent<itemShopController>();
+
         mybtn.onClick.AddListener(() => buyitem());
     }
 	void buyitem()
     {
-        if(maxCount != 0)
+        myISC.clickSound();
+        if (maxCount != 0)
         {
             if (PlayerPrefs.GetInt(name) >= maxCount)
             {
@@ -31,11 +35,19 @@ public class itemToolTips : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
                 return;
             }
         }
-        if (PlayerPrefs.GetInt("coin") >= cost)
+        if (name.Contains("btn") == false)
         {
-            PlayerPrefs.SetInt("coin", PlayerPrefs.GetInt("coin") - cost);
-            PlayerPrefs.SetInt(name, PlayerPrefs.GetInt(name) + 1);
+            if (PlayerPrefs.GetInt("coin") >= cost)
+            {
+                PlayerPrefs.SetInt("coin", PlayerPrefs.GetInt("coin") - cost);
+                PlayerPrefs.SetInt(name, PlayerPrefs.GetInt(name) + 1);
+            }
+            else
+            {
+                mytext.text = "Not enough coins!!!";
+            }
         }
+      
     }
     // Update is called once per frame
     void Update () {
@@ -46,7 +58,8 @@ public class itemToolTips : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     {
        
         mytext.text = description;
-        mytextCost.text = "Cost: " + cost.ToString();
+        if(cost > 0)
+            mytextCost.text = "Cost: " + cost.ToString();
 
         Debug.Log("The cursor entered the selectable UI element.");
     }

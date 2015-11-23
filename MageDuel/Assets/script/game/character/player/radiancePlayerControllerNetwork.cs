@@ -108,43 +108,43 @@ public class radiancePlayerControllerNetwork : CharacterBaseNetwork
 
         if (isLocalPlayer == true)
         {
-            //teleportSpellCombo(teleportSpellComboActiveLeft, 0.5f, activeSpell, KeyCode.A, KeyCode.A, KeyCode.K);
-            //teleportSpellCombo(teleportSpellComboActiveRight, 0.5f, activeSpell, KeyCode.D, KeyCode.D, KeyCode.K);
+            teleportSpellCombo(teleportSpellComboActiveLeft, 0.5f, activeSpell, KeyCode.A, KeyCode.A, KeyCode.K);
+            teleportSpellCombo(teleportSpellComboActiveRight, 0.5f, activeSpell, KeyCode.D, KeyCode.D, KeyCode.K);
 
-            //spellCombo(spellComboPassive, 0.2f, passiveSpell, KeyCode.K, KeyCode.L);
+            spellCombo(spellComboPassive, 0.2f, passiveSpell, KeyCode.K, KeyCode.L);
             spellCombo(spellComboPassive, 0.2f, passiveSpell, KeyCode.K, KeyCode.L);
 
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                ultimateSpell();
+              
                 if (chargingBar.fillAmount >= 1)
                 {
 
                     ultimateSpell();
                 }
             }
-            if (Input.GetKeyDown(KeyCode.B))
-            {
+            //if (Input.GetKeyDown(KeyCode.B))
+            //{
 
-                armorSpell();
+            //    armorSpell();
 
-            }
-            if (Input.GetKeyDown(KeyCode.T))
-            {
+            //}
+            //if (Input.GetKeyDown(KeyCode.T))
+            //{
                 
-                activeSpell(true);//teleport left
+            //    activeSpell(true);//teleport left
 
-            }
-            if (Input.GetKeyDown(KeyCode.Y))
-            {
-                activeSpell(false);//teleport right
-            }
-            if (Input.GetKeyDown(KeyCode.M))
-            {
+            //}
+            //if (Input.GetKeyDown(KeyCode.Y))
+            //{
+            //    activeSpell(false);//teleport right
+            //}
+            //if (Input.GetKeyDown(KeyCode.M))
+            //{
 
-                passiveSpell();
+            //    passiveSpell();
 
-            }
+            //}
 
 
             if (isInUltimate == false)

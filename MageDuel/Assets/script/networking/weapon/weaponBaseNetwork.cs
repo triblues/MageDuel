@@ -25,13 +25,15 @@ public class weaponBaseNetwork : NetworkBehaviour
     protected float totalTime;
     protected Vector3 mypos;
     protected float damageMultipler;
+  
 
+   
     // Use this for initialization
     protected virtual void Start()
     {
+
         damageMultipler = 1;//default
         comboCount = 1;//default
-        Debug.Log("go false");
       
         //deSpawn_Time = 0;
         gameObject.SetActive(false);
@@ -48,7 +50,6 @@ public class weaponBaseNetwork : NetworkBehaviour
     protected void trasmitActive(bool _active)
     {
 
-        Debug.Log("trasmit active");
         CmdSendActiveToServer(_active);
 
 
@@ -60,14 +61,15 @@ public class weaponBaseNetwork : NetworkBehaviour
         
     }
     protected virtual void OnEnable()
-    {
-        trasmitActive(true);
+    {  
+      
+         trasmitActive(true);
         totalTime = deSpawn_Time;
     }
 
     protected virtual void OnDisable()
     {
-       
+      
         trasmitActive(false);
     }
     protected virtual void Update()
@@ -156,14 +158,15 @@ public class weaponBaseNetwork : NetworkBehaviour
         {
             if (other.GetComponent<weaponBaseNetwork>() == null)//don have this script (mean hit a wall)
             {
-                trasmitActive(false);
-                //gameObject.SetActive(false);
+                //trasmitActive(false);
+                gameObject.SetActive(false);
 
             }
         }
 
 
     }
+    
 }
 
 

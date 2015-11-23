@@ -32,7 +32,7 @@ public class infernoPlayerControllerNetwork : CharacterBaseNetwork
 
     protected override void Awake()
     {
-       
+      
         base.Awake();
 
     }
@@ -77,7 +77,7 @@ public class infernoPlayerControllerNetwork : CharacterBaseNetwork
        
         base.Update();
         checkBlocking();
-
+       // isBlocking = true;
   
         if (shouldTurn(transform.position, enemy.transform.position) == true)//facing left
         {
@@ -108,7 +108,7 @@ public class infernoPlayerControllerNetwork : CharacterBaseNetwork
             if (Input.GetKeyDown(KeyCode.Space))
             {
 
-                ultimateSpell();
+              
                 if (chargingBar.fillAmount >= 1)
                 {
                     
@@ -116,24 +116,24 @@ public class infernoPlayerControllerNetwork : CharacterBaseNetwork
                 }
             }
 
-            if (Input.GetKeyDown(KeyCode.B))
-            {
+            //if (Input.GetKeyDown(KeyCode.B))
+            //{
 
-                armorSpell();
+            //    armorSpell();
 
-            }
-            if (Input.GetKeyDown(KeyCode.N))
-            {
+            //}
+            //if (Input.GetKeyDown(KeyCode.N))
+            //{
                
-                activeSpell();
+            //    activeSpell();
                
-            }
-            if (Input.GetKeyDown(KeyCode.M))
-            {
+            //}
+            //if (Input.GetKeyDown(KeyCode.M))
+            //{
 
-                passiveSpell();
+            //    passiveSpell();
 
-            }
+            //}
 
 
             if (isInUltimate == false)

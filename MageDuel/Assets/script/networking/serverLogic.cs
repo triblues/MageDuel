@@ -7,11 +7,8 @@ using System.Collections.Generic;
 public class serverLogic : NetworkBehaviour {
 
     GameObject[] mystar;
-    Transform myParent;
-    public GameObject[] myProjectile;
-    public int[] amount;
-    public Text healthText;
-    public Text comboText;
+  
+  
 
     [SyncVar]
     bool isFinish;
@@ -23,7 +20,6 @@ public class serverLogic : NetworkBehaviour {
     bool isInUltimateServer;
 
 
-    //gameTime mygameTime;
     serverTime myserverTime;
 
     public static bool hasSpawn;
@@ -37,6 +33,8 @@ public class serverLogic : NetworkBehaviour {
     GameObject myTimeOut;
     GameObject waitForPlayer;
     GameObject myCanvas;
+    Text healthText;
+    Text comboText;
 
     // Use this for initialization
     void Start () {
@@ -48,6 +46,9 @@ public class serverLogic : NetworkBehaviour {
 
         myCanvas = GameObject.Find("Canvas");
         winPanel = myCanvas.transform.Find("win panel").gameObject;
+
+        healthText = winPanel.transform.Find("health").gameObject.GetComponent<Text>();
+        comboText = winPanel.transform.Find("combo").gameObject.GetComponent<Text>();
         countDownText = winPanel.transform.Find("countDown").GetComponent<Text>();
 
         mystar = new GameObject[3];
@@ -61,13 +62,14 @@ public class serverLogic : NetworkBehaviour {
         myTimeOut = GameObject.Find("timeout");
         waitForPlayer = GameObject.Find("waiting text");
 
-        myserverTime = GameObject.Find("time").GetComponent<serverTime>();
+        //myserverTime = GameObject.Find("time").GetComponent<serverTime>();
         CNM = GameObject.Find("networkController").GetComponent<customNetworkManager>();
         hasSpawn = false;
-        myParent = GameObject.Find("all projectile").transform;
+     
         isInUltimateServer = false;
-        //healthText.fontSize = Screen.width / 30;
-        //comboText.fontSize = Screen.width / 30;
+      //  healthText.fontSize = Screen.width / 30;
+      //  comboText.fontSize = Screen.width / 30;
+
     }
 	
 	// Update is called once per frame
@@ -78,11 +80,16 @@ public class serverLogic : NetworkBehaviour {
             hasSpawn = true;
             StartCoroutine( startGame());//show the start game text
             waitForPlayer.SetActive(false);
-            //CNM.createplayer();
-            // Camera.main.gameObject.GetComponent<CameraControllerNetwork>().enabled = true;
-            GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraControllerNetwork>().enabled = true;
-            myserverTime.startCountDown();
-            StartCoroutine(countDownTimer());
+
+            GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraControllerNetworkTest>().enabled = true;
+            GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraSyncTransform>().enabled = true;
+
+            //GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraControllerNetwork>().enabled = true;
+
+            //  myserverTime.startCountDown();
+            // StartCoroutine(countDownTimer());
+
+          
         }
 
         //if(isFinish == true)
@@ -171,14 +178,16 @@ public class serverLogic : NetworkBehaviour {
         yield return new WaitForSeconds(2.0f);
 
         winPanel.SetActive(true);
-        if (mygametime <= 0)
-        {
-            if (currentHealth > enemyHealth)
-                isWin = true;
-            else
-                isWin = false;
+        healthText.text = "Health left: " + currentHealth.ToString();
+        comboText.text = "HighestCombo: " + highestCombo.ToString();
+        //if (mygametime <= 0)
+        //{
+        //    if (currentHealth > enemyHealth)
+        //        isWin = true;
+        //    else
+        //        isWin = false;
           
-        }
+        //}
 
         if (isWin == true)
         {
@@ -208,15 +217,16 @@ public class serverLogic : NetworkBehaviour {
         StartCoroutine(countDown(5));
 
     }
-    IEnumerator countDown(int num)
+    public IEnumerator countDown(int num)
     {
-        while(num > 0)
+       // yield return new WaitForSeconds(num);
+        while (num > 0)
         {
             countDownText.text = "Disconnect in " + num.ToString();
             num--;
             yield return new WaitForSeconds(1.0f);
         }
-        if(isServer == true)
+        if (isServer == true)
             CNM.stopMyHost();//disconnect both side
     }
 }
