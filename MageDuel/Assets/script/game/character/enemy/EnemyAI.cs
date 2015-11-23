@@ -38,6 +38,8 @@ public class EnemyAI : CharacterBase
 	public AIState myAIState;
 	public AIAttack myAIStateAttack;
 
+    protected int myDifficulty;
+
 
   	public enum AIState
 	{
@@ -58,9 +60,9 @@ public class EnemyAI : CharacterBase
 
         combo = GameObject.Find("Canvas").transform.Find("enemy/combo text").gameObject;
         //chargingBar = GameObject.Find("Canvas").transform.Find("enemy/charging bar outer/charging bar inner").
-         //   GetComponent<Image>();
+        //   GetComponent<Image>();
 
-       
+        myDifficulty = PlayerPrefs.GetInt("Difficulty");
         base.Awake();
     }
     // Use this for initialization
@@ -94,7 +96,7 @@ public class EnemyAI : CharacterBase
         if (launchScene.isPractice == true)
             testMode = true;
 
-        idleTime = idleTime / gameSettings.myDifficulty;
+        idleTime = idleTime / myDifficulty;
 
     }
 
@@ -440,7 +442,7 @@ public class EnemyAI : CharacterBase
                     randomNum = getRandomNum(randMin, randMax);//0 100
                     if (currentHealth > startingHealth / 2)//more then half health
                     {
-                        if (randomNum >= randMax / 2  + ((3/gameSettings.myDifficulty) * 10))//80 65 60
+                        if (randomNum >= randMax / 2  + ((3/myDifficulty) * 10))//80 65 60
                         {
                             isBlocking = true;
                         }
@@ -450,7 +452,7 @@ public class EnemyAI : CharacterBase
                     else//lower then half health
                     {
                         //50-10 50-20 50-30
-                        if (randomNum >= randMax / 2 - ((gameSettings.myDifficulty/3) * 30))//higher chance to block, 30
+                        if (randomNum >= randMax / 2 - ((myDifficulty/3) * 30))//higher chance to block, 30
                         {
                             isBlocking = true;
                         }

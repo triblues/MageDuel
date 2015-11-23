@@ -7,8 +7,11 @@ using System.Collections;
 
 public class gameSettings : MonoBehaviour {
 
+    public Color myPressedColor;
+    public Color myNormalColor;
     public static float myVolume = 1.0f;
-    public static int myDifficulty = 1;
+    public Button[] myDifficultyObj;
+    // public static int myDifficulty = 1;
     public Slider myslider;
     int width;
     int height;
@@ -17,6 +20,13 @@ public class gameSettings : MonoBehaviour {
 
     void Start()
     {
+        if (PlayerPrefs.HasKey("Difficulty") == true)
+        {
+            ColorBlock cb = myDifficultyObj[PlayerPrefs.GetInt("Difficulty") - 1].colors;
+            cb.normalColor = myPressedColor;
+            myDifficultyObj[PlayerPrefs.GetInt("Difficulty") - 1].colors = cb;
+        }
+       
         myslider.value = myVolume;
     }
 
@@ -53,7 +63,25 @@ public class gameSettings : MonoBehaviour {
     }
     public void setDifficulty(int num)
     {
-        myDifficulty = num;
+        PlayerPrefs.SetInt("Difficulty", num);
+
+        for(int i=0;i<myDifficultyObj.Length;i++)
+        {
+            if(i != PlayerPrefs.GetInt("Difficulty")-1)
+            {
+                ColorBlock cb = myDifficultyObj[i].colors;
+                cb.normalColor = myNormalColor;
+                myDifficultyObj[i].colors = cb;
+            }
+            else
+            {
+                ColorBlock cb = myDifficultyObj[i].colors;
+                cb.normalColor = myPressedColor;
+                myDifficultyObj[i].colors = cb;
+            }
+        }
+        
+        //myDifficulty = num;
     }
    
 }

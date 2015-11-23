@@ -24,6 +24,10 @@ public class backgroundMusic : MonoBehaviour {
         {
             PlayerPrefs.SetInt("Power Level light", 1);
         }
+        if(PlayerPrefs.HasKey("Difficulty") == false)
+        {
+            PlayerPrefs.SetInt("Difficulty", 1);//default is easy
+        }
 
     }
 	// Use this for initialization

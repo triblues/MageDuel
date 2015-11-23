@@ -145,7 +145,7 @@ public class characterSelectManager : MonoBehaviour {
         if (isReverse == false)
         {
             allCharacter[(int)mymage].transform.position =
-            Vector3.MoveTowards(allCharacter[(int)mymage].transform.position, target.position, 3);
+            Vector3.MoveTowards(allCharacter[(int)mymage].transform.position, target.position, 6);
 
             if (Vector3.Distance(allCharacter[(int)mymage].transform.position, target.position) <= 1.0f)
             {
@@ -157,7 +157,7 @@ public class characterSelectManager : MonoBehaviour {
         else
         {
             allCharacter[(int)mymage].transform.position =
-            Vector3.MoveTowards(allCharacter[(int)mymage].transform.position, startingPos[(int)mymage], 3);
+            Vector3.MoveTowards(allCharacter[(int)mymage].transform.position, startingPos[(int)mymage], 6);
 
             if (Vector3.Distance(allCharacter[(int)mymage].transform.position, startingPos[(int)mymage]) <= 1.0f)
             {
@@ -180,7 +180,7 @@ public class characterSelectManager : MonoBehaviour {
             if(isReverse == false)
             {
                 allCharacter[(int)mymage].transform.position =
-                 Vector3.MoveTowards(allCharacter[(int)mymage].transform.position, target.position, 3);
+                 Vector3.MoveTowards(allCharacter[(int)mymage].transform.position, target.position, 6);
 
                 if (Vector3.Distance(allCharacter[(int)mymage].transform.position, target.position) <= 1.0f)
                 {
@@ -193,7 +193,7 @@ public class characterSelectManager : MonoBehaviour {
             else
             {
                 allCharacter[(int)mymage].transform.position =
-                Vector3.MoveTowards(allCharacter[(int)mymage].transform.position, startingPos[(int)mymage], 3);
+                Vector3.MoveTowards(allCharacter[(int)mymage].transform.position, startingPos[(int)mymage], 6);
 
                 if (Vector3.Distance(allCharacter[(int)mymage].transform.position, startingPos[(int)mymage]) <= 1.0f)
                 {
