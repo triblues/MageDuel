@@ -56,15 +56,17 @@ public class cinematicText : MonoBehaviour {
 	}
     public void resetText()
     {
+        if (co != null)
+            StopCoroutine(co);
         mytext.text = "";
     }
     public void startText(int index)
     {
         if (co != null)
             StopCoroutine(co);
-       
+        //resetText();
 
-        co = StartCoroutine(showText(index));
+         co = StartCoroutine(showText(index));
     }
     IEnumerator showText(int index)
     {

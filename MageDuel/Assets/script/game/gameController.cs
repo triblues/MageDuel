@@ -131,7 +131,8 @@ public class gameController : MonoBehaviour
                     enemy = Instantiate(allEnemy[tempRandomPractice], spawnPos[1],
                       Quaternion.identity) as GameObject;//spawn enemy
 
-                    Instantiate(allEnvironment[0], Vector3.zero,
+                    int tempEnvironment = Random.Range(0, allEnvironment.Length);
+                    Instantiate(allEnvironment[tempEnvironment], Vector3.zero,
                        Quaternion.identity);//spawn environment
                 }
              

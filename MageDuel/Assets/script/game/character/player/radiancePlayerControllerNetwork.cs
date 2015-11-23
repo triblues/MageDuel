@@ -267,69 +267,69 @@ public class radiancePlayerControllerNetwork : CharacterBaseNetwork
         comboAttack();//at base
 
     }
-    protected override void comboAttack()
-    {
-        if (isEndOfRangeAttack == false)//still doing range attack
-            return;
-        if (Input.GetKeyDown("o"))//melee attack
-        {
+    //protected override void comboAttack()
+    //{
+    //    if (isEndOfRangeAttack == false)//still doing range attack
+    //        return;
+    //    if (Input.GetKeyDown("o"))//melee attack
+    //    {
 
-            if (isMeleeComboCount[0] == false)//1st attack
-            {
+    //        if (isMeleeComboCount[0] == false)//1st attack
+    //        {
 
-                meleeAttack();
-                isMeleeComboCount[0] = true;
+    //            meleeAttack();
+    //            isMeleeComboCount[0] = true;
 
-                trasmitAttackAnimation(false, true, false, false);
-                // myAnimator.SetTrigger("TmeleeAttack1");
-                StartCoroutine(WaitForAnimation("melee 1", 0));
+    //            trasmitAttackAnimation(false, true, false, false);
+    //            myAnimator.SetTrigger("TmeleeAttack1");
+    //            StartCoroutine(WaitForAnimation("melee 1", 0));
 
-            }
-            else
-            {
-                Debug.Log("here 2");
-                if (canCombo == true)
-                {
-                    Debug.Log("can combo");
-                    if (isMeleeComboCount[1] == false)//haven do 2nd combo
-                    {
+    //        }
+    //        else
+    //        {
+    //            Debug.Log("here 2");
+    //            if (canCombo == true)
+    //            {
+    //                Debug.Log("can combo");
+    //                if (isMeleeComboCount[1] == false)//haven do 2nd combo
+    //                {
 
-                        meleeAttack();
-                        Debug.Log("here 2");
-                        isMeleeComboCount[1] = true;
-                        trasmitAttackAnimation(false, false, true, false);
-                        //myAnimator.SetTrigger("TmeleeAttack2");
-                        StartCoroutine(WaitForAnimation("melee 2", 0));
+    //                    meleeAttack();
+    //                    Debug.Log("here 2");
+    //                    isMeleeComboCount[1] = true;
+    //                    trasmitAttackAnimation(false, false, true, false);
+    //                    myAnimator.SetTrigger("TmeleeAttack2");
+    //                    StartCoroutine(WaitForAnimation("melee 2", 0));
 
 
-                    }
-                    else
-                    {
-                        if (isMeleeComboCount[2] == false)//haven do final combo
-                        {
+    //                }
+    //                else
+    //                {
+    //                    if (isMeleeComboCount[2] == false)//haven do final combo
+    //                    {
 
-                            enemy.GetComponent<CharacterBase>().setStunRate(3.5f);
-                            meleeAttack();
-                            Debug.Log("here 3");
-                            isMeleeComboCount[2] = true;
-                            trasmitAttackAnimation(false, false, false, true);
-                            //myAnimator.SetTrigger("TmeleeAttack3");
+    //                        enemy.GetComponent<CharacterBase>().setStunRate(3.5f);
+    //                        meleeAttack();
+    //                        Debug.Log("here 3");
+    //                        isMeleeComboCount[2] = true;
+    //                        trasmitAttackAnimation(false, false, false, true);
+    //                        myAnimator.SetTrigger("TmeleeAttack3");
 
-                            //myAnimator.SetTrigger("finishCombo");
-                            StartCoroutine(WaitForAnimation("melee 3", 0));
+    //                        myAnimator.SetTrigger("finishCombo");
+    //                        StartCoroutine(WaitForAnimation("melee 3", 0));
 
-                        }
-                    }
-                }
-                else
-                {
-                    Debug.Log("cannot combo");
-                }
+    //                    }
+    //                }
+    //            }
+    //            else
+    //            {
+    //                Debug.Log("cannot combo");
+    //            }
 
-            }
-        }
+    //        }
+    //    }
 
-    }
+    //}
     void checkBlocking()
     {
         if (blockCount <= 0)

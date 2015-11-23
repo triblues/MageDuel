@@ -21,7 +21,7 @@ public class customNetworkManager : NetworkManager
 {
     public short playerPrefabIndex;
     public static int count = 0;
-    public GameObject[] allchar;
+   
     public GameObject[] allProjectile;
     public GameObject iceSlowProjectile;
     Button multiplayerBtn;
@@ -157,7 +157,7 @@ public class customNetworkManager : NetworkManager
 
             NetworkManager.singleton.StartHost(hostInfo);
 
-            //  NetworkManager.singleton.playerPrefab = allchar[characterSelectManager.selectedCharacter];
+          
         }
         else
         {
@@ -186,7 +186,7 @@ public class customNetworkManager : NetworkManager
 
                 //join the last server (just in case there are two...)
                 NetworkManager.singleton.matchMaker.JoinMatch(matchListResponse.matches[matchListResponse.matches.Count - 1].networkId, "", OnJoinInternetMatch);
-                // NetworkManager.singleton.playerPrefab = allchar[characterSelectManager.selectedCharacter];
+               
             }
             else
             {

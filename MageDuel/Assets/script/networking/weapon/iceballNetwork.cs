@@ -7,32 +7,24 @@ public class iceballNetwork : weaponBaseNetwork
 
     protected float ownKnowckBack;
     protected float ownDamage;
+    protected SphereCollider mySC;
     // Use this for initialization
-   void Awake()
+    void Awake()
     {
-    //    mySC = GetComponent<SphereCollider>();
+        mySC = GetComponent<SphereCollider>();
         ownDamage = damage;
         ownKnowckBack = knockBack;
     }
-
-    //protected override void OnEnable()
-    //{
-    //    Debug.Log("enable");
-    //    base.OnEnable();
-
-    //    trasmitActive(true);
-    //    totalTime = deSpawn_Time;
-    //    //totalTime = Time.time + deSpawn_Time;
-
-    //}
-    //void OnDisable()
-    //{
-
-    //    trasmitActive(false);
-    //}
-  
-
-    // Update is called once per frame
+    protected override void OnEnable()
+    {
+        StartCoroutine(delayCollider(0.35f));
+        base.OnEnable();
+    }
+    protected override void OnDisable()
+    {
+        mySC.enabled = false;
+        base.OnDisable();
+    }
     protected override void Update()
     {
         if (isServer == false)
@@ -44,7 +36,11 @@ public class iceballNetwork : weaponBaseNetwork
 
 
     }
-
+    protected IEnumerator delayCollider(float _time)
+    {
+        yield return new WaitForSeconds(_time);
+        mySC.enabled = true;
+    }
 
     override protected void OnTriggerEnter(Collider other)
     {

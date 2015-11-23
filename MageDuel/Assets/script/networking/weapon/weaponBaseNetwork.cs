@@ -136,7 +136,8 @@ public class weaponBaseNetwork : NetworkBehaviour
                 if (other.GetComponent<CharacterBaseNetwork>().getIsBlocking() == false)
                 {
                     Debug.Log("take damage");
-                    other.GetComponent<CharacterBaseNetwork>().TakesDamage(damage);
+                    other.GetComponent<CharacterBaseNetwork>().TakesDamage(damage * damageMultipler);
+                 
                     other.GetComponent<CharacterBaseNetwork>().getEnemy().GetComponent<CharacterBaseNetwork>().setComboCount(comboCount);
 
                     if (other.GetComponent<CharacterBaseNetwork>().getisKnockBack() == true)

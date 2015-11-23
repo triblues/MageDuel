@@ -193,63 +193,63 @@ public class mainPlayer : CharacterBase {
         comboAttack();
 
     }
- 
-    void comboAttack()
-    {
-        if (isEndOfRangeAttack == false)//still doing range attack
-            return;
-        if (Input.GetKeyDown("o"))//melee attack
-        {
-            if(canCombo == false)
-            {
+  
+    //protected override void comboAttack()
+    //{
+    //    if (isEndOfRangeAttack == false)//still doing range attack
+    //        return;
+    //    if (Input.GetKeyDown("o"))//melee attack
+    //    {
+    //        if(canCombo == false)
+    //        {
                 
-                coolDownMeleeTimer[0] = coolDownMeleeAttackRate;
-            }
-            if (isMeleeComboCount[0] == false)//1st attack
-            {
+    //            coolDownMeleeTimer[0] = coolDownMeleeAttackRate;
+    //        }
+    //        if (isMeleeComboCount[0] == false)//1st attack
+    //        {
                
-                meleeAttack();
-                isMeleeComboCount[0] = true;
-                myAnimator.SetBool("meleeAttack1", true);
-                StartCoroutine(WaitForAnimation("melee 1", 0));
+    //            meleeAttack();
+    //            isMeleeComboCount[0] = true;
+    //            myAnimator.SetBool("meleeAttack1", true);
+    //            StartCoroutine(WaitForAnimation("melee 1", 0));
 
-            }
-            else
-            {
-                if (canCombo == true)
-                {          
-                    if (isMeleeComboCount[1] == false)//haven do 2nd combo
-                    {
-                        if (coolDownMeleeTimer[0] > 0)//2nd attack combo
-                        {
-                            meleeAttack();
-                            isMeleeComboCount[1] = true;
-                            coolDownMeleeTimer[1] = coolDownMeleeAttackRate;
-                            myAnimator.SetBool("meleeAttack2", true); 
-                        }
-                    }
-                    else
-                    {
-                        if (isMeleeComboCount[2] == false)//haven do final combo
-                        {
-                            if (coolDownMeleeTimer[1] > 0)//final combo
-                            {
-                                meleeAttack();
-                                isMeleeComboCount[2] = true;
-                                myAnimator.SetBool("meleeAttack3", true);
-                                myAnimator.SetTrigger("finishCombo");
-                                //myAnimator.SetBool("finishCombo", true);
-                                StartCoroutine(WaitForAnimation("melee 3", 0));
+    //        }
+    //        else
+    //        {
+    //            if (canCombo == true)
+    //            {          
+    //                if (isMeleeComboCount[1] == false)//haven do 2nd combo
+    //                {
+    //                    if (coolDownMeleeTimer[0] > 0)//2nd attack combo
+    //                    {
+    //                        meleeAttack();
+    //                        isMeleeComboCount[1] = true;
+    //                        coolDownMeleeTimer[1] = coolDownMeleeAttackRate;
+    //                        myAnimator.SetBool("meleeAttack2", true); 
+    //                    }
+    //                }
+    //                else
+    //                {
+    //                    if (isMeleeComboCount[2] == false)//haven do final combo
+    //                    {
+    //                        if (coolDownMeleeTimer[1] > 0)//final combo
+    //                        {
+    //                            meleeAttack();
+    //                            isMeleeComboCount[2] = true;
+    //                            myAnimator.SetBool("meleeAttack3", true);
+    //                            myAnimator.SetTrigger("finishCombo");
+    //                            //myAnimator.SetBool("finishCombo", true);
+    //                            StartCoroutine(WaitForAnimation("melee 3", 0));
                               
-                            }
-                        }
-                    }
-                }
+    //                        }
+    //                    }
+    //                }
+    //            }
 
-            }
-        }
+    //        }
+    //    }
        
-    }
+    //}
 
     public void checkShapeDraw(drawShape.shape myshape)
     {

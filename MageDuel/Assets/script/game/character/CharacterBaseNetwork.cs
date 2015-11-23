@@ -69,7 +69,7 @@ public class CharacterBaseNetwork : NetworkBehaviour
     protected int blockCount;//for blocking
     protected float jumpSpeed;
     protected float speed;
-    protected melee mymelee;
+    protected meleeNetwork mymelee;
     protected float myDamageMultipler;
     protected bool isKnockBack;
     protected float stunTimer;
@@ -348,7 +348,7 @@ public class CharacterBaseNetwork : NetworkBehaviour
         myblockController = transform.Find("block").GetComponent<blockController>();
         myUltiCamera = GameObject.FindGameObjectWithTag("ultimateCamera").GetComponent<ultimateCameraControllerNetwork>();
 
-        mymelee = transform.Find("melee trigger box").GetComponent<melee>();
+        mymelee = transform.Find("melee trigger box").GetComponent<meleeNetwork>();
         myaudio = GetComponent<AudioSource>();
         rb = GetComponent<Rigidbody>();
         
@@ -1377,7 +1377,7 @@ public class CharacterBaseNetwork : NetworkBehaviour
         }
         else if (name == "melee 3")
         {
-            if (enemy.GetComponent<CharacterBase>().getIsBlocking() == false)
+            if (enemy.GetComponent<CharacterBaseNetwork>().getIsBlocking() == false)
             {
                 enemy.GetComponent<Rigidbody>().AddForce(transform.forward * 15, ForceMode.Impulse);
 
@@ -1416,9 +1416,9 @@ public class CharacterBaseNetwork : NetworkBehaviour
 
                 meleeAttack();
                 isMeleeComboCount[0] = true;
+                trasmitAttackAnimation(false, true, false, false);
 
                
-                // myAnimator.SetTrigger("TmeleeAttack1");
                 StartCoroutine(WaitForAnimation("melee 1", 0));
 
             }
@@ -1432,7 +1432,8 @@ public class CharacterBaseNetwork : NetworkBehaviour
                         meleeAttack();
 
                         isMeleeComboCount[1] = true;
-                        myAnimator.SetTrigger("TmeleeAttack2");
+                        trasmitAttackAnimation(false, false, true, false);
+                        //myAnimator.SetTrigger("TmeleeAttack2");
                         StartCoroutine(WaitForAnimation("melee 2", 0));
 
 
@@ -1442,12 +1443,13 @@ public class CharacterBaseNetwork : NetworkBehaviour
                         if (isMeleeComboCount[2] == false)//haven do final combo
                         {
 
-                            enemy.GetComponent<CharacterBase>().setStunRate(3.5f);
+                            enemy.GetComponent<CharacterBaseNetwork>().setStunRate(3.5f);
                             meleeAttack();
                             isMeleeComboCount[2] = true;
-                            myAnimator.SetTrigger("TmeleeAttack3");
+                            trasmitAttackAnimation(false, false, false, true);
+                            //myAnimator.SetTrigger("TmeleeAttack3");
 
-                            myAnimator.SetTrigger("finishCombo");
+                          //  myAnimator.SetTrigger("finishCombo");
                             StartCoroutine(WaitForAnimation("melee 3", 0));
 
                         }

@@ -260,7 +260,8 @@ public class radiancePlayerController : CharacterBase
     {
         //this mean that player successfully use ultimate on enemy
         Debug.Log("light att");
-        chargingBar.fillAmount = 0;
+        //chargingBar.fillAmount = 0;
+        addCurrentChargingBar(-1.0f);
         myAnimator.SetTrigger("ultimate");
         myUltimatePS.gameObject.transform.position = new Vector3(enemyTrans.position.x, enemyTrans.position.y, enemyTrans.position.z);
         myUltimatePS.Play();

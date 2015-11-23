@@ -7,10 +7,11 @@ public class lightRayNetwork : weaponBaseNetwork
 
     protected float ownKnowckBack;
     protected float ownDamage;
+    protected SphereCollider mySC;
     // Use this for initialization
     void Awake()
     {
-       // mySC = GetComponent<SphereCollider>();
+        mySC = GetComponent<SphereCollider>();
         ownDamage = damage;
         ownKnowckBack = knockBack;
     }
@@ -45,7 +46,21 @@ public class lightRayNetwork : weaponBaseNetwork
     //    isActive = _isActive;
     //    transform.position = new Vector3(0, 100, 4);
     //}
-
+    protected override void OnEnable()
+    {
+        StartCoroutine(delayCollider(0.35f));
+        base.OnEnable();
+    }
+    protected override void OnDisable()
+    {
+        mySC.enabled = false;
+        base.OnDisable();
+    }
+    protected IEnumerator delayCollider(float _time)
+    {
+        yield return new WaitForSeconds(_time);
+        mySC.enabled = true;
+    }
     // Update is called once per frame
     protected override void Update()
     {

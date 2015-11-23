@@ -162,18 +162,18 @@ public class serverLogic : NetworkBehaviour {
             myStarting.transform.GetChild(i).GetComponent<Animator>().enabled = true;
         }
     }
-    public void showGameOver(float currentHealth, float enemyHealth, float maxHealth, int highestCombo, bool isWin)
+    public void showGameOver(float currentHealth, float enemyHealth, float maxHealth, int highestCombo, bool isLose)
     {
         for (int i = 0; i < mygameover.transform.childCount; i++)
         {
             mygameover.transform.GetChild(i).GetComponent<Animator>().enabled = true;
 
         }
-        StartCoroutine(showWinPanel(currentHealth, enemyHealth, maxHealth, highestCombo, isWin));
+        StartCoroutine(showWinPanel(currentHealth, enemyHealth, maxHealth, highestCombo, isLose));
       
     }
 
-    IEnumerator showWinPanel(float currentHealth, float enemyHealth, float maxHealth, int highestCombo, bool isWin)
+    IEnumerator showWinPanel(float currentHealth, float enemyHealth, float maxHealth, int highestCombo, bool isLose)
     {
         yield return new WaitForSeconds(2.0f);
 
@@ -189,7 +189,7 @@ public class serverLogic : NetworkBehaviour {
           
         //}
 
-        if (isWin == true)
+        if (isLose == false)
         {
             mystar[0].SetActive(true);
             if(currentHealth >= maxHealth/2)

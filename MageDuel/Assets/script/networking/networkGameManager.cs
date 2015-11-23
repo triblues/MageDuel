@@ -4,6 +4,7 @@ using System.Collections;
 
 public class networkGameManager : NetworkBehaviour {
 
+    public GameObject[] allEnvironment;
     public GameObject checkObj;
     public GameObject myCam;
     public GameObject myUltiCam;
@@ -34,7 +35,12 @@ public class networkGameManager : NetworkBehaviour {
         go = MonoBehaviour.Instantiate(myUltiCam, new Vector3(0, 2.5f, 2.0f), Quaternion.identity) as GameObject;
 
         NetworkServer.Spawn(go);
-        //
+
+        int tempNum = Random.Range(0, allEnvironment.Length);
+        go = MonoBehaviour.Instantiate(allEnvironment[tempNum], new Vector3(0, 0,0), Quaternion.identity) as GameObject;
+
+        NetworkServer.Spawn(go);
+
         Debug.Log("start server");
         
 

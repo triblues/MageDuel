@@ -543,7 +543,8 @@ public class infernoPlayerController : CharacterBase
     {
         //this mean that player successfully use ultimate on enemy
         Debug.Log("fire att");
-        chargingBar.fillAmount = 0;
+        //chargingBar.fillAmount = 0;
+        addCurrentChargingBar(-1.0f);
         myAnimator.SetTrigger("ultimate");
         myUltimatePS.gameObject.transform.position = new Vector3(enemyTrans.position.x, enemyTrans.position.y + 8, enemyTrans.position.z);
         myUltimatePS.Play();

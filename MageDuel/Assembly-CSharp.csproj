@@ -135,6 +135,7 @@
      <Compile Include="Assets\script\networking\weapon\iceballSlowNetwork.cs" />
      <Compile Include="Assets\script\networking\weapon\lightRayNetwork.cs" />
      <Compile Include="Assets\script\networking\weapon\lightUltimateNetwork.cs" />
+     <Compile Include="Assets\script\networking\weapon\meleeNetwork.cs" />
      <Compile Include="Assets\script\networking\weapon\weaponBaseNetwork.cs" />
      <Compile Include="Assets\script\storyText.cs" />
      <None Include="Assets\Standard Assets\Characters\PhysicsMaterials\test.txt" />

@@ -12,7 +12,15 @@ public class backgroundMusic : MonoBehaviour {
         myAudioSource.clip = myaudioclip[0];//default background music
         myAudioSource.Play();
 
-        if (PlayerPrefs.HasKey("Power Level") == false)
+        if (PlayerPrefs.HasKey("Power Level fire") == false)
+        {
+            PlayerPrefs.SetInt("Power Level", 1);
+        }
+        if (PlayerPrefs.HasKey("Power Level ice") == false)
+        {
+            PlayerPrefs.SetInt("Power Level", 1);
+        }
+        if (PlayerPrefs.HasKey("Power Level light") == false)
         {
             PlayerPrefs.SetInt("Power Level", 1);
         }

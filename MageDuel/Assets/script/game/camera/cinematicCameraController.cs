@@ -151,6 +151,7 @@ public class cinematicCameraController : MonoBehaviour {
 
         co = StartCoroutine(waitForFade(-1, 1.0f, true));//turn screen to black
         yield return co;
+        Debug.Log("waiting");
 
         if (index >= 0)
         {
@@ -167,6 +168,7 @@ public class cinematicCameraController : MonoBehaviour {
     }
     IEnumerator waitForFade(int index, float fadeTime, bool isFadeOut)//negative index mean do not show cinematic text
     {
+        //mycinematicText.resetText();
         while (true)
         {
             if (isFadeOut == false)//black to transparent

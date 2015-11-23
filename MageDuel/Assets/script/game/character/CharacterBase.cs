@@ -269,8 +269,7 @@ public class CharacterBase : MonoBehaviour {
     protected virtual void Update()
 	{
         pause();
-        //if (isPause == true)
-          //  return;
+      
 
         checkCoolDown ();
         cheatCode();
@@ -292,7 +291,16 @@ public class CharacterBase : MonoBehaviour {
 
             comboCount = 0;
         }
+        if(isInUltimate == true)
+        {
+            if (check_touchGround(groundMask, distanceToGround) == false)
+            {
+                jumpingMovement.y = -fallSpeed * Time.deltaTime;
+                rb.AddForce(jumpingMovement, ForceMode.Impulse);
 
+
+            }
+        }
     }
     public void TakesDamage(float damage)
     {
