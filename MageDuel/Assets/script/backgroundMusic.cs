@@ -14,15 +14,15 @@ public class backgroundMusic : MonoBehaviour {
 
         if (PlayerPrefs.HasKey("Power Level fire") == false)
         {
-            PlayerPrefs.SetInt("Power Level", 1);
+            PlayerPrefs.SetInt("Power Level fire", 1);
         }
         if (PlayerPrefs.HasKey("Power Level ice") == false)
         {
-            PlayerPrefs.SetInt("Power Level", 1);
+            PlayerPrefs.SetInt("Power Level ice", 1);
         }
         if (PlayerPrefs.HasKey("Power Level light") == false)
         {
-            PlayerPrefs.SetInt("Power Level", 1);
+            PlayerPrefs.SetInt("Power Level light", 1);
         }
 
     }
