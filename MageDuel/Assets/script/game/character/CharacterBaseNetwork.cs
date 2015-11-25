@@ -272,7 +272,9 @@ public class CharacterBaseNetwork : NetworkBehaviour
         
         enemyTrans = enemy.GetComponent<Transform>();
 
-        if (characterTag % 2 != 0)//player 1
+      
+        //if (characterTag % 2 == 0)//player 1
+        if (characterTag < enemy.GetComponent<CharacterBaseNetwork>().getCharacterTag())
         {
             healthBar = GameObject.Find("Canvas").transform.Find("player 1/health/outer/inner").GetComponent<Image>();
             manaBar = GameObject.Find("Canvas").transform.Find("player 1/mana/outer/inner").GetComponent<Image>();
@@ -283,6 +285,8 @@ public class CharacterBaseNetwork : NetworkBehaviour
 
             UIarmorCD = GameObject.Find("Canvas").transform.Find("player 1/armor image outer/armor image inner").GetComponent<UICoolDown>();
             UIActiveCD = GameObject.Find("Canvas").transform.Find("player 1/active image outer/active image inner").GetComponent<UICoolDown>();
+            if(isLocalPlayer == true)
+                GameObject.Find("Canvas").transform.Find("player 1/arrow").gameObject.SetActive(true);
             Debug.Log("in playe 1");
 
         }
@@ -297,6 +301,8 @@ public class CharacterBaseNetwork : NetworkBehaviour
 
             UIarmorCD = GameObject.Find("Canvas").transform.Find("player 2/armor image outer/armor image inner").GetComponent<UICoolDown>();
             UIActiveCD = GameObject.Find("Canvas").transform.Find("player 2/active image outer/active image inner").GetComponent<UICoolDown>();
+            if (isLocalPlayer == true)
+                GameObject.Find("Canvas").transform.Find("player 2/arrow").gameObject.SetActive(true);
             Debug.Log("in playe 2");
         }
         myAnimator = transform.Find("model").GetComponent<Animator>();

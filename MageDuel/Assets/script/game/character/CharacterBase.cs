@@ -224,7 +224,7 @@ public class CharacterBase : MonoBehaviour {
         for (int i = 0; i < canCastSpell.Length; i++)
             canCastSpell[i] = true;
 
-        StartCoroutine (regenMana (0.5f));
+        StartCoroutine (regenMana (1.0f));
         StartCoroutine(regenBlockCount(5.0f));
     }
 

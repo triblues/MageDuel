@@ -104,14 +104,21 @@ public class ultimateCameraController : MonoBehaviour {
 
         if (isFaceRight)
         {
-            if (enemyTrans.position.x <= -20)
+           
+            if (enemyTrans.position.x <= -15)
+            {
+               
                 transform.position = new Vector3(enemyTrans.position.x + 10, transform.position.y, transform.position.z);
+            }
             else
+            {
                 transform.position = new Vector3(enemyTrans.position.x - 10, transform.position.y, transform.position.z);
+                
+            }
         }
         else
         {
-            if (enemyTrans.position.x >= 20)
+            if (enemyTrans.position.x >= 15)
                 transform.position = new Vector3(enemyTrans.position.x - 10, transform.position.y, transform.position.z);
             else
                 transform.position = new Vector3(enemyTrans.position.x + 10, transform.position.y, transform.position.z);

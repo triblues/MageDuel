@@ -38,6 +38,7 @@ public class gameController : MonoBehaviour
     public Text CoinEarnText;
     public gameTime mygameTime;
     public GameObject myPausePanel;
+    public GameObject myPracticalPanel;
     List<poolObject> myPoolObj;
 
     GameObject player;
@@ -86,6 +87,7 @@ public class gameController : MonoBehaviour
             }
             else
             {
+                myPracticalPanel.SetActive(true);
                 tempRandomPractice = Random.Range(0, allEnemy.Length);
                 poolObject temp = gameObject.AddComponent<poolObject>();
                 temp.setPoolObject(amount[characterSelectManager.selectedCharacter], true, myProjectile[characterSelectManager.selectedCharacter], myParent);

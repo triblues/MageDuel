@@ -88,8 +88,8 @@ public class serverLogic : NetworkBehaviour {
 
             //  myserverTime.startCountDown();
             // StartCoroutine(countDownTimer());
-
-          
+         //   StartCoroutine(countDown(5));
+         
         }
 
         //if(isFinish == true)
@@ -219,7 +219,7 @@ public class serverLogic : NetworkBehaviour {
     }
     public IEnumerator countDown(int num)
     {
-       // yield return new WaitForSeconds(num);
+        yield return new WaitForSeconds(num);
         while (num > 0)
         {
             countDownText.text = "Disconnect in " + num.ToString();
@@ -227,6 +227,17 @@ public class serverLogic : NetworkBehaviour {
             yield return new WaitForSeconds(1.0f);
         }
         if (isServer == true)
+        {
+           // destroyObject();
             CNM.stopMyHost();//disconnect both side
+            
+        }
+    }
+    void destroyObject()
+    {
+        for(int i=0;i<CNM.getmyobj().Count;i++)
+        {
+            NetworkServer.Destroy(CNM.getmyobj()[i]);
+        }
     }
 }

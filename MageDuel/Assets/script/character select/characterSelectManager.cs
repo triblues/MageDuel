@@ -20,6 +20,7 @@ public class characterSelectManager : MonoBehaviour {
     public launchScene mylaunchScene;
     public GameObject mainmenuBtn;
     public Text detailText;
+    public Image[] statsImage;
     public Button multiplayerBtn;
     mage mymage;
     bool isSelect;
@@ -104,17 +105,32 @@ public class characterSelectManager : MonoBehaviour {
 
     void characterInfo()
     {
-        if(mymage == mage.Inferno)
+        if (mymage == mage.Inferno)
+        {
             detailText.text = "Inferno is a fire mage who has a very explosive and aggressive combat style.";
+            statsImage[0].fillAmount = 0.8f;
+            statsImage[1].fillAmount = 0.3f;
+            statsImage[2].fillAmount = 0.5f;
+        }
         else if (mymage == mage.Pristine)
+        {
             detailText.text = "Pristine is an ice mage who has a defensive combat style.";
+            statsImage[0].fillAmount = 0.5f;
+            statsImage[1].fillAmount = 0.8f;
+            statsImage[2].fillAmount = 0.5f;
+        }
         else if (mymage == mage.Radiance)
+        {
             detailText.text = "Radiance is a light mage who is pretty well - balanced.";
+            statsImage[0].fillAmount = 0.6f;
+            statsImage[1].fillAmount = 0.5f;
+            statsImage[2].fillAmount = 0.5f;
+        }
 
 
 
 
-    }
+        }
     void runAnimation(bool isReverse)
     {
         for (int i = 0; i < allCharacter.Length; i++)
