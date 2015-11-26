@@ -40,12 +40,18 @@ public class treeController : EnemyAI {
     {
         while(true)
         {
-            if(currentHealth < startingHealth)
+            if (isLose == true)
+            {
+                currentHealth = 0.0f;
+                break;
+            }
+            if (currentHealth < startingHealth)
             {
                 TakesDamage(-1.0f);
                // currentHealth += 1.0f;
 
             }
+            
             yield return new WaitForSeconds(_time);
         }
     }

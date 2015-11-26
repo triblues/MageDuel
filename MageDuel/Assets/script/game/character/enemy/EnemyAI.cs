@@ -125,11 +125,12 @@ public class EnemyAI : CharacterBase
 
         //}
 
+      
+
+        base.Update();//move and jump
         if (isInUltimate == true)
             return;
 
-        base.Update();//move and jump
-      
         if (testMode)
         {
             horizontal = 0;

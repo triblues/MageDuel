@@ -29,12 +29,18 @@ public class baneBossController : EnemyAI
     {
         while (true)
         {
+            if (isLose == true)
+            {
+                currentHealth = 0.0f;
+                break;
+            }
             if (currentHealth < startingHealth)
             {
                 TakesDamage(-1.0f);
             
 
             }
+           
             yield return new WaitForSeconds(_time);
         }
     }

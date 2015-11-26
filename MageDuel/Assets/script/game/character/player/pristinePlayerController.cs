@@ -34,6 +34,7 @@ public class pristinePlayerController : CharacterBase
 
         healthBar = GameObject.Find("Canvas").transform.Find("player/health/outer/inner").GetComponent<Image>();
         manaBar = GameObject.Find("Canvas").transform.Find("player/mana/outer/inner").GetComponent<Image>();
+        ultimateTextAnimator = GameObject.Find("Canvas").transform.Find("player/charging bar outer/Text").GetComponent<Animator>();
 
         combo = GameObject.Find("Canvas").transform.Find("player/combo text").gameObject;
         chargingBar = GameObject.Find("Canvas").transform.Find("player/charging bar outer/charging bar inner").
@@ -84,6 +85,8 @@ public class pristinePlayerController : CharacterBase
             return;
         }
         base.Update();
+        if (isPause == true)
+            return;
         checkBlocking();
       
 
@@ -312,8 +315,10 @@ public class pristinePlayerController : CharacterBase
             return;
         if (canCastSpell[2] == true)//increase enemy cooldown spell
         {
+            if (isUnlimitedSpell == false)
+                canCastSpell[2] = false;
             enemy.GetComponent<CharacterBase>().setSpellCoolDownRate(2);
-            
+           
             myPassivePS.Play();
             StartCoroutine(spellDurationTimer(spellType.passive_spell, spellDuration[2]));
         }
@@ -383,7 +388,7 @@ public class pristinePlayerController : CharacterBase
             enemy.GetComponent<CharacterBase>().setisInUltimate(false);
             myUltimatePS.Stop();
             enemy.GetComponent<CharacterBase>().TakesDamage(ultimateDamage);
-
+            ultimateTextAnimator.enabled = false;
 
         }
 

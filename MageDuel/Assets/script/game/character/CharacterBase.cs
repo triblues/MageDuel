@@ -106,6 +106,7 @@ public class CharacterBase : MonoBehaviour {
     protected Image manaBar;
     protected GameObject combo;
     protected Image chargingBar;//charging bar inner
+    protected Animator ultimateTextAnimator;
     //ui stuff
 
     float doubleTapTimer;
@@ -150,6 +151,7 @@ public class CharacterBase : MonoBehaviour {
         myblockController = transform.Find("block").GetComponent<blockController>();
         myUltiCamera = GameObject.FindGameObjectWithTag("ultimateCamera").GetComponent<ultimateCameraController>();
        
+        
         mymelee = transform.Find ("melee trigger box").GetComponent<melee> ();
         myaudio = GetComponent<AudioSource>();
         rb = GetComponent<Rigidbody> ();
@@ -311,7 +313,14 @@ public class CharacterBase : MonoBehaviour {
         //        = 10 * (1.25) 
         //        = 12.5
         // The player will take more damage (12.5) because of its low defensive factor
-        
+
+        if (isAI == false)
+        {
+            if (isInUltimate == true)
+            {
+                damage = 0;
+            }
+        }
         if (launchScene.isPractice == true)
         {
             damage = 0;
@@ -534,7 +543,16 @@ public class CharacterBase : MonoBehaviour {
             return;
         
         CurrentChargingBar += amount;
+        if (CurrentChargingBar >= 1)
+            CurrentChargingBar = 1;
+        if (CurrentChargingBar <= 0)
+            CurrentChargingBar = 0;
         chargingBar.fillAmount = CurrentChargingBar;
+
+        if(chargingBar.fillAmount >= 1)
+        {
+            ultimateTextAnimator.enabled = true;
+        }
         
     }
     public void stopMoving()

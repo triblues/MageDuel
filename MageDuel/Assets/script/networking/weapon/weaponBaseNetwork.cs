@@ -131,19 +131,21 @@ public class weaponBaseNetwork : NetworkBehaviour
     {
         if (other.GetComponent<CharacterBaseNetwork>() != null)//has this script
         {
+       
             if (other.GetComponent<CharacterBaseNetwork>().getCharacterTag() != numTag)//prevent own attack to hit ownself
             {
+             
                 if (other.GetComponent<CharacterBaseNetwork>().getIsBlocking() == false)
                 {
-                    Debug.Log("take damage");
+                   
                     other.GetComponent<CharacterBaseNetwork>().TakesDamage(damage * damageMultipler);
                  
                     other.GetComponent<CharacterBaseNetwork>().getEnemy().GetComponent<CharacterBaseNetwork>().setComboCount(comboCount);
 
                     if (other.GetComponent<CharacterBaseNetwork>().getisKnockBack() == true)
                     {
-                        other.GetComponent<Rigidbody>().AddForce(-other.GetComponent<Transform>().forward * knockBack,
-                                                             ForceMode.Impulse);
+                       // other.GetComponent<Rigidbody>().AddForce(-other.GetComponent<Transform>().forward * knockBack,
+                                               //              ForceMode.Impulse);
                     }
 
 

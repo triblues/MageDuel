@@ -23,8 +23,8 @@ public class CharacterBaseNetwork : NetworkBehaviour
     [SerializeField]
     protected float startingMana = 100.0f;
     [Tooltip("minimum is 0, maximum is 1")]
-    [SerializeField] [SyncVar]
-    protected float CurrentChargingBar = 0;
+    [SerializeField] [SyncVar(hook ="setCurrentChargingBarNetwork")]
+    protected float CurrentChargingBar;
 
     [SerializeField]
     protected float normalSpeed = 10.0f;
@@ -77,13 +77,13 @@ public class CharacterBaseNetwork : NetworkBehaviour
     protected float stunRate;
     protected float coolDownRangeTimer;
     protected float[] coolDownMeleeTimer;
-    [SyncVar]
+    [SyncVar(hook = "setCurrentHealthNetwork")]//setCurrentHealthNetwork
     protected float currentHealth;
     [SyncVar]
     protected float currentMana;
 
     protected int highestComboAchieve;
-
+    protected Animator ultimateTextAnimator;
     [SyncVar]
     protected int spellCoolDownRateNetwork;
     protected int spellCoolDownRate;
@@ -278,6 +278,7 @@ public class CharacterBaseNetwork : NetworkBehaviour
         {
             healthBar = GameObject.Find("Canvas").transform.Find("player 1/health/outer/inner").GetComponent<Image>();
             manaBar = GameObject.Find("Canvas").transform.Find("player 1/mana/outer/inner").GetComponent<Image>();
+            ultimateTextAnimator = GameObject.Find("Canvas").transform.Find("player 1/charging bar outer/Text").GetComponent<Animator>();
 
             combo = GameObject.Find("Canvas").transform.Find("player 1/combo text").gameObject;
             chargingBar = GameObject.Find("Canvas").transform.Find("player 1/charging bar outer/charging bar inner").
@@ -294,6 +295,7 @@ public class CharacterBaseNetwork : NetworkBehaviour
         {
             healthBar = GameObject.Find("Canvas").transform.Find("player 2/health/outer/inner").GetComponent<Image>();
             manaBar = GameObject.Find("Canvas").transform.Find("player 2/mana/outer/inner").GetComponent<Image>();
+            ultimateTextAnimator = GameObject.Find("Canvas").transform.Find("player 2/charging bar outer/Text").GetComponent<Animator>();
 
             combo = GameObject.Find("Canvas").transform.Find("player 2/combo text").gameObject;
             chargingBar = GameObject.Find("Canvas").transform.Find("player 2/charging bar outer/charging bar inner").
@@ -313,6 +315,8 @@ public class CharacterBaseNetwork : NetworkBehaviour
         healthBar.fillAmount = currentHealth / 100;
         manaBar.fillAmount = currentMana / 100;
         comboText.text = "Combo: " + comboCount.ToString();
+        CurrentChargingBar = 0;
+        //CurrentChargingBar = Mathf.Clamp01(CurrentChargingBar);
         chargingBar.fillAmount = CurrentChargingBar;
 
         
@@ -397,7 +401,7 @@ public class CharacterBaseNetwork : NetworkBehaviour
         stunRate = 1;//default
         spellCoolDownRate = 1;//how fast the spell cooldown, 1 is normal rate
         spellCoolDownRateNetwork = spellCoolDownRate;
-        CurrentChargingBar = Mathf.Clamp01(CurrentChargingBar);
+        
 
 
         myserverLogic = GameObject.Find("server logic(Clone)").GetComponent<serverLogic>();
@@ -628,7 +632,10 @@ public class CharacterBaseNetwork : NetworkBehaviour
                 currentHealth = startingHealth;
 
             if (isLocalPlayer == true)
+            {
+                
                 transmitHealth(currentHealth);
+            }
         }
         else
         {
@@ -641,6 +648,7 @@ public class CharacterBaseNetwork : NetworkBehaviour
 
               currentHealth -= damage;
             //transmitHealth(currentHealth - damage);
+            
             transmitHealth(currentHealth);
           
             stunTimer = coolDownStunRate * stunRate;
@@ -826,6 +834,9 @@ public class CharacterBaseNetwork : NetworkBehaviour
         if (isCastMode == false)
         {
             CurrentChargingBar += amount;
+            if (CurrentChargingBar >= 1)
+                CurrentChargingBar = 1;
+
             if (CurrentChargingBar <= 0)
                 CurrentChargingBar = 0;
             transmitBar(CurrentChargingBar);
@@ -1584,6 +1595,22 @@ public class CharacterBaseNetwork : NetworkBehaviour
         }
     }
     [ClientCallback]
+    protected void setCurrentHealthNetwork(float _health)
+    {
+        currentHealth = _health;
+        if (_health < startingHealth)
+            rb.AddForce(-transform.forward * 5, ForceMode.Impulse);
+    }
+    [ClientCallback]
+    protected void setCurrentChargingBarNetwork(float _num)
+    {
+        CurrentChargingBar = _num;
+        if (CurrentChargingBar >= 1)
+            ultimateTextAnimator.enabled = true;
+        if (CurrentChargingBar <= 0)
+            ultimateTextAnimator.enabled = false;
+    }
+    [ClientCallback]
     protected void setComboCountNetwork(int _comboCount)
     {
         comboCount = _comboCount;
@@ -1711,6 +1738,7 @@ public class CharacterBaseNetwork : NetworkBehaviour
         if (isLocalPlayer == true)
         {
             CmdSendHealthToServer(_num);
+            
         }
     }
     [ClientCallback]

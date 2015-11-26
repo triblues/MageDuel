@@ -39,6 +39,7 @@ public class infernoPlayerController : CharacterBase
 
         healthBar = GameObject.Find("Canvas").transform.Find("player/health/outer/inner").GetComponent<Image>();
         manaBar = GameObject.Find("Canvas").transform.Find("player/mana/outer/inner").GetComponent<Image>();
+        ultimateTextAnimator = GameObject.Find("Canvas").transform.Find("player/charging bar outer/Text").GetComponent<Animator>();
 
         combo = GameObject.Find("Canvas").transform.Find("player/combo text").gameObject;
         chargingBar = GameObject.Find("Canvas").transform.Find("player/charging bar outer/charging bar inner").
@@ -93,6 +94,8 @@ public class infernoPlayerController : CharacterBase
             return;
         }
         base.Update();
+        if (isPause == true)
+            return;
         checkBlocking();
         
         if (shouldTurn(transform.position, enemy.transform.position) == true)//facing left
@@ -544,6 +547,7 @@ public class infernoPlayerController : CharacterBase
         //this mean that player successfully use ultimate on enemy
         Debug.Log("fire att");
         //chargingBar.fillAmount = 0;
+        
         addCurrentChargingBar(-1.0f);
         myAnimator.SetTrigger("ultimate");
         myUltimatePS.gameObject.transform.position = new Vector3(enemyTrans.position.x, enemyTrans.position.y + 8, enemyTrans.position.z);
@@ -598,7 +602,9 @@ public class infernoPlayerController : CharacterBase
 
             canCastSpell[0] = true;
             canCastSpell[1] = true;
-            canCastSpell[2] = false;
+
+            if (isUnlimitedSpell == false)
+                canCastSpell[2] = false;
 
             UIarmorCD.resetCoolDown();
             UIActiveCD.resetCoolDown();//reset the visual
@@ -681,7 +687,7 @@ public class infernoPlayerController : CharacterBase
             enemy.GetComponent<CharacterBase>().setisInUltimate(false);
             myUltimatePS.Stop();
             enemy.GetComponent<CharacterBase>().TakesDamage(ultimateDamage);
-
+            ultimateTextAnimator.enabled = false;
 
         }
 

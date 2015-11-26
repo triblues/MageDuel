@@ -45,6 +45,7 @@ public class radiancePlayerController : CharacterBase
     {
         healthBar = GameObject.Find("Canvas").transform.Find("player/health/outer/inner").GetComponent<Image>();
         manaBar = GameObject.Find("Canvas").transform.Find("player/mana/outer/inner").GetComponent<Image>();
+        ultimateTextAnimator = GameObject.Find("Canvas").transform.Find("player/charging bar outer/Text").GetComponent<Animator>();
 
         combo = GameObject.Find("Canvas").transform.Find("player/combo text").gameObject;
         chargingBar = GameObject.Find("Canvas").transform.Find("player/charging bar outer/charging bar inner").
@@ -109,6 +110,8 @@ public class radiancePlayerController : CharacterBase
             return;
         }
         base.Update();
+        if (isPause == true)
+            return;
         checkBlocking();
         
 
@@ -335,8 +338,8 @@ public class radiancePlayerController : CharacterBase
             return;
         if (canCastSpell[2] == true)//increase spell power
         {
-           
-            canCastSpell[2] = false;
+            if (isUnlimitedSpell == false)
+                canCastSpell[2] = false;
             myDamageMultipler = 2.0f;
 
             spellPowerRate = spellPowerRate * 2;
@@ -472,7 +475,7 @@ public class radiancePlayerController : CharacterBase
             enemy.GetComponent<CharacterBase>().setisInUltimate(false);
             myUltimatePS.Stop();
             enemy.GetComponent<CharacterBase>().TakesDamage(ultimateDamage);
-
+            ultimateTextAnimator.enabled = false;
 
         }
 
