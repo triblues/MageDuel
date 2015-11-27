@@ -137,7 +137,7 @@
      <Compile Include="Assets\script\networking\weapon\lightUltimateNetwork.cs" />
      <Compile Include="Assets\script\networking\weapon\meleeNetwork.cs" />
      <Compile Include="Assets\script\networking\weapon\weaponBaseNetwork.cs" />
-     <Compile Include="Assets\script\storyText.cs" />
+     <Compile Include="Assets\script\storyTrailer.cs" />
      <None Include="Assets\Standard Assets\Characters\PhysicsMaterials\test.txt" />
      <None Include="Assets\Standard Assets\ParticleSystems\Shaders\PriorityParticleAlpha.shader" />
      <None Include="Assets\Standard Assets\ParticleSystems\ParticleSystemsGuidelines.txt" />

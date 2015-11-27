@@ -245,6 +245,8 @@ public class CharacterBase : MonoBehaviour {
 	{
 		while(true)
 		{
+            if (gameController.isFinish == true)
+                break;
 			if(currentMana < startingMana)
             {
                 currentMana += manaRegenRate;
@@ -323,7 +325,8 @@ public class CharacterBase : MonoBehaviour {
         }
         if (launchScene.isPractice == true)
         {
-            damage = 0;
+            if(damage > 0)
+                damage = 0;
         }
         if(isGodMode == true)
         {
@@ -332,13 +335,14 @@ public class CharacterBase : MonoBehaviour {
         Debug.Log(damage.ToString());
         if (damage < 0)//mean heal
         {
+            Debug.Log("here heal: " + damage.ToString());
             currentHealth -= damage;
             if (currentHealth >= startingHealth)
                 currentHealth = startingHealth;
         }
         else
         {
-          
+            Debug.Log("damage");
             myaudio.PlayOneShot(gotHitSound);
 
             damage = Mathf.Abs(damage * (1 + (1 - defFactor)));
@@ -1201,9 +1205,13 @@ public class CharacterBase : MonoBehaviour {
         }
         else if(name == "cast ultimate")
         {
-            
+           
             canMove = true;
             yield return new WaitForSeconds(5.0f);
+            if (chargingBar.fillAmount >= 1)
+            {
+                ultimateTextAnimator.enabled = true;
+            }
             canCastUltimate = true;
         }
        

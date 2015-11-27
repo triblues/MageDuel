@@ -135,6 +135,7 @@ public class EnemyAI : CharacterBase
         {
             horizontal = 0;
             jumping = 0;
+           
         }
         else
         {
@@ -259,7 +260,7 @@ public class EnemyAI : CharacterBase
 		horizontal = 0;
 		jumping = 0;
 		isReverseDirection = false;
-		if(idleTimer >= idleTime)
+		if(idleTimer >= idleTime * spellCoolDownRate)
 		{
 			changeState = true;
 			idleTimer = 0;//reset

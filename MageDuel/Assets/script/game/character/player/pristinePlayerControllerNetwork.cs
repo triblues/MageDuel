@@ -361,6 +361,7 @@ public class pristinePlayerControllerNetwork : CharacterBaseNetwork
                 canCastUltimate = false;
                 transmitUltimate(true, false);
                 canMove = false;
+              
                 //myAnimator.SetTrigger("castUltimate");
                 StartCoroutine(WaitForAnimation("cast ultimate", 0));
 

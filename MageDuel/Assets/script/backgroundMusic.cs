@@ -4,13 +4,25 @@ using System.Collections;
 public class backgroundMusic : MonoBehaviour {
 
     public AudioClip[] myaudioclip;
+    private static bool created = false;
     AudioSource myAudioSource;
     void Awake()
     {
-        DontDestroyOnLoad(this.gameObject);
-        myAudioSource = GetComponent<AudioSource>();
-        myAudioSource.clip = myaudioclip[0];//default background music
-        myAudioSource.Play();
+        if (created == false)
+        {
+            DontDestroyOnLoad(this.gameObject);
+            myAudioSource = GetComponent<AudioSource>();
+            myAudioSource.clip = myaudioclip[0];//default background music
+            myAudioSource.Play();
+            created = true;
+        }
+        else
+        {
+            Debug.Log("here 0");
+            myAudioSource = GetComponent<AudioSource>();
+            // this.gameObject.GetComponent<backgroundMusic>().enabled = false;
+            Destroy(this.gameObject);//duplicate
+        }
 
         if (PlayerPrefs.HasKey("Power Level fire") == false)
         {
@@ -42,6 +54,8 @@ public class backgroundMusic : MonoBehaviour {
 	}
     void OnLevelWasLoaded(int level)
     {
+       
+      
         myAudioSource.volume = gameSettings.myVolume;
         if (level == 4)//battle scene
         {
@@ -75,6 +89,7 @@ public class backgroundMusic : MonoBehaviour {
         {
             if (myAudioSource.clip != myaudioclip[0])
             {
+                Debug.Log("play music");
                 myAudioSource.clip = myaudioclip[0];
                 myAudioSource.Play();
             }

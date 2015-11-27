@@ -33,7 +33,7 @@ public class cinematicText : MonoBehaviour {
         }
         else if (levelSelectController.selectedLevel == 2)
         {
-            dialog[1] = "i am tree";
+            dialog[1] = "Nature will rise against you!";
         }
         else if (levelSelectController.selectedLevel == 3)
         {
@@ -41,7 +41,7 @@ public class cinematicText : MonoBehaviour {
         }
         else if (levelSelectController.selectedLevel == 4)
         {
-            dialog[1] = "i am turtle";
+            dialog[1] = "My shell is impenetrable!";
         }
         else if (levelSelectController.selectedLevel == 5)
         {

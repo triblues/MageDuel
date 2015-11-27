@@ -378,6 +378,7 @@ public class infernoPlayerControllerNetwork : CharacterBaseNetwork
 
                  canMove = false;
                 //myAnimator.SetTrigger("castUltimate");
+                
                 StartCoroutine(WaitForAnimation("cast ultimate", 0));
                 
                 //ultimateObj.GetComponent<Transform>().position = new Vector3(enemyTrans.position.x, 0, enemyTrans.position.z);

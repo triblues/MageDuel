@@ -367,7 +367,7 @@ public class radiancePlayerControllerNetwork : CharacterBaseNetwork
 
                 canMove = false;
 
-               
+            
                 StartCoroutine(WaitForAnimation("cast ultimate", 0));
 
                 //ultimateObj.SetActive(true);

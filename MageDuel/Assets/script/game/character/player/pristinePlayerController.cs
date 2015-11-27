@@ -338,6 +338,7 @@ public class pristinePlayerController : CharacterBase
 
                 ultimateObj.SetActive(true);
                 ultimateObj.GetComponent<Transform>().position = new Vector3(enemyTrans.position.x, enemyTrans.position.y + 10.0f, enemyTrans.position.z);
+                ultimateTextAnimator.enabled = false;
             }
         }
         //prepare for ultimate to see if ultimate move hit enemy
@@ -388,7 +389,7 @@ public class pristinePlayerController : CharacterBase
             enemy.GetComponent<CharacterBase>().setisInUltimate(false);
             myUltimatePS.Stop();
             enemy.GetComponent<CharacterBase>().TakesDamage(ultimateDamage);
-            ultimateTextAnimator.enabled = false;
+         //   ultimateTextAnimator.enabled = false;
 
         }
 

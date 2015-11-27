@@ -538,6 +538,7 @@ public class infernoPlayerController : CharacterBase
                 StartCoroutine(WaitForAnimation("cast ultimate", 0));
                 ultimateObj.SetActive(true);
                 ultimateObj.GetComponent<Transform>().position = new Vector3(enemyTrans.position.x, 0, enemyTrans.position.z);
+                ultimateTextAnimator.enabled = false;
                 //prepare for ultimate to see if ultimate move hit enemy
             }
         }
@@ -687,7 +688,7 @@ public class infernoPlayerController : CharacterBase
             enemy.GetComponent<CharacterBase>().setisInUltimate(false);
             myUltimatePS.Stop();
             enemy.GetComponent<CharacterBase>().TakesDamage(ultimateDamage);
-            ultimateTextAnimator.enabled = false;
+            //ultimateTextAnimator.enabled = false;
 
         }
 

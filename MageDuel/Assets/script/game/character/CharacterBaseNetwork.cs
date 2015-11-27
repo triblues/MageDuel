@@ -506,7 +506,7 @@ public class CharacterBaseNetwork : NetworkBehaviour
 
         StartCoroutine(delay(4.0f));//delay to let the player spawn
 
-      //  StartCoroutine(regenMana(0.5f));
+        StartCoroutine(regenMana(1.0f));
         StartCoroutine(regenBlockCount(2.0f));
 
        
@@ -1415,6 +1415,10 @@ public class CharacterBaseNetwork : NetworkBehaviour
 
             canMove = true;
             yield return new WaitForSeconds(5.0f);
+            //if (chargingBar.fillAmount >= 1)
+            //{
+            //    transmitBar(CurrentChargingBar);
+            //}
             canCastUltimate = true;
             transmitUltimate(true, false);
         }
@@ -1606,7 +1610,10 @@ public class CharacterBaseNetwork : NetworkBehaviour
     {
         CurrentChargingBar = _num;
         if (CurrentChargingBar >= 1)
+        {
             ultimateTextAnimator.enabled = true;
+           
+        }
         if (CurrentChargingBar <= 0)
             ultimateTextAnimator.enabled = false;
     }
